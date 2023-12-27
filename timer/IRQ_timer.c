@@ -12,6 +12,7 @@
 #include "timer.h"
 #include "../GLCD/GLCD.h" 
 #include "../TouchPanel/TouchPanel.h"
+#include "../time/time.h"
 
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
@@ -25,33 +26,24 @@
 
 void TIMER0_IRQHandler (void)
 {
-	static int clear = 0;
-	char time_in_char[5] = "";
-	
-  if(getDisplayPoint(&display, Read_Ads7846(), &matrix )){
-		if(display.y < 280){
-			TP_DrawPoint(display.x,display.y);
-			GUI_Text(200, 0, (uint8_t *) "     ", Blue, Blue);
-			clear = 0;
-		}
-		else{			
-			if(display.y <= 0x13E){			
-				clear++;
-				if(clear%20 == 0){
-					sprintf(time_in_char,"%4d",clear/20);
-					GUI_Text(200, 0, (uint8_t *) time_in_char, White, Blue);
-					if(clear == 200){	/* 1 seconds = 200 times * 500 us*/
-						LCD_Clear(Blue);
-						GUI_Text(0, 280, (uint8_t *) " touch here : 1 sec to clear ", Blue, White);			
-						clear = 0;
-					}
-				}
-			}
-		}
+	static int count = 0;
+	char str[20];
+	if(count == 20){
+		count = 0;
+		reset_clock();
+	}
+	else {
+		update_clock(1000);
+	}
+	sprintf(str,"%02d s", 20 - count);
+	if(count >= 15){
+		GUI_Text(105,243,(uint8_t *) str, Red, White);
 	}
 	else{
-		//do nothing if touch returns values out of bounds
+		GUI_Text(105,243,(uint8_t *) str, Black, White);
 	}
+
+	count++;
   LPC_TIM0->IR = 1;			/* clear interrupt flag */
   return;
 }

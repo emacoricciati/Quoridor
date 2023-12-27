@@ -22,6 +22,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "GLCD.h" 
 #include "AsciiLib.h"
+#include "../timer/timer.h"
 
 /* Private variables ---------------------------------------------------------*/
 static uint8_t LCD_Code;
@@ -727,8 +728,8 @@ void display_grid(void){
 	for(i = 0; i<3; i++){
 		DrawRectangle(offset + i*66 + i*10, 240, size_square*2, 66);
 	}
+	enable_timer(0);
 	GUI_Text(15, 243, (unsigned char*)"P1 Wall", Black, White);
-	// TODO timer
 	GUI_Text(170, 243, (unsigned char*)"P2 Wall", Black, White);
 	
 
