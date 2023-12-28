@@ -11,3 +11,4 @@
 .\glcd.o: GLCD\AsciiLib.h
 .\glcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\glcd.o: GLCD\../timer/timer.h
+.\glcd.o: GLCD\../game/game.h

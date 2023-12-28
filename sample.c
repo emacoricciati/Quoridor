@@ -27,6 +27,7 @@
 #include  "GLCD/HzLib.h"
 #include "button_EXINT/button.h"
 #include "RIT/RIT.h"
+#include "joystick/joystick.h"
 
 #define SIMULATOR 1
 
@@ -42,13 +43,15 @@ int main(void)
 	
   LCD_Initialization();
 	BUTTON_init();
+	joystick_init();
 	init_RIT(0x004C4B40);									/* RIT Initialization 50 msec       */
+	enable_RIT();
 	
 	LCD_Clear(White);
 	GUI_Text(20, 10, (uint8_t *) "Premi INT0 per iniziare", Black, White);
 	GUI_Text(20, 30, (uint8_t *) "una nuova partita", Black, White);
 
-	init_timer(0, 0x000F4240); 						    /* Timer0 initialization 50ms */
+	init_timer(0, 0x000F4240); 						    /* Timer0 initialization 1 s */
 	
 	LPC_SC->PCON |= 0x1;									/* power-down	mode										*/
 	LPC_SC->PCON &= ~(0x2);						

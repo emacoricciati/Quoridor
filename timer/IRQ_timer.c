@@ -14,6 +14,8 @@
 #include "../TouchPanel/TouchPanel.h"
 #include "../time/time.h"
 
+extern int turn;
+
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
 **
@@ -30,6 +32,12 @@ void TIMER0_IRQHandler (void)
 	char str[20];
 	if(count == 20){
 		count = 0;
+		if(turn == 1){
+			turn = 2;
+		}
+		else {
+			turn = 1;
+		}
 		reset_clock();
 	}
 	else {

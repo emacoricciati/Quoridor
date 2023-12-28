@@ -13,3 +13,4 @@
 .\sample.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\sample.o: button_EXINT/button.h
 .\sample.o: RIT/RIT.h
+.\sample.o: joystick/joystick.h

@@ -12,9 +12,11 @@
 #include "../GLCD/GLCD.h"
 #include "../timer/timer.h"
 #include "../time/time.h"
+#include "../game/game.h"
 
-#define RIT_INTERVAL_IN_MILLISECONDS 50
-
+extern Player p1,p2;
+volatile int pressed = 0;
+extern int turn;
 /******************************************************************************
 ** Function name:		RIT_IRQHandler
 **
@@ -27,28 +29,127 @@
 
 void RIT_IRQHandler (void)
 {			
-	static int down=0;	
-	down++;
-	if((LPC_GPIO2->FIOPIN & (1<<11)) == 0){
-		reset_RIT();
-		switch(down){
+
+	static int up = 0;
+	static int down = 0;
+	static int left = 0;
+	static int right = 0;
+	
+		// joystick up
+	
+	if((LPC_GPIO1->FIOPIN & (1<<29)) == 0){	
+		/* Joytick UP pressed */
+		up++;
+		switch(up){
 			case 1:
-				LCD_Clear(White);
-				reset_clock();
-				display_grid();
+				if(turn == 1){
+					move_player(&p1,'u');
+				}
+				else if(turn == 2){
+					move_player(&p2,'u');
+				}
 				break;
 			default:
 				break;
 		}
 	}
-	else {	/* button released */
-		down=0;			
-		disable_RIT();
-		reset_RIT();
-		NVIC_EnableIRQ(EINT0_IRQn);							 /* disable Button interrupts			*/
-		LPC_PINCON->PINSEL4    |= (1 << 20);     /* External interrupt 0 pin selection */
+	else{
+			up=0;
 	}
-		
+	
+	// joystick down
+	
+	if((LPC_GPIO1->FIOPIN & (1<<26)) == 0){	
+		/* Joytick DOWN pressed */
+		down++;
+		switch(down){
+			case 1:
+				if(turn == 1){
+					move_player(&p1,'d');
+				}
+				else if(turn == 2){
+					move_player(&p2,'d');
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	else{
+			down=0;
+	}
+	
+	// joystick left
+	
+	if((LPC_GPIO1->FIOPIN & (1<<27)) == 0){	
+		/* Joytick LEFT pressed */
+		left++;
+		switch(left){
+			case 1:
+				if(turn == 1){
+					move_player(&p1,'l');
+				}
+				else if(turn == 2){
+					move_player(&p2,'l');
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	else{
+			left=0;
+	}
+	
+	// joystick right
+	
+	if((LPC_GPIO1->FIOPIN & (1<<28)) == 0){	
+		/* Joytick RIGHT pressed */
+		right++;
+		switch(right){
+			case 1:
+				if(turn == 1){
+					move_player(&p1,'r');
+				}
+				else if(turn == 2){
+					move_player(&p2,'r');
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	else{
+			right=0;
+	}
+	
+		/* button management */
+	if(pressed>=1){ 
+		if((LPC_GPIO2->FIOPIN & (1<<10)) == 0){	/* INT0 pressed */
+			switch(pressed){				
+				case 2:
+					LCD_Clear(White);
+					reset_clock();
+					init_game_matrix();
+					init_players();
+					display_grid();
+					find_possible_moves(&p1);
+					break;
+				default:
+					break;
+			}
+			pressed++;
+		}
+		else {	/* button released */
+			pressed=0;			
+			NVIC_EnableIRQ(EINT0_IRQn);							 /* enable Button interrupts			*/
+			LPC_PINCON->PINSEL4    |= (1 << 20);     /* External interrupt 0 pin selection */
+		}
+	}
+	
+	disable_RIT();
+	reset_RIT();
+	enable_RIT();
 	
   LPC_RIT->RICTRL |= 0x1;	/* clear interrupt flag */
 	

@@ -23,6 +23,12 @@
 #include "GLCD.h" 
 #include "AsciiLib.h"
 #include "../timer/timer.h"
+#include "../game/game.h"
+
+extern Player p1, p2;
+int size_square = 27;
+int offset = 10;
+int margin = 5;
 
 /* Private variables ---------------------------------------------------------*/
 static uint8_t LCD_Code;
@@ -697,13 +703,36 @@ void ColorSquare(uint16_t Xpos,uint16_t Ypos, uint16_t size_square, uint16_t col
 
 }
 
+void ColorSquareThroughIndex(int i, int j, uint16_t color){
+
+			if(i==0 && j==0){
+				ColorSquare(i+offset,j+offset, size_square, color );
+			}
+			else if(i==0 && j!= 0){
+					ColorSquare(i*size_square + i*margin + offset,j*size_square + offset, size_square, color );
+			}
+			else {
+					ColorSquare(i*size_square + i*margin + offset,j*size_square + j*margin + offset, size_square, color);
+			}
+
+}
+
+void moveTo(int x, int y, int new_x, int new_y, int id){
+
+	ColorSquareThroughIndex(x,y, White);
+	if(id == 1){
+		ColorSquareThroughIndex(new_x,new_y, Blue);
+	}
+	else{
+		ColorSquareThroughIndex(new_x,new_y, Red);
+	}
+
+}
+
 void display_grid(void){
 
-	int size_square = 27;
-	int offset = 10;
-	int margin = 5;
 	int i,j;
-	LCD_Clear(White);
+	char str[20];
 	
 	for(i=0;i<7; i++){
 		for(j=0; j<7; j++){
@@ -730,7 +759,11 @@ void display_grid(void){
 	}
 	enable_timer(0);
 	GUI_Text(15, 243, (unsigned char*)"P1 Wall", Black, White);
+	sprintf(str, "%d", p1.available_walls);
+	GUI_Text(40, 260, (unsigned char*)str, Black, White);
 	GUI_Text(170, 243, (unsigned char*)"P2 Wall", Black, White);
+	sprintf(str, "%d", p2.available_walls);
+	GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	
 
 }
