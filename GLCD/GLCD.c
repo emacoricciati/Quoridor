@@ -705,16 +705,7 @@ void ColorSquare(uint16_t Xpos,uint16_t Ypos, uint16_t size_square, uint16_t col
 
 void ColorSquareThroughIndex(int i, int j, uint16_t color){
 
-			if(i==0 && j==0){
-				ColorSquare(i+offset,j+offset, size_square, color );
-			}
-			else if(i==0 && j!= 0){
-					ColorSquare(i*size_square + i*margin + offset,j*size_square + offset, size_square, color );
-			}
-			else {
-					ColorSquare(i*size_square + i*margin + offset,j*size_square + j*margin + offset, size_square, color);
-			}
-
+			ColorSquare(i*size_square + i*margin + offset,j*size_square + j*margin + offset, size_square, color );
 }
 
 void moveTo(int x, int y, int new_x, int new_y, int id){
@@ -723,7 +714,7 @@ void moveTo(int x, int y, int new_x, int new_y, int id){
 	if(id == 1){
 		ColorSquareThroughIndex(new_x,new_y, Blue);
 	}
-	else{
+	else if(id == 2){
 		ColorSquareThroughIndex(new_x,new_y, Red);
 	}
 

@@ -87,14 +87,9 @@ int convert_index(int i){
 
 int check_move_validity(int i, int j){
 
-	if(j<0 || i < 0){
+	if(i < 0 || j < 0 || i > 6 || j > 6){
 		return 0;
 	}
-	if(j > 6 || i > 6){
-		return 0;
-	}
-	
-	
 	
 	// recursive function for walls
 	
