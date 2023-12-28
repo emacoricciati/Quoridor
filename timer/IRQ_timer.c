@@ -13,9 +13,9 @@
 #include "../GLCD/GLCD.h" 
 #include "../TouchPanel/TouchPanel.h"
 #include "../time/time.h"
+#include "../game/game.h"
 
-extern int turn;
-
+volatile int timer0_count = 0;
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
 **
@@ -28,30 +28,25 @@ extern int turn;
 
 void TIMER0_IRQHandler (void)
 {
-	static int count = 0;
+	
 	char str[20];
-	if(count == 20){
-		count = 0;
-		if(turn == 1){
-			turn = 2;
-		}
-		else {
-			turn = 1;
-		}
+	timer0_count++;
+	if(timer0_count == 20){
+		timer0_count = 0;
+		switch_turn();
 		reset_clock();
 	}
 	else {
 		update_clock(1000);
 	}
-	sprintf(str,"%02d s", 20 - count);
-	if(count >= 15){
+	sprintf(str,"%02d s", 20 - timer0_count);
+	if(timer0_count >= 15){
 		GUI_Text(105,243,(uint8_t *) str, Red, White);
 	}
 	else{
 		GUI_Text(105,243,(uint8_t *) str, Black, White);
 	}
 
-	count++;
   LPC_TIM0->IR = 1;			/* clear interrupt flag */
   return;
 }

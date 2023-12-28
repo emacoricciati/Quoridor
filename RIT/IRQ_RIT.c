@@ -133,7 +133,13 @@ void RIT_IRQHandler (void)
 					init_game_matrix();
 					init_players();
 					display_grid();
-					find_possible_moves(&p1);
+					if(turn == 1){
+						find_possible_moves(&p1);
+					}
+					else {
+						find_possible_moves(&p2);
+					}
+
 					break;
 				default:
 					break;

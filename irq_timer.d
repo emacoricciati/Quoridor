@@ -12,3 +12,4 @@
 .\irq_timer.o: timer\../GLCD/GLCD.h
 .\irq_timer.o: timer\../TouchPanel/TouchPanel.h
 .\irq_timer.o: timer\../time/time.h
+.\irq_timer.o: timer\../game/game.h

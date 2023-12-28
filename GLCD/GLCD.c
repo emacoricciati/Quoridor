@@ -704,8 +704,9 @@ void ColorSquare(uint16_t Xpos,uint16_t Ypos, uint16_t size_square, uint16_t col
 }
 
 void ColorSquareThroughIndex(int i, int j, uint16_t color){
-
-			ColorSquare(i*size_square + i*margin + offset,j*size_square + j*margin + offset, size_square, color );
+	
+	ColorSquare(i*size_square + i*margin + offset,j*size_square + j*margin + offset, size_square, color );
+	
 }
 
 void moveTo(int x, int y, int new_x, int new_y, int id){
@@ -732,26 +733,25 @@ void display_grid(void){
 			}
 			else if(i==0 && j!= 0){
 				DrawSquare(j*size_square + j*margin + offset,i*size_square + offset,size_square);
-				if(j==3){
-					ColorSquare(j*size_square + j*margin + offset,i*size_square + offset, size_square, Red );
-				}
 			}
 			else {
 				DrawSquare(j*size_square + j*margin + offset,i*size_square + i*margin + offset,size_square);
-				if(i==6 && j == 3){
-					ColorSquare(j*size_square + j*margin + offset,i*size_square + i*margin + offset, size_square, Blue);
-				}
 			}
 		}
 	}
 	
+	ColorSquareThroughIndex(3,0, Red);
+	ColorSquareThroughIndex(3,6, Blue);
+	
 	for(i = 0; i<3; i++){
 		DrawRectangle(offset + i*66 + i*10, 240, size_square*2, 66);
 	}
-	enable_timer(0);
+
 	GUI_Text(15, 243, (unsigned char*)"P1 Wall", Black, White);
 	sprintf(str, "%d", p1.available_walls);
 	GUI_Text(40, 260, (unsigned char*)str, Black, White);
+	GUI_Text(105,243,(uint8_t *) "20 s", Black, White);
+	enable_timer(0);
 	GUI_Text(170, 243, (unsigned char*)"P2 Wall", Black, White);
 	sprintf(str, "%d", p2.available_walls);
 	GUI_Text(190, 260, (unsigned char*)str, Black, White);
