@@ -85,8 +85,19 @@ int convert_index(int i){
 
 }
 
-int check_move_validity(int x, int y){
+int check_move_validity(int i, int j){
 
+	if(j<0 || i < 0){
+		return 0;
+	}
+	if(j > 6 || i > 6){
+		return 0;
+	}
+	
+	
+	
+	// recursive function for walls
+	
 
  return 1;
 }
@@ -99,38 +110,38 @@ void move_player(Player *p, char move){
 	int converted_x = convert_index(current_x);
 	int converted_y = convert_index(current_y);
 	
-		switch(move){
-			case 'u':
-				if(check_move_validity(converted_x, converted_y - 1)){
-					p->current_position.y = current_y - 2;
-					moveTo(converted_x, converted_y, converted_x, converted_y - 1, id);
-					game_matrix[current_x][current_y - 2] = id;
-				}
-				break;
-			case 'd':
-				if(check_move_validity(converted_x, converted_y + 1)){
-					p->current_position.y = current_y + 2;
-					moveTo(converted_x, converted_y, converted_x, converted_y + 1, id);
-					game_matrix[current_x][current_y + 2] = id;
-				}
-				break;
-			case 'l':
-				if(check_move_validity(converted_x - 1, converted_y )){
-					p->current_position.x = current_x - 2;
-					moveTo(converted_x, converted_y, converted_x - 1, converted_y, id);
-					game_matrix[current_x - 2][current_y] = id;
-				}
-				break;
-			case 'r':
-				if(check_move_validity(converted_x + 1, converted_y )){
-					p->current_position.x = current_x + 2;
-					moveTo(converted_x, converted_y, converted_x + 1, converted_y, id);
-					game_matrix[current_x + 2][current_y] = id;
-				}
-				break;
-			default:
-				break;
-		}
+	switch(move){
+		case 'u':
+			if(check_move_validity(converted_x, converted_y - 1)){
+				p->current_position.y = current_y - 2;
+				moveTo(converted_x, converted_y, converted_x, converted_y - 1, id);
+				game_matrix[current_x][current_y - 2] = id;
+			}
+			break;
+		case 'd':
+			if(check_move_validity(converted_x, converted_y + 1)){
+				p->current_position.y = current_y + 2;
+				moveTo(converted_x, converted_y, converted_x, converted_y + 1, id);
+				game_matrix[current_x][current_y + 2] = id;
+			}
+			break;
+		case 'l':
+			if(check_move_validity(converted_x - 1, converted_y )){
+				p->current_position.x = current_x - 2;
+				moveTo(converted_x, converted_y, converted_x - 1, converted_y, id);
+				game_matrix[current_x - 2][current_y] = id;
+			}
+			break;
+		case 'r':
+			if(check_move_validity(converted_x + 1, converted_y )){
+				p->current_position.x = current_x + 2;
+				moveTo(converted_x, converted_y, converted_x + 1, converted_y, id);
+				game_matrix[current_x + 2][current_y] = id;
+			}
+			break;
+		default:
+			break;
+	}
 
 }
 
