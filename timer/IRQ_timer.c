@@ -35,13 +35,7 @@ void TIMER0_IRQHandler (void)
 	timer0_count++;
 	if(timer0_count == 20){
 		timer0_count = 0;
-		if(turn == 1){
-			reset_possible_moves(&p1);
-		}
-		else if(turn == 2){
-			reset_possible_moves(&p2);
-		}
-		switch_turn();
+		turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
 	}
 	else {
 		update_clock(1000);

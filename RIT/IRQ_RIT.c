@@ -34,6 +34,7 @@ void RIT_IRQHandler (void)
 	static int down = 0;
 	static int left = 0;
 	static int right = 0;
+	static int select = 0;
 	
 		// joystick up
 	
@@ -121,6 +122,23 @@ void RIT_IRQHandler (void)
 	}
 	else{
 			right=0;
+	}
+	
+	// joystick select
+	
+		if((LPC_GPIO1->FIOPIN & (1<<25)) == 0){	
+		/* Joytick SELECT pressed */
+		select++;
+		switch(select){
+			case 1:
+				turn == 1 ? confirm_move(&p1) : confirm_move(&p2); // TODO
+				break;
+			default:
+				break;
+		}
+	}
+	else{
+			select=0;
 	}
 	
 		/* button management */
