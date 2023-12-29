@@ -102,7 +102,7 @@ void ColorSquareThroughIndex(int i, int j, uint16_t color);
 void moveTo(int x, int y, int new_x, int new_y, int id);
 void ColorRectangle(uint16_t Xpos,uint16_t Ypos, uint16_t height, uint16_t width, uint16_t color);
 void DrawWallHorizontalThroughIndex(int i, int j, uint16_t color);
-void moveWall(int x, int y, int new_x, int new_y);
+void DrawWallVerticalThroughIndex(int i, int j, uint16_t color);
 
 #endif 
 

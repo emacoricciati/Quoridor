@@ -405,7 +405,38 @@ void init_wall(void){
 
 	w.position.x = 6;
 	w.position.y = 5;
+	w.horizontal = 1;
 	
+}
+
+void rotate_wall(void){
+	
+	int converted_x = convert_index(w.position.x);
+	int converted_y = convert_index(w.position.y);
+	if(w.horizontal){
+		w.horizontal = 0;
+		DrawWallHorizontalThroughIndex(converted_x,converted_y,White);
+		DrawWallVerticalThroughIndex(converted_x,converted_y,Red);
+	}
+	else {
+		w.horizontal = 1;
+		DrawWallVerticalThroughIndex(converted_x,converted_y,White);
+		DrawWallHorizontalThroughIndex(converted_x,converted_y,Red);
+	}
+}
+
+void moveWall(int x, int y, int new_x, int new_y){
+	
+	if(w.horizontal){
+		DrawWallHorizontalThroughIndex(x,y,White);
+		DrawWallHorizontalThroughIndex(new_x,new_y, Red);
+	}
+	else {
+		DrawWallVerticalThroughIndex(x,y,White);
+		DrawWallVerticalThroughIndex(new_x,new_y, Red);
+	}
+
+
 }
 
 

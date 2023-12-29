@@ -17,6 +17,7 @@
 extern Player p1,p2;
 volatile int pressed = 0;
 volatile int pressedK1 = 0;
+volatile int pressedK2 = 0;
 extern int turn;
 extern int move_mode;
 /******************************************************************************
@@ -147,6 +148,7 @@ void RIT_IRQHandler (void)
 	
 		/* buttons management */
 	
+	// INT0
 	if(pressed>=1){ 
 		if((LPC_GPIO2->FIOPIN & (1<<10)) == 0){	/* INT0 pressed */
 			switch(pressed){				
@@ -170,6 +172,7 @@ void RIT_IRQHandler (void)
 		}
 	}
 	
+	//KEY1
 	if(pressedK1>=1){ 
 		if((LPC_GPIO2->FIOPIN & (1<<11)) == 0){	/* KEY1 pressed */
 			switch(pressedK1){				
@@ -185,6 +188,27 @@ void RIT_IRQHandler (void)
 			pressedK1=0;			
 			NVIC_EnableIRQ(EINT1_IRQn);							 /* enable Button interrupts			*/
 			LPC_PINCON->PINSEL4    |= (1 << 22);     /* External interrupt 1 pin selection */
+		}
+	}
+	
+	//KEY2
+	if(pressedK2>=1){ 
+		if((LPC_GPIO2->FIOPIN & (1<<12)) == 0){	/* KEY1 pressed */
+			switch(pressedK2){				
+				case 2:
+					if(move_mode == 0){
+						rotate_wall();
+					}
+					break;
+				default:
+					break;
+			}
+			pressedK2++;
+		}
+		else {	/* button released */
+			pressedK2=0;			
+			NVIC_EnableIRQ(EINT2_IRQn);							 /* enable Button interrupts			*/
+			LPC_PINCON->PINSEL4    |= (1 << 24);     /* External interrupt 1 pin selection */
 		}
 	}
 	

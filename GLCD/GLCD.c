@@ -711,6 +711,12 @@ void DrawWallHorizontalThroughIndex(int i, int j, uint16_t color){
 	
 }
 
+void DrawWallVerticalThroughIndex(int i, int j, uint16_t color){
+	
+	ColorRectangle(i*size_square + i*margin + offset - 4, j*size_square + (j-1)*margin + offset + 3, 64, 5, color);
+	
+}
+
 void ColorSquareThroughIndex(int i, int j, uint16_t color){
 	
 	ColorSquare(i*size_square + i*margin + offset,j*size_square + j*margin + offset, size_square, color );
@@ -764,13 +770,6 @@ void display_grid(void){
 	sprintf(str, "%d", p2.available_walls);
 	GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	
-}
-
-void moveWall(int x, int y, int new_x, int new_y){
-	
-	DrawWallHorizontalThroughIndex(x,y,White);
-	DrawWallHorizontalThroughIndex(new_x,new_y, Red);
-
 }
 
 
