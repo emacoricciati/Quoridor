@@ -16,7 +16,9 @@
 
 extern Player p1,p2;
 volatile int pressed = 0;
+volatile int pressedK1 = 0;
 extern int turn;
+extern int move_mode;
 /******************************************************************************
 ** Function name:		RIT_IRQHandler
 **
@@ -43,11 +45,11 @@ void RIT_IRQHandler (void)
 		up++;
 		switch(up){
 			case 1:
-				if(turn == 1){
-					move_player(&p1,'u');
+				if(move_mode){
+					turn == 1 ? move_player(&p1,'u') : move_player(&p2,'u');
 				}
-				else if(turn == 2){
-					move_player(&p2,'u');
+				else {
+					move_wall('u');
 				}
 				break;
 			default:
@@ -65,11 +67,11 @@ void RIT_IRQHandler (void)
 		down++;
 		switch(down){
 			case 1:
-				if(turn == 1){
-					move_player(&p1,'d');
+				if(move_mode){
+					turn == 1 ? move_player(&p1,'d') : move_player(&p2,'d');
 				}
-				else if(turn == 2){
-					move_player(&p2,'d');
+				else {
+					move_wall('d');
 				}
 				break;
 			default:
@@ -87,11 +89,11 @@ void RIT_IRQHandler (void)
 		left++;
 		switch(left){
 			case 1:
-				if(turn == 1){
-					move_player(&p1,'l');
+				if(move_mode){
+					turn == 1 ? move_player(&p1,'l') : move_player(&p2,'l');
 				}
-				else if(turn == 2){
-					move_player(&p2,'l');
+				else {
+					move_wall('l');
 				}
 				break;
 			default:
@@ -109,11 +111,11 @@ void RIT_IRQHandler (void)
 		right++;
 		switch(right){
 			case 1:
-				if(turn == 1){
-					move_player(&p1,'r');
+				if(move_mode){
+					turn == 1 ? move_player(&p1,'r') : move_player(&p2,'r');
 				}
-				else if(turn == 2){
-					move_player(&p2,'r');
+				else {
+					move_wall('r');
 				}
 				break;
 			default:
@@ -131,7 +133,9 @@ void RIT_IRQHandler (void)
 		select++;
 		switch(select){
 			case 1:
-				turn == 1 ? confirm_move(&p1) : confirm_move(&p2); // TODO
+				if(move_mode){
+					turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
+				}
 				break;
 			default:
 				break;
@@ -141,7 +145,8 @@ void RIT_IRQHandler (void)
 			select=0;
 	}
 	
-		/* button management */
+		/* buttons management */
+	
 	if(pressed>=1){ 
 		if((LPC_GPIO2->FIOPIN & (1<<10)) == 0){	/* INT0 pressed */
 			switch(pressed){				
@@ -151,13 +156,7 @@ void RIT_IRQHandler (void)
 					init_game_matrix();
 					init_players();
 					display_grid();
-					if(turn == 1){
-						find_possible_moves(&p1);
-					}
-					else {
-						find_possible_moves(&p2);
-					}
-
+					turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
 					break;
 				default:
 					break;
@@ -168,6 +167,24 @@ void RIT_IRQHandler (void)
 			pressed=0;			
 			NVIC_EnableIRQ(EINT0_IRQn);							 /* enable Button interrupts			*/
 			LPC_PINCON->PINSEL4    |= (1 << 20);     /* External interrupt 0 pin selection */
+		}
+	}
+	
+	if(pressedK1>=1){ 
+		if((LPC_GPIO2->FIOPIN & (1<<11)) == 0){	/* KEY1 pressed */
+			switch(pressedK1){				
+				case 2:
+					switch_mode();
+					break;
+				default:
+					break;
+			}
+			pressedK1++;
+		}
+		else {	/* button released */
+			pressedK1=0;			
+			NVIC_EnableIRQ(EINT1_IRQn);							 /* enable Button interrupts			*/
+			LPC_PINCON->PINSEL4    |= (1 << 22);     /* External interrupt 1 pin selection */
 		}
 	}
 	

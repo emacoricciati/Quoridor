@@ -7,7 +7,11 @@ volatile int game_matrix[13][13];
 
 volatile Player p1, p2;
 
+volatile Wall w;
+
 volatile int turn = 1;
+
+volatile int move_mode = 1;
 
 extern int timer0_count;
 
@@ -22,6 +26,8 @@ void init_game_matrix(void){
 	}
 
 }
+
+// move mode
 
 void find_possible_moves(volatile Player *p){
 	
@@ -89,7 +95,7 @@ void find_possible_moves(volatile Player *p){
 
 }
 
-void reset_possible_moves(Player *p){
+void reset_possible_moves(volatile Player *p){
 
 	int last_position_x = p->position.x;
 	int last_position_y = p->position.y;
@@ -319,8 +325,87 @@ void switch_turn(void){
 		turn = 1;
 		find_possible_moves(&p1);
 	}
+}
+
+void switch_mode(void){
+	if(move_mode){
+		move_mode = 0;
+		enable_wall_mode();
+	}
+	else {
+		move_mode = 1;
+		enable_move_mode();
+	}
+
+} 
+
+ // wall mode
+
+int check_wall_validity(int new_i, int new_j, int i, int j){
 
 
+	if(new_i < 0 || new_i > 5 || new_j < 1 || new_j > 6){
+		return 0;
+	}
+	return 1;
+
+}
+
+void move_wall(char move){
+
+	int current_x = w.position.x;
+	int current_y = w.position.y;
+	int converted_x = convert_index(w.position.x);
+	int converted_y = convert_index(w.position.y);
+	
+	switch(move){
+		case 'u':
+			if(check_wall_validity(converted_x, converted_y - 1, converted_x, converted_y)){
+				w.position.y = current_y - 2;
+				moveWall(converted_x, converted_y, converted_x, converted_y - 1);
+			}
+			break;
+		case 'd':
+			if(check_wall_validity(converted_x, converted_y + 1, converted_x, converted_y)){
+				w.position.y = current_y + 2;
+				moveWall(converted_x, converted_y, converted_x, converted_y + 1);
+			}
+			break;
+		case 'l':
+			if(check_wall_validity(converted_x - 1, converted_y, converted_x, converted_y)){
+				w.position.x = current_x - 2;
+				moveWall(converted_x, converted_y, converted_x - 1, converted_y);
+			}
+			break;
+		case 'r':
+			if(check_wall_validity(converted_x + 1, converted_y, converted_x, converted_y)){
+				w.position.x = current_x + 2;
+				moveWall(converted_x, converted_y, converted_x + 1, converted_y);
+			}
+			break;
+		default:
+			break;
+	}
+}
+
+void enable_wall_mode(void){
+
+		turn == 1 ? reset_possible_moves(&p1) : reset_possible_moves(&p2);
+		init_wall();
+		DrawWallHorizontalThroughIndex(3,3, Red);
+}
+
+void enable_move_mode(void){
+
+	// delete rectangle
+	turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
+}
+
+void init_wall(void){
+
+	w.position.x = 6;
+	w.position.y = 5;
+	
 }
 
 

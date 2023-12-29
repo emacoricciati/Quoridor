@@ -674,14 +674,6 @@ void GUI_Text(uint16_t Xpos, uint16_t Ypos, uint8_t *str,uint16_t Color, uint16_
     while ( *str != 0 );
 }
 
-void DrawSquare(uint16_t Xpos,uint16_t Ypos, uint16_t size_square)
-{
-  LCD_DrawLine(Xpos,Ypos,Xpos+size_square,Ypos,Black);
-	LCD_DrawLine(Xpos,Ypos,Xpos,Ypos+size_square,Black); 	
-	LCD_DrawLine(Xpos,Ypos+size_square,Xpos+size_square,Ypos+size_square,Black); 	
-	LCD_DrawLine(Xpos+size_square,Ypos,Xpos+size_square,Ypos+size_square,Black); 	 	
-}
-
 void DrawRectangle(uint16_t Xpos,uint16_t Ypos, uint16_t height, uint16_t width){
 
   LCD_DrawLine(Xpos,Ypos,Xpos+width,Ypos,Black);
@@ -691,16 +683,32 @@ void DrawRectangle(uint16_t Xpos,uint16_t Ypos, uint16_t height, uint16_t width)
 
 }
 
+void DrawSquare(uint16_t Xpos,uint16_t Ypos, uint16_t size_square)
+{
+		DrawRectangle(Xpos,Ypos,size_square, size_square);
+}
 
-void ColorSquare(uint16_t Xpos,uint16_t Ypos, uint16_t size_square, uint16_t color){
+void ColorRectangle(uint16_t Xpos,uint16_t Ypos, uint16_t height, uint16_t width, uint16_t color){
 
 	int i;
 	
-	for(i=1; i<size_square; i++){
-		  LCD_DrawLine(Xpos+1,Ypos+i,Xpos+size_square-1,Ypos+i,color);
+	for(i=1; i<height; i++){
+		  LCD_DrawLine(Xpos+1,Ypos+i,Xpos+width-1,Ypos+i,color);
 	}
 
+}
 
+
+void ColorSquare(uint16_t Xpos,uint16_t Ypos, uint16_t size_square, uint16_t color){
+
+	ColorRectangle(Xpos,Ypos,size_square,size_square,color);
+
+}
+
+void DrawWallHorizontalThroughIndex(int i, int j, uint16_t color){
+	
+	ColorRectangle(i*size_square + i*margin + offset - 3, j*size_square + (j-1)*margin + offset, 5, 64, color);
+	
 }
 
 void ColorSquareThroughIndex(int i, int j, uint16_t color){
@@ -756,8 +764,16 @@ void display_grid(void){
 	sprintf(str, "%d", p2.available_walls);
 	GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	
+}
+
+void moveWall(int x, int y, int new_x, int new_y){
+	
+	DrawWallHorizontalThroughIndex(x,y,White);
+	DrawWallHorizontalThroughIndex(new_x,new_y, Red);
 
 }
+
+
 
 
 
