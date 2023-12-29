@@ -49,9 +49,20 @@ void find_possible_moves(volatile Player *p){
 		if(last_position_y == 12){
 			ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
 		}
+		// avoid overlap the opponent
 		else {
-			ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
-			ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+			if(game_matrix[last_position_x][last_position_y + 2] != 2){
+				ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
+			}
+			if(game_matrix[last_position_x][last_position_y - 2] != 2){
+				ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
+			}
 		}
 	}
 	
@@ -60,11 +71,21 @@ void find_possible_moves(volatile Player *p){
 			ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
 		}
 		else {
-			ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
-			ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+			// avoid overlap the opponent
+			if(game_matrix[last_position_x][last_position_y + 2] != 1){
+				ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
+			}
+			if(game_matrix[last_position_x][last_position_y - 2] != 1){
+				ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
+			}
 		}
 	}
-
 
 }
 
@@ -95,8 +116,19 @@ void reset_possible_moves(Player *p){
 			ColorSquareThroughIndex(initial_x, initial_y - 1, White);
 		}
 		else {
-			ColorSquareThroughIndex(initial_x, initial_y - 1, White);
-			ColorSquareThroughIndex(initial_x, initial_y + 1, White);
+			// avoid overlap the opponent
+			if(game_matrix[last_position_x][last_position_y + 2] != 2){
+				ColorSquareThroughIndex(initial_x, initial_y + 1, White);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y + 2, White);
+			}
+			if(game_matrix[last_position_x][last_position_y - 2] != 2){
+				ColorSquareThroughIndex(initial_x, initial_y - 1, White);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y - 2, White);
+			}
 		}
 	}
 	
@@ -105,8 +137,19 @@ void reset_possible_moves(Player *p){
 			ColorSquareThroughIndex(initial_x, initial_y + 1, White);
 		}
 		else {
-			ColorSquareThroughIndex(initial_x, initial_y - 1, White);
-			ColorSquareThroughIndex(initial_x, initial_y + 1, White);
+			// avoid overlap the opponent
+			if(game_matrix[last_position_x][last_position_y + 2] != 1){
+				ColorSquareThroughIndex(initial_x, initial_y + 1, White);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y + 2, White);
+			}
+			if(game_matrix[last_position_x][last_position_y - 2] != 1){
+				ColorSquareThroughIndex(initial_x, initial_y - 1, White);
+			}
+			else {
+				ColorSquareThroughIndex(initial_x, initial_y - 2, White);
+			}
 		}
 	}
 
@@ -139,27 +182,46 @@ int convert_index(int i){
 
 int check_move_validity(int new_i, int new_j, int i, int j){
 
-	if(new_i < 0 || new_j < 0 || new_i > 6 || new_j > 6){
+	int converted_new_i = convert_index(new_i);
+	int converted_new_j = convert_index(new_j);
+	int converted_i = convert_index(i);
+	int converted_j = convert_index(j);
+	
+	//basic checks for moves
+	
+	if(converted_new_i < 0 || converted_new_j < 0 || converted_new_i > 6 || converted_new_j > 6){
 		return 0;
 	}
 	
-	if(abs(new_i - i) > 1){
+	if(abs(converted_new_i - converted_i) > 1){
 		return 0;
 	}
-	else if(abs(new_j - j) > 1){
+	else if(abs(converted_new_j - converted_j) > 1){
 		return 0;
 	}
-	else if(new_i == (i-1) && new_j == (j-1)){
+	else if(converted_new_i == (converted_i-1) && converted_new_j == (converted_j-1)){
 		return 0;
 	}
-	else if(new_i == (i+1) && new_j == (j-1)){
+	else if(converted_new_i == (converted_i+1) && converted_new_j == (converted_j-1)){
 		return 0;
 	}
-	else if(new_i == (i-1) && new_j == (j+1)){
+	else if(converted_new_i == (converted_i-1) && converted_new_j == (converted_j+1)){
 		return 0;
 	}
-	else if(new_i == (i+1) && new_j == (j+1)){
+	else if(converted_new_i == (converted_i+1) && converted_new_j == (converted_j+1)){
 		return 0;
+	}
+	
+	// check based on matrix
+	if(turn == 1){
+		if(game_matrix[new_i][new_j] == 2){
+			return 2;
+		}
+	}
+	else if(turn == 2){
+		if(game_matrix[new_i][new_j]){
+			return 2;
+		}
 	}
 	
 	// recursive function for walls
@@ -178,37 +240,55 @@ void move_player(Player *p, char move){
 	
 	int last_position_x = p->position.x;
 	int last_position_y = p->position.y;
-	int initial_x = convert_index(last_position_x);
-	int initial_y = convert_index(last_position_y);
 	
 	
 	switch(move){
 		case 'u':
-			if(check_move_validity(converted_x, converted_y - 1, initial_x, initial_y)){
+			if(check_move_validity(current_x, current_y - 2, last_position_x, last_position_y) == 1){
 				reset_possible_moves(p);
 				p->current_position.y = current_y - 2;
 				moveTo(converted_x, converted_y, converted_x, converted_y - 1, id);
 			}
+			else if(check_move_validity(current_x, current_y - 2, last_position_x, last_position_y) == 2 ){
+				reset_possible_moves(p);
+				p->current_position.y = current_y - 4;
+				moveTo(converted_x, converted_y, converted_x, converted_y - 2, id);
+			}
 			break;
 		case 'd':
-			if(check_move_validity(converted_x, converted_y + 1, initial_x, initial_y)){
+			if(check_move_validity(current_x, current_y + 2, last_position_x, last_position_y) == 1){
 				reset_possible_moves(p);
 				p->current_position.y = current_y + 2;
 				moveTo(converted_x, converted_y, converted_x, converted_y + 1, id);
 			}
+			else if(check_move_validity(current_x, current_y + 2, last_position_x, last_position_y) == 2){
+				reset_possible_moves(p);
+				p->current_position.y = current_y + 4;
+				moveTo(converted_x, converted_y, converted_x, converted_y + 2, id);
+			}
 			break;
 		case 'l':
-			if(check_move_validity(converted_x - 1, converted_y, initial_x, initial_y )){
+			if(check_move_validity(current_x - 2, current_y, last_position_x, last_position_y ) == 1){
 				reset_possible_moves(p);
 				p->current_position.x = current_x - 2;
 				moveTo(converted_x, converted_y, converted_x - 1, converted_y, id);
 			}
+			else if(check_move_validity(current_x - 2, current_y, last_position_x, last_position_y ) == 2){
+				reset_possible_moves(p);
+				p->current_position.x = current_x - 4;
+				moveTo(converted_x, converted_y, converted_x - 2, converted_y, id);
+			}
 			break;
 		case 'r':
-			if(check_move_validity(converted_x + 1, converted_y, initial_x, initial_y )){
+			if(check_move_validity(current_x + 2, current_y, last_position_x, last_position_y ) == 1){
 				reset_possible_moves(p);
 				p->current_position.x = current_x + 2;
 				moveTo(converted_x, converted_y, converted_x + 1, converted_y, id);
+			}
+			else if(check_move_validity(current_x + 2, current_y, last_position_x, last_position_y ) == 2){
+				reset_possible_moves(p);
+				p->current_position.x = current_x + 4;
+				moveTo(converted_x, converted_y, converted_x + 2, converted_y, id);
 			}
 			break;
 		default:
@@ -220,11 +300,10 @@ void move_player(Player *p, char move){
 void confirm_move(Player *p){
 
 	int id = p->id;
-	int current_x = p->current_position.x;
-	int current_y = p->current_position.y;
-	p->position.x = current_x;
-	p->position.y = current_y;
-	game_matrix[current_x][current_y] = id;
+	game_matrix[p->position.x][p->position.y] = 0;
+	p->position.x = p->current_position.x;
+	p->position.y = p->current_position.y;
+	game_matrix[p->position.x][p->position.y] = id;
 	switch_turn();
 
 }
