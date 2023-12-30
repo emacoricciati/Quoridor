@@ -3,7 +3,7 @@
 #include "../timer/timer.h"
 #include "stdlib.h"
 
-volatile int game_matrix[13][13];
+volatile int game_matrix[15][15];
 
 volatile Player p1, p2;
 
@@ -19,8 +19,8 @@ void init_game_matrix(void){
 
 	int i, j;
 	
-	for(i=0;i<13; i++){
-		for(j=0;j<13;j++){
+	for(i=0;i<15; i++){
+		for(j=0;j<15;j++){
 			game_matrix[i][j] = 0;
 		}
 	}
@@ -38,10 +38,10 @@ void find_possible_moves(volatile Player *p){
 	
 	// x
 	
-	if(last_position_x == 0){
+	if(last_position_x == 1){
 		ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow);
 	}
-	else if(last_position_x == 12){
+	else if(last_position_x == 13){
 		ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
 	}
 	else {
@@ -52,7 +52,7 @@ void find_possible_moves(volatile Player *p){
 	// y
 	
 	if(p->id == 1){
-		if(last_position_y == 12){
+		if(last_position_y == 13){
 			ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
 		}
 		// avoid overlap the opponent
@@ -73,7 +73,7 @@ void find_possible_moves(volatile Player *p){
 	}
 	
 	if(p->id == 2){
-		if(last_position_y == 0){
+		if(last_position_y == 1){
 			ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
 		}
 		else {
@@ -104,10 +104,10 @@ void reset_possible_moves(volatile Player *p){
 	
 	// x
 	
-	if(last_position_x == 0){
+	if(last_position_x == 1){
 		ColorSquareThroughIndex(initial_x + 1, initial_y, White);
 	}
-	else if(last_position_x == 12){
+	else if(last_position_x == 13){
 		ColorSquareThroughIndex(initial_x - 1, initial_y, White);
 	}
 	else {
@@ -118,7 +118,7 @@ void reset_possible_moves(volatile Player *p){
 	// y
 	
 	if(p->id == 1){
-		if(last_position_y == 12){
+		if(last_position_y == 13){
 			ColorSquareThroughIndex(initial_x, initial_y - 1, White);
 		}
 		else {
@@ -139,7 +139,7 @@ void reset_possible_moves(volatile Player *p){
 	}
 	
 	if(p->id == 2){
-		if(last_position_y == 0){
+		if(last_position_y == 1){
 			ColorSquareThroughIndex(initial_x, initial_y + 1, White);
 		}
 		else {
@@ -166,23 +166,23 @@ void init_players(void){
 		// p1
 		p1.id = 1;
 		p1.available_walls = 8;
-		p1.current_position.x = 6;
-		p1.current_position.y = 12;
-		p1.position.x = 6;
-		p1.position.y = 12;
+		p1.current_position.x = 7;
+		p1.current_position.y = 13;
+		p1.position.x = 7;
+		p1.position.y = 13;
 		// p2
 		p2.id = 2;
 		p2.available_walls = 8;
-		p2.current_position.x = 6;
-		p2.current_position.y = 0;
-		p2.position.x = 6;
-		p2.position.y = 0;
+		p2.current_position.x = 7;
+		p2.current_position.y = 1;
+		p2.position.x = 7;
+		p2.position.y = 1;
 
 }
 
 int convert_index(int i){
 	
-	return i - i/2;
+	return i - i/2 - 1;
 
 }
 
@@ -344,8 +344,21 @@ void switch_mode(void){
 int check_wall_validity(int new_i, int new_j, int i, int j){
 
 
-	if(new_i < 0 || new_i > 5 || new_j < 1 || new_j > 6){
-		return 0;
+	if(w.horizontal){
+		if(new_i < 0 || new_i > 5){
+			return 0;
+		}
+		else if(new_j < 1 || new_j > 6){
+			return 0;
+		}
+	}
+	else {
+		if(new_i < 1 || new_i > 6){
+			return 0;
+		}
+		else if(new_j < 0 || new_j > 5){
+			return 0;
+		}
 	}
 	return 1;
 
@@ -355,8 +368,8 @@ void move_wall(char move){
 
 	int current_x = w.position.x;
 	int current_y = w.position.y;
-	int converted_x = convert_index(w.position.x);
-	int converted_y = convert_index(w.position.y);
+	int converted_x = convert_index(w.position.x) + 1;
+	int converted_y = convert_index(w.position.y) + 1;
 	
 	switch(move){
 		case 'u':
@@ -404,15 +417,15 @@ void enable_move_mode(void){
 void init_wall(void){
 
 	w.position.x = 6;
-	w.position.y = 5;
+	w.position.y = 6;
 	w.horizontal = 1;
 	
 }
 
 void rotate_wall(void){
 	
-	int converted_x = convert_index(w.position.x);
-	int converted_y = convert_index(w.position.y);
+	int converted_x = convert_index(w.position.x) + 1;
+	int converted_y = convert_index(w.position.y) + 1;
 	if(w.horizontal){
 		w.horizontal = 0;
 		DrawWallHorizontalThroughIndex(converted_x,converted_y,White);

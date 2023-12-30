@@ -713,7 +713,7 @@ void DrawWallHorizontalThroughIndex(int i, int j, uint16_t color){
 
 void DrawWallVerticalThroughIndex(int i, int j, uint16_t color){
 	
-	ColorRectangle(i*size_square + i*margin + offset - 4, j*size_square + (j-1)*margin + offset + 3, 64, 5, color);
+	ColorRectangle(i*size_square + i*margin + offset - margin, j*size_square + (j-1)*margin + offset + 3, 64, 5, color);
 	
 }
 
