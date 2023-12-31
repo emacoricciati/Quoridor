@@ -137,6 +137,9 @@ void RIT_IRQHandler (void)
 				if(move_mode){
 					turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
 				}
+				else {
+					confirm_wall();
+				}
 				break;
 			default:
 				break;

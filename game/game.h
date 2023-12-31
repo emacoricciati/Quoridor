@@ -22,7 +22,8 @@ typedef struct wall {
 
 void init_game_matrix(void);
 void init_players(void);
-int convert_index(int i);
+int convert_index_bts(int i);
+int convert_index_stb(int i);
 void find_possible_moves(volatile Player *p);
 int check_move_validity(int new_i, int new_j, int i, int j);
 void move_player(Player *p, char move);
@@ -37,3 +38,5 @@ void move_wall(char move);
 int check_wall_validity(int new_i, int new_j, int i, int j);
 void moveWall(int x, int y, int new_x, int new_y);
 void rotate_wall(void);
+void confirm_wall(void);
+void delete_wall(int x, int y);
