@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\sample.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sample.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Dec 31 19:15:32 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 02 12:21:33 2024
 <BR><P>
-<H3>Maximum Stack Usage =        248 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        280 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-TIMER0_IRQHandler &rArr; confirm_move &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+RIT_IRQHandler &rArr; confirm_wall &rArr; switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 <P>
 <H3>
 Functions with no stack information
@@ -521,6 +521,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PutChar
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_turn
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_wall
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_grid
 <LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER0_IRQHandler
 <LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -650,8 +651,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2b]"></a>RIT_IRQHandler</STRONG> (Thumb, 686 bytes, Stack size 8 bytes, irq_rit.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 248 + Unknown Stack Size
-<LI>Call Chain = RIT_IRQHandler &rArr; move_player &rArr; reset_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+<BR><BR>[Stack]<UL><LI>Max Depth = 280 + Unknown Stack Size
+<LI>Call Chain = RIT_IRQHandler &rArr; confirm_wall &rArr; switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rotate_wall
@@ -837,7 +838,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_wall
 </UL>
 
-<P><STRONG><a name="[82]"></a>delete_wall</STRONG> (Thumb, 750 bytes, Stack size 24 bytes, game.o(.text))
+<P><STRONG><a name="[82]"></a>delete_wall</STRONG> (Thumb, 796 bytes, Stack size 24 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_stb
@@ -879,13 +880,16 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[6d]"></a>confirm_wall</STRONG> (Thumb, 146 bytes, Stack size 16 bytes, game.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = confirm_wall &rArr; switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+<P><STRONG><a name="[6d]"></a>confirm_wall</STRONG> (Thumb, 328 bytes, Stack size 48 bytes, game.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 272 + Unknown Stack Size
+<LI>Call Chain = confirm_wall &rArr; switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
+<BR>[Calls]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallVerticalThroughIndex
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
@@ -907,7 +911,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
 </UL>
-<BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_grid
+<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_wall
+<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_grid
 <LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER0_IRQHandler
 </UL>
 
