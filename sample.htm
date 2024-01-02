@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\sample.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sample.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 02 16:06:19 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 02 17:29:54 2024
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -808,7 +808,7 @@ Global Symbols
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 </UL>
 
-<P><STRONG><a name="[80]"></a>delete_wall</STRONG> (Thumb, 838 bytes, Stack size 24 bytes, game.o(.text))
+<P><STRONG><a name="[80]"></a>delete_wall</STRONG> (Thumb, 886 bytes, Stack size 24 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_stb
@@ -857,13 +857,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[87]"></a>check_wall_validity</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, game.o(.text))
+<P><STRONG><a name="[87]"></a>check_wall_validity</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = check_wall_validity
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_wall
 </UL>
 
-<P><STRONG><a name="[86]"></a>moveWall</STRONG> (Thumb, 64 bytes, Stack size 24 bytes, game.o(.text))
+<P><STRONG><a name="[86]"></a>moveWall</STRONG> (Thumb, 66 bytes, Stack size 24 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = moveWall &rArr; delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
@@ -883,7 +883,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[75]"></a>rotate_wall</STRONG> (Thumb, 100 bytes, Stack size 24 bytes, game.o(.text))
+<P><STRONG><a name="[75]"></a>rotate_wall</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = rotate_wall &rArr; delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
@@ -894,7 +894,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[6e]"></a>confirm_wall</STRONG> (Thumb, 240 bytes, Stack size 40 bytes, game.o(.text))
+<P><STRONG><a name="[6e]"></a>confirm_wall</STRONG> (Thumb, 596 bytes, Stack size 40 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240 + Unknown Stack Size
 <LI>Call Chain = confirm_wall &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>

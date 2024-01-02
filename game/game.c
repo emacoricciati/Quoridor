@@ -385,9 +385,10 @@ void init_wall(void){
 }
 
 int check_wall_validity(int new_i, int new_j, int i, int j){
-
-
-	if(w.horizontal){
+	
+	// TODO remove i and j from parameters
+	// out of border
+	if(w.horizontal == 1){
 		if(new_i < 0 || new_i > 5){
 			return 0;
 		}
@@ -403,6 +404,8 @@ int check_wall_validity(int new_i, int new_j, int i, int j){
 			return 0;
 		}
 	}
+	
+	
 	return 1;
 
 }
@@ -484,7 +487,7 @@ void rotate_wall(void){
 	int y = w.position.y;
 	int converted_x = convert_index_bts(x);
 	int converted_y = convert_index_bts(y);
-	if(w.horizontal && x != 0){
+	if(w.horizontal == 1 && x != 0){
 		delete_wall(converted_x,converted_y);
 		w.horizontal = 0;
 		DrawWallVerticalThroughIndex(converted_x,converted_y,Red);
@@ -498,7 +501,7 @@ void rotate_wall(void){
 
 void moveWall(int x, int y, int new_x, int new_y){
 	
-	if(w.horizontal){
+	if(w.horizontal == 1){
 		delete_wall(x,y);
 		DrawWallHorizontalThroughIndex(new_x,new_y, Red);
 	}
@@ -515,6 +518,30 @@ void confirm_wall(void){
 	int converted_y = convert_index_bts(w.position.y);
 	int i;
 	char str[20];
+	
+	// if position of the wall is valid
+	
+	if(w.horizontal == 1){
+		// avoid overlap
+		if((game_matrix[w.position.y][w.position.x] == 3 && game_matrix[w.position.y][w.position.x + 1] == 3) || game_matrix[w.position.y][w.position.x + 3] == 3){
+			return;
+		}
+		// avoid cross
+		if(game_matrix[w.position.y][w.position.x + 2] == 3 && game_matrix[w.position.y + 1][w.position.x + 2] == 3 && game_matrix[w.position.y - 1][w.position.x + 2] == 3 ){
+			return;
+		}
+	}
+	else {
+		// avoid overlap
+		if((game_matrix[w.position.y][w.position.x] == 3 && game_matrix[w.position.y + 1][w.position.x] == 3) || game_matrix[w.position.y + 3][w.position.x] == 3){
+			return;
+		}
+		// avoid cross
+		if(game_matrix[w.position.y + 2][w.position.x] == 3 && game_matrix[w.position.y + 2][w.position.x + 1] == 3 && game_matrix[w.position.y + 2][w.position.x - 1] == 3 ){
+			return;
+		}
+	}
+	
 	if(turn == 1){
 		p1.available_walls--;
 		sprintf(str, "%d", p1.available_walls);
@@ -525,16 +552,16 @@ void confirm_wall(void){
 		sprintf(str, "%d", p2.available_walls);
 		GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	}
-	if(w.horizontal){
+	if(w.horizontal == 1){
 		DrawWallHorizontalThroughIndex(converted_x,converted_y, Blue2);
 		for(i = w.position.x; i <= w.position.x + 4; i++){
 			game_matrix[w.position.y][i] = 3;
 		}
 	}
-	else if(!w.horizontal){
+	else {
 		DrawWallVerticalThroughIndex(converted_x,converted_y, Blue2);
-		for(i = w.position.x; i <= w.position.x + 4; i++){
-			game_matrix[i][w.position.y] = 3;
+		for(i = w.position.y; i <= w.position.y + 4; i++){
+			game_matrix[i][w.position.x] = 3;
 		}
 	}
 	switch_turn();
@@ -546,7 +573,7 @@ void delete_wall(int x, int y){
 	int converted_x = convert_index_stb(x);
 	int converted_y = convert_index_stb(y);
 
-	if(w.horizontal){
+	if(w.horizontal == 1){
 		DrawWallHorizontalThroughIndex(x,y,White);
 		//Check if there are other walls
 		if(game_matrix[converted_y][converted_x] == 3 && game_matrix[converted_y][converted_x + 3] == 3){
@@ -577,13 +604,7 @@ void delete_wall(int x, int y){
 		if(game_matrix[converted_y][converted_x] == 3 && game_matrix[converted_y + 3][converted_x] == 3){
 			DrawWallVerticalThroughIndex(x,y,Blue2);
 		}
-		if(game_matrix[converted_y + 2][converted_x] == 3 && game_matrix[converted_y + 5][converted_x] == 3){
-			DrawWallVerticalThroughIndex(x,y+1,Blue2);
-		}
-		if(game_matrix[converted_y + 4][converted_x] == 3 && game_matrix[converted_y + 7][converted_x] == 3){
-			DrawWallVerticalThroughIndex(x,y+2,Blue2);
-		}
-		if(game_matrix[converted_y][converted_x - 2] == 3 && game_matrix[converted_y][converted_x + 1] == 3){
+		else if(game_matrix[converted_y][converted_x - 2] == 3 && game_matrix[converted_y][converted_x + 1] == 3){
 			DrawWallHorizontalThroughIndex(x - 1,y,Blue2);
 		}
 		if(game_matrix[converted_y + 2][converted_x - 2] == 3 && game_matrix[converted_y + 2][converted_x + 1] == 3){
@@ -591,6 +612,15 @@ void delete_wall(int x, int y){
 		}
 		if(game_matrix[converted_y + 4][converted_x - 2] == 3 && game_matrix[converted_y + 4][converted_x + 1] == 3){
 			DrawWallHorizontalThroughIndex(x - 1,y + 2,Blue2);
+		}
+		if(game_matrix[converted_y + 2][converted_x] == 3 && game_matrix[converted_y + 5][converted_x] == 3){
+			DrawWallVerticalThroughIndex(x,y + 1,Blue2);
+		}
+		if(game_matrix[converted_y + 4][converted_x] == 3 && game_matrix[converted_y + 7][converted_x] == 3){
+			DrawWallVerticalThroughIndex(x,y + 2,Blue2);
+		}
+		if(game_matrix[converted_y - 2][converted_x] == 3 && game_matrix[converted_y + 2][converted_x] == 3){
+			DrawWallVerticalThroughIndex(x,y - 1,Blue2);
 		}
 
 	}
