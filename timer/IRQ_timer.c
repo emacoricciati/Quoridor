@@ -35,7 +35,7 @@ void TIMER0_IRQHandler (void)
 	timer0_count++;
 	if(timer0_count == 20){
 		timer0_count = 0;
-		turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
+		confirm_choice();
 	}
 	else {
 		update_clock(1000);

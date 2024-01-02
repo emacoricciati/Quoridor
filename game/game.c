@@ -33,8 +33,8 @@ void find_possible_moves(volatile Player *p){
 	
 	int last_position_x = p->position.x;
 	int last_position_y = p->position.y;
-	int initial_x = convert_index_bts(p->position.x);
-	int initial_y = convert_index_bts(p->position.y);
+	int initial_x = convert_index_bts(last_position_x);
+	int initial_y = convert_index_bts(last_position_y);
 	
 	// x
 	
@@ -57,13 +57,13 @@ void find_possible_moves(volatile Player *p){
 		}
 		// avoid overlap the opponent
 		else {
-			if(game_matrix[last_position_x][last_position_y + 2] != 2){
+			if(game_matrix[last_position_y + 2][last_position_x] != 2){
 				ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
 			}
 			else {
 				ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
 			}
-			if(game_matrix[last_position_x][last_position_y - 2] != 2){
+			if(game_matrix[last_position_y - 2][last_position_x] != 2){
 				ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
 			}
 			else {
@@ -78,13 +78,13 @@ void find_possible_moves(volatile Player *p){
 		}
 		else {
 			// avoid overlap the opponent
-			if(game_matrix[last_position_x][last_position_y + 2] != 1){
+			if(game_matrix[last_position_y + 2][last_position_x] != 1){
 				ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
 			}
 			else {
 				ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
 			}
-			if(game_matrix[last_position_x][last_position_y - 2] != 1){
+			if(game_matrix[last_position_y - 2][last_position_x] != 1){
 				ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
 			}
 			else {
@@ -123,13 +123,13 @@ void reset_possible_moves(volatile Player *p){
 		}
 		else {
 			// avoid overlap the opponent
-			if(game_matrix[last_position_x][last_position_y + 2] != 2){
+			if(game_matrix[last_position_y + 2][last_position_x] != 2){
 				ColorSquareThroughIndex(initial_x, initial_y + 1, White);
 			}
 			else {
 				ColorSquareThroughIndex(initial_x, initial_y + 2, White);
 			}
-			if(game_matrix[last_position_x][last_position_y - 2] != 2){
+			if(game_matrix[last_position_y - 2][last_position_x] != 2){
 				ColorSquareThroughIndex(initial_x, initial_y - 1, White);
 			}
 			else {
@@ -144,13 +144,13 @@ void reset_possible_moves(volatile Player *p){
 		}
 		else {
 			// avoid overlap the opponent
-			if(game_matrix[last_position_x][last_position_y + 2] != 1){
+			if(game_matrix[last_position_y + 2][last_position_x] != 1){
 				ColorSquareThroughIndex(initial_x, initial_y + 1, White);
 			}
 			else {
 				ColorSquareThroughIndex(initial_x, initial_y + 2, White);
 			}
-			if(game_matrix[last_position_x][last_position_y - 2] != 1){
+			if(game_matrix[last_position_y - 2][last_position_x] != 1){
 				ColorSquareThroughIndex(initial_x, initial_y - 1, White);
 			}
 			else {
@@ -228,12 +228,12 @@ int check_move_validity(int new_i, int new_j, int i, int j){
 	
 	// check based on matrix
 	if(turn == 1){
-		if(game_matrix[new_i][new_j] == 2){
+		if(game_matrix[new_j][new_i] == 2){
 			return 2;
 		}
 	}
 	else if(turn == 2){
-		if(game_matrix[new_i][new_j]){
+		if(game_matrix[new_j][new_i]){
 			return 2;
 		}
 	}
@@ -308,16 +308,19 @@ void move_player(Player *p, char move){
 		default:
 			break;
 	}
+	
+	// TODO find_possible_moves(p);
 
 }
 
-void confirm_move(Player *p){
+void confirm_move(volatile Player *p){
 
 	int id = p->id;
-	game_matrix[p->position.x][p->position.y] = 0;
+	game_matrix[p->position.y][p->position.x] = 0;
 	p->position.x = p->current_position.x;
 	p->position.y = p->current_position.y;
-	game_matrix[p->position.x][p->position.y] = id;
+	game_matrix[p->position.y][p->position.x] = id;
+	reset_possible_moves(p);
 	switch_turn();
 
 }
@@ -337,8 +340,14 @@ void switch_turn(void){
 
 void switch_mode(void){
 	if(move_mode){
-		move_mode = 0;
-		enable_wall_mode();
+		if(turn == 1 && equal_position(p1.current_position,p1.position)){
+			move_mode = 0;
+			enable_wall_mode();
+		}
+		else if(turn == 2 && equal_position(p2.current_position,p2.position)){
+			move_mode = 0;
+			enable_wall_mode();
+		}
 	}
 	else {
 		move_mode = 1;
@@ -436,13 +445,24 @@ void enable_move_mode(void){
 		else {
 			DrawWallVerticalThroughIndex(converted_x, converted_y, White);
 		}
-		turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
+		// only if the position of the player is not changed
+		if(turn == 1 && equal_position(p1.current_position, p1.position)){
+			find_possible_moves(&p1);
+		}
+		else if(turn == 2 && equal_position(p2.current_position, p2.position)){
+			find_possible_moves(&p2);
+		}
 	}
 	// otherwise switch turn
 	else {
 		switch_turn();
 	}
 
+}
+
+int equal_position(Position p1, Position p2){
+
+	return p1.x == p2.x && p1.y == p2.y;
 }
 
 void rotate_wall(void){
@@ -576,3 +596,24 @@ void delete_wall(int x, int y){
 	}
 }
 
+void confirm_choice(void){
+	
+	int converted_x = convert_index_bts(w.position.x);
+	int converted_y = convert_index_bts(w.position.y);
+	
+	if(move_mode){
+		turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
+	}
+	else {
+		move_mode = 1;
+		// delete wall
+		if(w.horizontal){	
+			DrawWallHorizontalThroughIndex(converted_x, converted_y, White);
+		}
+		else {
+			DrawWallVerticalThroughIndex(converted_x, converted_y, White);
+		}
+		switch_turn();
+	}
+
+}
