@@ -44,12 +44,24 @@ void find_possible_moves(volatile Player *p){
 	if(last_position_x == 13 && game_matrix[last_position_y][last_position_x - 1] != 3){
 		ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
 	}
-	if(game_matrix[last_position_y][last_position_x - 1] != 3){
-		ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
+	if(turn == 1){
+		if(game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 2){
+			ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
+		}
+		if(game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 2){
+			ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow);
+		}
 	}
-	if(game_matrix[last_position_y][last_position_x + 1] != 3){
-		ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow);
+	else {
+		if(game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 1){
+			ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
+		}
+		if(game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 1){
+			ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow);
+		}
 	}
+
+
 	
 	
 	// y
@@ -68,7 +80,7 @@ void find_possible_moves(volatile Player *p){
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 2][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
 				}
 			}
@@ -79,7 +91,7 @@ void find_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 2][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
 					}
 				}
@@ -102,7 +114,7 @@ void find_possible_moves(volatile Player *p){
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 2][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
 				}
 			}
@@ -113,7 +125,7 @@ void find_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 2][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
 					}
 				}
@@ -139,11 +151,21 @@ void reset_possible_moves(volatile Player *p){
 	if(last_position_x == 13 && game_matrix[last_position_y][last_position_x - 1] != 3){
 		ColorSquareThroughIndex(initial_x - 1, initial_y, White);
 	}
-	if(game_matrix[last_position_y][last_position_x - 1] != 3){
-		ColorSquareThroughIndex(initial_x - 1, initial_y, White);
+	if(turn == 1){
+		if(game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 2){
+			ColorSquareThroughIndex(initial_x - 1, initial_y, White);
+		}
+		if(game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 2){
+			ColorSquareThroughIndex(initial_x + 1, initial_y, White);
+		}
 	}
-	if(game_matrix[last_position_y][last_position_x + 1] != 3){
-		ColorSquareThroughIndex(initial_x + 1, initial_y, White);
+	else {
+		if(game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 1){
+			ColorSquareThroughIndex(initial_x - 1, initial_y, White);
+		}
+		if(game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 1){
+			ColorSquareThroughIndex(initial_x + 1, initial_y, White);
+		}
 	}
 	
 	
@@ -163,7 +185,7 @@ void reset_possible_moves(volatile Player *p){
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 2][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, White);
 				}
 			}
@@ -174,7 +196,7 @@ void reset_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 2][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, White);
 					}
 				}
@@ -197,7 +219,7 @@ void reset_possible_moves(volatile Player *p){
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 2][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, White);
 				}
 			}
@@ -208,7 +230,7 @@ void reset_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 2][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, White);
 					}
 				}
@@ -330,7 +352,7 @@ void move_player(Player *p, char move){
 				moveTo(converted_x, converted_y, converted_x, converted_y - 1, id);
 			}
 			else if(check_move_validity(current_x, current_y - 2, last_position_x, last_position_y) == 2 ){
-				if(game_matrix[current_y - 1][current_x] == 3) break;
+				if(game_matrix[current_y - 1][current_x] == 3 || game_matrix[current_y - 3][current_x] == 3) break;
 				reset_possible_moves(p);
 				p->current_position.y = current_y - 4;
 				moveTo(converted_x, converted_y, converted_x, converted_y - 2, id);
@@ -344,7 +366,7 @@ void move_player(Player *p, char move){
 				moveTo(converted_x, converted_y, converted_x, converted_y + 1, id);
 			}
 			else if(check_move_validity(current_x, current_y + 2, last_position_x, last_position_y) == 2){
-				if(game_matrix[current_y + 1][current_x] == 3) break;
+				if(game_matrix[current_y + 1][current_x] == 3 || game_matrix[current_y + 3][current_x] == 3) break;
 				reset_possible_moves(p);
 				p->current_position.y = current_y + 4;
 				moveTo(converted_x, converted_y, converted_x, converted_y + 2, id);
@@ -357,12 +379,14 @@ void move_player(Player *p, char move){
 				p->current_position.x = current_x - 2;
 				moveTo(converted_x, converted_y, converted_x - 1, converted_y, id);
 			}
+			/*
 			else if(check_move_validity(current_x - 2, current_y, last_position_x, last_position_y ) == 2){
 				if(game_matrix[current_y][current_x - 1] == 3) break;
 				reset_possible_moves(p);
 				p->current_position.x = current_x - 4;
 				moveTo(converted_x, converted_y, converted_x - 2, converted_y, id);
 			}
+			*/
 			break;
 		case 'r':
 			if(check_move_validity(current_x + 2, current_y, last_position_x, last_position_y ) == 1){
@@ -371,12 +395,14 @@ void move_player(Player *p, char move){
 				p->current_position.x = current_x + 2;
 				moveTo(converted_x, converted_y, converted_x + 1, converted_y, id);
 			}
+			/*
 			else if(check_move_validity(current_x + 2, current_y, last_position_x, last_position_y ) == 2){
 				if(game_matrix[current_y][current_x + 1] == 3) break;
 				reset_possible_moves(p);
 				p->current_position.x = current_x + 4;
 				moveTo(converted_x, converted_y, converted_x + 2, converted_y, id);
 			}
+			*/
 			break;
 		default:
 			break;
