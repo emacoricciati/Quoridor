@@ -728,8 +728,8 @@ Image Symbol Table
     reset_possible_moves                     0x000052bb   Thumb Code   612  game.o(.text)
     init_players                             0x0000551f   Thumb Code    66  game.o(.text)
     convert_index_stb                        0x00005561   Thumb Code     6  game.o(.text)
-    check_move_validity                      0x00005567   Thumb Code   230  game.o(.text)
-    move_player                              0x0000564d   Thumb Code   714  game.o(.text)
+    check_move_validity                      0x00005567   Thumb Code   232  game.o(.text)
+    move_player                              0x0000564f   Thumb Code   712  game.o(.text)
     switch_turn                              0x00005917   Thumb Code    76  game.o(.text)
     confirm_move                             0x00005963   Thumb Code    64  game.o(.text)
     equal_position                           0x000059a3   Thumb Code    28  game.o(.text)
@@ -931,7 +931,7 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
         32          6       1520          0          0        955   asciilib.o
-      4844        150          0          8        960       8876   game.o
+      4844        148          0          8        960       8876   game.o
      17500        154          0         13          0      43499   glcd.o
        184         28          0          0          0        941   irq_button.o
        780         60          0         32          0       1479   irq_rit.o
@@ -946,7 +946,7 @@ Image component sizes
        144          4          0          8          0       1986   time.o
 
     ----------------------------------------------------------------------
-     25092        582       1772         80       1472     112422   Object Totals
+     25092        580       1772         80       1472     112422   Object Totals
          0          0         48          0          0          0   (incl. Generated)
          0          0          0         10          0          0   (incl. Padding)
 
@@ -1009,9 +1009,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     26658        630       1790         80       1568     112386   Grand Totals
-     26658        630       1790         80       1568     112386   ELF Image Totals
-     26658        630       1790         80          0          0   ROM Totals
+     26658        628       1790         80       1568     112386   Grand Totals
+     26658        628       1790         80       1568     112386   ELF Image Totals
+     26658        628       1790         80          0          0   ROM Totals
 
 ==============================================================================
 

@@ -291,7 +291,7 @@ int check_move_validity(int new_i, int new_j, int i, int j){
 		}
 	}
 	else if(turn == 2){
-		if(game_matrix[new_j][new_i]){
+		if(game_matrix[new_j][new_i] == 1){
 			return 2;
 		}
 	}
@@ -527,19 +527,12 @@ void enable_move_mode(void){
 	// delete rectangle and check possible moves if it the wall is not placed
 		delete_wall(converted_x, converted_y);
 		// only if the position of the player is not changed
-		if(turn == 1 && equal_position(p1.current_position, p1.position)){
-			find_possible_moves(&p1);
-		}
-		else if(turn == 2 && equal_position(p2.current_position, p2.position)){
-			find_possible_moves(&p2);
-		}
-	// otherwise switch turn
-		/*
-	else {
-		switch_turn();
+	if(turn == 1 && equal_position(p1.current_position, p1.position)){
+		find_possible_moves(&p1);
 	}
-		*/
-
+	else if(turn == 2 && equal_position(p2.current_position, p2.position)){
+		find_possible_moves(&p2);
+	}
 }
 
 int equal_position(Position p1, Position p2){
