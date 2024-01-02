@@ -758,7 +758,7 @@ void display_grid(void){
 	ColorSquareThroughIndex(3,6, Blue);
 	
 	for(i = 0; i<3; i++){
-		DrawRectangle(offset + i*66 + i*10, 240, size_square*2, 66);
+		DrawRectangle(offset + i*66 + i*10, 240, 40, 66);
 	}
 
 	GUI_Text(15, 243, (unsigned char*)"P1 Wall", Black, White);

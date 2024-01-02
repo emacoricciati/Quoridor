@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\sample.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sample.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 02 14:45:41 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 02 16:06:19 2024
 <BR><P>
-<H3>Maximum Stack Usage =        280 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        264 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-RIT_IRQHandler &rArr; confirm_wall &rArr; switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+TIMER0_IRQHandler &rArr; confirm_choice &rArr; confirm_move &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 <P>
 <H3>
 Functions with no stack information
@@ -521,6 +521,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PutChar
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_turn
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_player
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_wall
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display_grid
 <LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER0_IRQHandler
@@ -568,12 +570,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ColorRectangle
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;moveWall
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rotate_wall
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_wall
-<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_choice
 </UL>
 
 <P><STRONG><a name="[63]"></a>DrawWallVerticalThroughIndex</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, glcd.o(.text))
@@ -582,11 +582,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ColorRectangle
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;moveWall
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rotate_wall
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_wall
-<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_choice
 </UL>
 
 <P><STRONG><a name="[64]"></a>ColorSquareThroughIndex</STRONG> (Thumb, 70 bytes, Stack size 24 bytes, glcd.o(.text))
@@ -608,7 +606,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_player
 </UL>
 
-<P><STRONG><a name="[66]"></a>display_grid</STRONG> (Thumb, 360 bytes, Stack size 40 bytes, glcd.o(.text))
+<P><STRONG><a name="[66]"></a>display_grid</STRONG> (Thumb, 350 bytes, Stack size 40 bytes, glcd.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208 + Unknown Stack Size
 <LI>Call Chain = display_grid &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
@@ -653,8 +651,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2b]"></a>RIT_IRQHandler</STRONG> (Thumb, 686 bytes, Stack size 8 bytes, irq_rit.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 280 + Unknown Stack Size
-<LI>Call Chain = RIT_IRQHandler &rArr; confirm_wall &rArr; switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+<BR><BR>[Stack]<UL><LI>Max Depth = 248 + Unknown Stack Size
+<LI>Call Chain = RIT_IRQHandler &rArr; move_player &rArr; reset_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rotate_wall
@@ -721,7 +719,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[7c]"></a>convert_index_bts</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, game.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_move_validity
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_possible_moves
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rotate_wall
@@ -738,7 +736,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ColorSquareThroughIndex
 </UL>
-<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_turn
 <LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
@@ -749,7 +747,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ColorSquareThroughIndex
 </UL>
-<BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
+<BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_player
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_move
 </UL>
@@ -758,8 +756,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[85]"></a>convert_index_stb</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, game.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
+<P><STRONG><a name="[81]"></a>convert_index_stb</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, game.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
 </UL>
 
 <P><STRONG><a name="[7e]"></a>check_move_validity</STRONG> (Thumb, 248 bytes, Stack size 36 bytes, game.o(.text))
@@ -770,24 +768,25 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_player
 </UL>
 
-<P><STRONG><a name="[6b]"></a>move_player</STRONG> (Thumb, 426 bytes, Stack size 48 bytes, game.o(.text))
+<P><STRONG><a name="[6b]"></a>move_player</STRONG> (Thumb, 478 bytes, Stack size 48 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = move_player &rArr; reset_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_move_validity
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_possible_moves
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;moveTo
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[7f]"></a>switch_turn</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, game.o(.text))
+<P><STRONG><a name="[7f]"></a>switch_turn</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_possible_moves
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
-<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_wall
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_move
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_choice
 </UL>
@@ -802,49 +801,60 @@ Global Symbols
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_choice
 </UL>
 
-<P><STRONG><a name="[81]"></a>equal_position</STRONG> (Thumb, 28 bytes, Stack size 20 bytes, game.o(.text))
+<P><STRONG><a name="[83]"></a>equal_position</STRONG> (Thumb, 28 bytes, Stack size 20 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = equal_position
 </UL>
-<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 </UL>
 
-<P><STRONG><a name="[80]"></a>enable_move_mode</STRONG> (Thumb, 150 bytes, Stack size 16 bytes, game.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+<P><STRONG><a name="[80]"></a>delete_wall</STRONG> (Thumb, 838 bytes, Stack size 24 bytes, game.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;equal_position
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_turn
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_possible_moves
+<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_stb
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallVerticalThroughIndex
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
+</UL>
+<BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;moveWall
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rotate_wall
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_choice
+</UL>
+
+<P><STRONG><a name="[82]"></a>enable_move_mode</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, game.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = enable_move_mode &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+</UL>
+<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;equal_position
+<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
+<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_possible_moves
 </UL>
 <BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 </UL>
 
-<P><STRONG><a name="[83]"></a>init_wall</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, game.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
+<P><STRONG><a name="[85]"></a>init_wall</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, game.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
 </UL>
 
-<P><STRONG><a name="[82]"></a>enable_wall_mode</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, game.o(.text))
+<P><STRONG><a name="[84]"></a>enable_wall_mode</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = enable_wall_mode &rArr; reset_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_wall
+<BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_wall
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_possible_moves
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
 </UL>
 <BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 </UL>
 
-<P><STRONG><a name="[74]"></a>switch_mode</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, game.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+<P><STRONG><a name="[74]"></a>switch_mode</STRONG> (Thumb, 224 bytes, Stack size 8 bytes, game.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = switch_mode &rArr; enable_move_mode &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;equal_position
+<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_wall_mode
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_move_mode
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;equal_position
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_wall
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
 <P><STRONG><a name="[87]"></a>check_wall_validity</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, game.o(.text))
@@ -853,28 +863,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_wall
 </UL>
 
-<P><STRONG><a name="[84]"></a>delete_wall</STRONG> (Thumb, 796 bytes, Stack size 24 bytes, game.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
-</UL>
-<BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_stb
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallVerticalThroughIndex
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
-</UL>
-<BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;moveWall
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rotate_wall
-</UL>
-
 <P><STRONG><a name="[86]"></a>moveWall</STRONG> (Thumb, 64 bytes, Stack size 24 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = moveWall &rArr; delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
+<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallVerticalThroughIndex
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_wall
 </UL>
 
-<P><STRONG><a name="[6c]"></a>move_wall</STRONG> (Thumb, 198 bytes, Stack size 24 bytes, game.o(.text))
+<P><STRONG><a name="[6c]"></a>move_wall</STRONG> (Thumb, 224 bytes, Stack size 24 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = move_wall &rArr; moveWall &rArr; delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;moveWall
@@ -884,10 +883,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[75]"></a>rotate_wall</STRONG> (Thumb, 110 bytes, Stack size 24 bytes, game.o(.text))
+<P><STRONG><a name="[75]"></a>rotate_wall</STRONG> (Thumb, 100 bytes, Stack size 24 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = rotate_wall &rArr; delete_wall &rArr; DrawWallVerticalThroughIndex &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
+<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallVerticalThroughIndex
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
@@ -895,13 +894,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[6e]"></a>confirm_wall</STRONG> (Thumb, 310 bytes, Stack size 48 bytes, game.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 272 + Unknown Stack Size
-<LI>Call Chain = confirm_wall &rArr; switch_mode &rArr; enable_move_mode &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
+<P><STRONG><a name="[6e]"></a>confirm_wall</STRONG> (Thumb, 240 bytes, Stack size 40 bytes, game.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 240 + Unknown Stack Size
+<LI>Call Chain = confirm_wall &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_turn
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_mode
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallVerticalThroughIndex
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
@@ -909,14 +908,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[4e]"></a>confirm_choice</STRONG> (Thumb, 96 bytes, Stack size 16 bytes, game.o(.text))
+<P><STRONG><a name="[4e]"></a>confirm_choice</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = confirm_choice &rArr; confirm_move &rArr; switch_turn &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_turn
+<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delete_wall
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switch_turn
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;confirm_move
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallVerticalThroughIndex
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DrawWallHorizontalThroughIndex
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER0_IRQHandler
 </UL>

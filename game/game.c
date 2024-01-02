@@ -255,6 +255,13 @@ void move_player(Player *p, char move){
 	int last_position_x = p->position.x;
 	int last_position_y = p->position.y;
 	
+	// delete warning 
+	
+	if(p1.available_walls == 0 || p2.available_walls == 0){
+		// ColorRectangle(0,284,36,240,White);
+		GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, White);
+		GUI_Text(10, 300, (unsigned char*) "token", White, White);
+	}
 	
 	switch(move){
 		case 'u':
@@ -328,6 +335,7 @@ void confirm_move(volatile Player *p){
 void switch_turn(void){
 	GUI_Text(105,243,(uint8_t *) "20 s", Black, White);
 	timer0_count = 0;
+	move_mode = 1;
 	if(turn == 1){
 		turn = 2;
 		find_possible_moves(&p2);
@@ -340,6 +348,16 @@ void switch_turn(void){
 
 void switch_mode(void){
 	if(move_mode){
+		if(turn == 1 && p1.available_walls == 0){
+			GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, Red);
+			GUI_Text(10, 300, (unsigned char*) "token", White, Red);
+			return;
+		}
+		else if(turn == 2 && p2.available_walls == 0){
+			GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, Red);
+			GUI_Text(10, 300, (unsigned char*) "token", White, Red);
+			return;
+		}
 		if(turn == 1 && equal_position(p1.current_position,p1.position)){
 			move_mode = 0;
 			enable_wall_mode();
@@ -438,13 +456,7 @@ void enable_move_mode(void){
 	int converted_x = convert_index_bts(w.position.x);
 	int converted_y = convert_index_bts(w.position.y);
 	// delete rectangle and check possible moves if it the wall is not placed
-	if(game_matrix[w.position.y][w.position.x] != 3){
-		if(w.horizontal){	
-			DrawWallHorizontalThroughIndex(converted_x, converted_y, White);
-		}
-		else {
-			DrawWallVerticalThroughIndex(converted_x, converted_y, White);
-		}
+		delete_wall(converted_x, converted_y);
 		// only if the position of the player is not changed
 		if(turn == 1 && equal_position(p1.current_position, p1.position)){
 			find_possible_moves(&p1);
@@ -452,11 +464,12 @@ void enable_move_mode(void){
 		else if(turn == 2 && equal_position(p2.current_position, p2.position)){
 			find_possible_moves(&p2);
 		}
-	}
 	// otherwise switch turn
+		/*
 	else {
 		switch_turn();
 	}
+		*/
 
 }
 
@@ -502,42 +515,29 @@ void confirm_wall(void){
 	int converted_y = convert_index_bts(w.position.y);
 	int i;
 	char str[20];
-	int not_valid = 0;
 	if(turn == 1){
-		if(p1.available_walls == 0){
-			not_valid = 1;
-			GUI_Text(40, 290, (unsigned char*)str, Red, White);
-		}
-		else {
-			p1.available_walls--;
-			sprintf(str, "%d", p1.available_walls);
-			GUI_Text(40, 260, (unsigned char*)str, Black, White);
-		}
+		p1.available_walls--;
+		sprintf(str, "%d", p1.available_walls);
+		GUI_Text(40, 260, (unsigned char*)str, Black, White);
 	}
 	else{
-		if(p2.available_walls == 0){
-			not_valid = 1;
-			GUI_Text(40, 290, (unsigned char*)str, Red, White);
-		}
-		else {
-			p2.available_walls--;
-			sprintf(str, "%d", p2.available_walls);
-			GUI_Text(190, 260, (unsigned char*)str, Black, White);
-		}
+		p2.available_walls--;
+		sprintf(str, "%d", p2.available_walls);
+		GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	}
-	if(w.horizontal && !not_valid){
+	if(w.horizontal){
 		DrawWallHorizontalThroughIndex(converted_x,converted_y, Blue2);
 		for(i = w.position.x; i <= w.position.x + 4; i++){
 			game_matrix[w.position.y][i] = 3;
 		}
 	}
-	else if(!w.horizontal && !not_valid){
+	else if(!w.horizontal){
 		DrawWallVerticalThroughIndex(converted_x,converted_y, Blue2);
 		for(i = w.position.x; i <= w.position.x + 4; i++){
 			game_matrix[i][w.position.y] = 3;
 		}
 	}
-	switch_mode();
+	switch_turn();
 	
 }
 
@@ -605,14 +605,7 @@ void confirm_choice(void){
 		turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
 	}
 	else {
-		move_mode = 1;
-		// delete wall
-		if(w.horizontal){	
-			DrawWallHorizontalThroughIndex(converted_x, converted_y, White);
-		}
-		else {
-			DrawWallVerticalThroughIndex(converted_x, converted_y, White);
-		}
+		delete_wall(converted_x,converted_y);
 		switch_turn();
 	}
 
