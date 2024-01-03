@@ -42,3 +42,4 @@ void confirm_wall(void);
 void delete_wall(int x, int y);
 void confirm_choice(void);
 int equal_position(Position p1, Position p2);
+void check_available_path(int i, int j, int *found, int id, int marked[7][7]);

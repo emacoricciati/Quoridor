@@ -4,6 +4,7 @@
 #include "stdlib.h"
 
 volatile int game_matrix[15][15];
+int marked[7][7];
 
 volatile Player p1, p2;
 
@@ -318,10 +319,50 @@ int check_move_validity(int new_i, int new_j, int i, int j){
 		}
 	}
 	
-	// recursive function for walls
-	
 
  return 1;
+}
+
+void check_available_path(int i, int j, int* found, int id, int marked[7][7]){
+
+	int converted_i = convert_index_bts(i);
+	int converted_j = convert_index_bts(j);
+	if(*found) return;
+	if(i < 1 || i > 13 || j < 1 || j > 13){
+		return;
+	}
+	if(marked[converted_i][converted_j] == 1) return;
+	marked[converted_i][converted_j] = 1;
+	// check if there is the other player
+	if(id == 1){
+		if(game_matrix[i][j] == 2){
+			return;
+		}
+	}
+	else if(id == 2){
+		if(game_matrix[i][j] == 1){
+			return;
+		}
+	}
+	if(id == 1 && i == 1){
+		*found = 1;
+		return;
+	}
+	if(id == 2 && i == 13){
+		*found = 1;
+		return;
+	}
+	if(id == 2 && game_matrix[i+1][j] != 3){
+		check_available_path(i+2,j,found,id,marked);
+	}
+	if(id == 1 && game_matrix[i-1][j] != 3){
+		check_available_path(i-2,j,found,id,marked);
+	}
+	if(game_matrix[i][j-1] != 3) 	check_available_path(i,j-2,found,id,marked);
+	if(game_matrix[i][j+1] != 3) check_available_path(i,j+2,found,id,marked);
+	marked[converted_i][converted_j] = 0;
+	return;
+
 }
 
 void move_player(Player *p, char move){
@@ -601,7 +642,7 @@ void confirm_wall(void){
 
 	int converted_x = convert_index_bts(w.position.x);
 	int converted_y = convert_index_bts(w.position.y);
-	int i;
+	int i,j, found1 = 0, found2 = 0;
 	char str[20];
 	
 	// if position of the wall is valid
@@ -626,6 +667,66 @@ void confirm_wall(void){
 			return;
 		}
 	}
+	
+	// avoid trap players
+	
+	for(i=0;i<7;i++){
+		for(j=0;j<7;j++){
+			marked[i][j] = 0;
+		}
+	}
+	
+	//place wall
+	if(w.horizontal == 1){
+		for(i = w.position.x; i <= w.position.x + 4; i++){
+			game_matrix[w.position.y][i] = 3;
+		}
+	}
+	else {
+		for(i = w.position.y; i <= w.position.y + 4; i++){
+			game_matrix[i][w.position.x] = 3;
+		}
+	}
+	// check
+	check_available_path(p2.position.y, p2.position.x, &found1,p2.id,marked);
+	
+	if(found1 == 0) {
+		//delete wall
+		if(w.horizontal == 1){
+			for(i = w.position.x; i <= w.position.x + 4; i++){
+				game_matrix[w.position.y][i] = 0;
+			}
+		}
+		else {
+			for(i = w.position.y; i <= w.position.y + 4; i++){
+				game_matrix[i][w.position.x] = 0;
+			}
+		}
+		return;
+	};
+	
+	for(i=0;i<7;i++){
+		for(j=0;j<7;j++){
+			marked[i][j] = 0;
+		}
+	}
+	check_available_path(p1.position.y, p1.position.x, &found2,p1.id,marked);
+	
+	if(found2 == 0){
+		//delete wall
+		if(w.horizontal == 1){
+			for(i = w.position.x; i <= w.position.x + 4; i++){
+				game_matrix[w.position.y][i] = 0;
+			}
+		}
+		else {
+			for(i = w.position.y; i <= w.position.y + 4; i++){
+				game_matrix[i][w.position.x] = 0;
+			}
+		}
+		return;
+	}
+
 	
 	if(turn == 1){
 		p1.available_walls--;
@@ -704,7 +805,7 @@ void delete_wall(int x, int y){
 		if(game_matrix[converted_y + 4][converted_x] == 3 && game_matrix[converted_y + 7][converted_x] == 3){
 			DrawWallVerticalThroughIndex(x,y + 2,Blue2);
 		}
-		if(game_matrix[converted_y - 2][converted_x] == 3 && game_matrix[converted_y + 2][converted_x] == 3){
+		if(converted_y >= 2 && converted_y <= 12 && game_matrix[converted_y - 2][converted_x] == 3 && game_matrix[converted_y + 2][converted_x] == 3){
 			DrawWallVerticalThroughIndex(x,y - 1,Blue2);
 		}
 
