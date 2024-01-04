@@ -3,20 +3,20 @@
 
 uint16_t index_color_map_white_pawn[] = {
 
-	0x7c37, // BGCOLOR 0
-	0x0000, // BORDER COLOR 1
-	0x9d58, // WHITE 2
-	0xc69b, // PRIMARY GREY 3 
-	0xffff, //SECONDARY GREY 4
+	0x7c37, // BGCOLOR
+	0x0000, // BORDER COLOR
+	0x9d58, // SECONDARY GREY
+	0xc69b, // PRIMARY GREY 
+	0xffff, //WHITE
 };
 
 uint16_t index_color_map_red_pawn[] = {
 
-	0x7c37, // BGCOLOR 0
-	0x0000, // BORDER COLOR 1
-	0xa000, // RED 2
-	0xfc10, // PRIMARY RED 3 
-	0xf000, //SECONDARY GREY 4
+	0x7c37, // BGCOLOR
+	0x0000, // BORDER COLOR
+	0xa000, // SECONDARY RED
+	0xfc10, // PRIMARY RED 
+	0xf000, //RED
 };
 
 int pawn[26][26] = {

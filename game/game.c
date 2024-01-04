@@ -46,25 +46,25 @@ void find_possible_moves(volatile Player *p){
 	if(current_position_x == last_position_x && current_position_y == last_position_y){
 			// x
 		if(last_position_x == 1 && game_matrix[last_position_y][last_position_x + 1] != 3){
-			ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow);
+			ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow2);
 		}
 		if(last_position_x == 13 && game_matrix[last_position_y][last_position_x - 1] != 3){
-			ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
+			ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow2);
 		}
 		if(turn == 1){
 			if(game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 2){
-				ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
+				ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow2);
 			}
 			if(game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 2){
-				ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow);
+				ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow2);
 			}
 		}
 		else {
 			if(game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 1){
-				ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow);
+				ColorSquareThroughIndex(initial_x - 1, initial_y, Yellow2);
 			}
 			if(game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 1){
-				ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow);
+				ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow2);
 			}
 		}
 
@@ -76,33 +76,33 @@ void find_possible_moves(volatile Player *p){
 		if(p->id == 1){
 			if(last_position_y == 13){
 				if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] != 2){
-					ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
+					ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow2);
 				}
 				else if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] == 2 && game_matrix[last_position_y - 3][last_position_x] != 3 ){
-					ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
+					ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow2);
 				}
 			}
 			// avoid overlap the opponent
 			else {
 				if(game_matrix[last_position_y + 2][last_position_x] != 2){
 					if(game_matrix[last_position_y + 1][last_position_x] != 3){
-						ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+						ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow2);
 					}
 				}
 				else {
 					if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
-						ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
+						ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow2);
 					}
 				}
 				if(last_position_y >= 2){
 					if(game_matrix[last_position_y - 2][last_position_x] != 2){
 						if( game_matrix[last_position_y - 1][last_position_x] != 3){
-							ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
+							ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow2);
 						}
 					}
 					else {
 						if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
-							ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
+							ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow2);
 						}
 					}
 				}
@@ -113,33 +113,33 @@ void find_possible_moves(volatile Player *p){
 		if(p->id == 2){
 			if(last_position_y == 1){
 				if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] != 1){
-					ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+					ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow2);
 				}
 				else if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] == 1 && game_matrix[last_position_y + 3][last_position_x] != 3){
-					ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
+					ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow2);
 				}
 			}
 			else {
 				// avoid overlap the opponent
 				if(game_matrix[last_position_y + 2][last_position_x] != 1){
 					if(game_matrix[last_position_y + 1][last_position_x] != 3){
-						ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+						ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow2);
 					}
 				}
 				else {
 					if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
-						ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
+						ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow2);
 					}
 				}
 				if(last_position_y >= 2){
 					if(game_matrix[last_position_y - 2][last_position_x] != 1){
 						if(game_matrix[last_position_y - 1][last_position_x] != 3){
-							ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
+							ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow2);
 						}
 					}
 					else {
 						if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
-							ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
+							ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow2);
 						}
 					}
 				}
@@ -149,7 +149,7 @@ void find_possible_moves(volatile Player *p){
 	}
 	else {
 		if((current_position_x == last_position_x - 2) || (current_position_x == last_position_x + 2) || (current_position_y == last_position_y - 2) || (current_position_y == last_position_y + 2) || (current_position_y == last_position_y - 4) || (current_position_y == last_position_y + 4)){
-			ColorSquareThroughIndex(initial_x,initial_y,Yellow);
+			ColorSquareThroughIndex(initial_x,initial_y,Yellow2);
 		}
 	
 	}
@@ -275,7 +275,7 @@ void reset_possible_moves(volatile Player *p){
 	}
 	else {
 		if((current_position_x == last_position_x - 2) || (current_position_x == last_position_x + 2) || (current_position_y == last_position_y - 2) || (current_position_y == last_position_y + 2) || (current_position_y == last_position_y - 4) || (current_position_y == last_position_y + 4)){
-			ColorSquareThroughIndex(initial_x,initial_y,Yellow);
+			ColorSquareThroughIndex(initial_x,initial_y,Yellow2);
 		}
 	}
 
