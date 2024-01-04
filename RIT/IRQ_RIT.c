@@ -46,10 +46,10 @@ void RIT_IRQHandler (void)
 		up++;
 		switch(up){
 			case 1:
-				if(move_mode){
+				if(move_mode == 1){
 					turn == 1 ? move_player(&p1,'u') : move_player(&p2,'u');
 				}
-				else {
+				else if(move_mode == 0){
 					move_wall('u');
 				}
 				break;
@@ -68,10 +68,10 @@ void RIT_IRQHandler (void)
 		down++;
 		switch(down){
 			case 1:
-				if(move_mode){
+				if(move_mode == 1){
 					turn == 1 ? move_player(&p1,'d') : move_player(&p2,'d');
 				}
-				else {
+				else if(move_mode == 0){
 					move_wall('d');
 				}
 				break;
@@ -90,10 +90,10 @@ void RIT_IRQHandler (void)
 		left++;
 		switch(left){
 			case 1:
-				if(move_mode){
+				if(move_mode == 1){
 					turn == 1 ? move_player(&p1,'l') : move_player(&p2,'l');
 				}
-				else {
+				else if(move_mode == 0){
 					move_wall('l');
 				}
 				break;
@@ -112,10 +112,10 @@ void RIT_IRQHandler (void)
 		right++;
 		switch(right){
 			case 1:
-				if(move_mode){
+				if(move_mode == 1){
 					turn == 1 ? move_player(&p1,'r') : move_player(&p2,'r');
 				}
-				else {
+				else if(move_mode == 0){
 					move_wall('r');
 				}
 				break;
@@ -134,10 +134,10 @@ void RIT_IRQHandler (void)
 		select++;
 		switch(select){
 			case 1:
-				if(move_mode){
+				if(move_mode == 1){
 					turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
 				}
-				else {
+				else if(move_mode == 0){
 					confirm_wall();
 				}
 				break;
@@ -180,7 +180,7 @@ void RIT_IRQHandler (void)
 		if((LPC_GPIO2->FIOPIN & (1<<11)) == 0){	/* KEY1 pressed */
 			switch(pressedK1){				
 				case 2:
-					switch_mode();
+					if(move_mode != -1) switch_mode();
 					break;
 				default:
 					break;

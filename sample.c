@@ -47,8 +47,8 @@ int main(void)
 	init_RIT(0x004C4B40);									/* RIT Initialization 50 msec       */
 	enable_RIT();
 	
-	GUI_Text(20, 10, (uint8_t *) "Premi INT0 per iniziare", Black, White);
-	GUI_Text(20, 30, (uint8_t *) "una nuova partita", Black, White);
+	GUI_Text(20, 10, (uint8_t *) "Press INT0 to start a new", Black, White);
+	GUI_Text(20, 30, (uint8_t *) "match", Black, White);
 
 	init_timer(0, 0x000F4240); 						    /* Timer0 initialization 1 s */
 	

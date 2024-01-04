@@ -69,8 +69,11 @@ void find_possible_moves(volatile Player *p){
 	
 	if(p->id == 1){
 		if(last_position_y == 13){
-			if(game_matrix[last_position_y - 1][last_position_x] != 3){
+			if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] != 2){
 				ColorSquareThroughIndex(initial_x, initial_y - 1, Yellow);
+			}
+			else if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] == 2 && game_matrix[last_position_y - 3][last_position_x] != 3 ){
+				ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
 			}
 		}
 		// avoid overlap the opponent
@@ -81,7 +84,7 @@ void find_possible_moves(volatile Player *p){
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
 				}
 			}
@@ -92,7 +95,7 @@ void find_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
 					}
 				}
@@ -103,8 +106,11 @@ void find_possible_moves(volatile Player *p){
 	
 	if(p->id == 2){
 		if(last_position_y == 1){
-			if(game_matrix[last_position_y + 1][last_position_x] != 3){
+			if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] != 1){
 				ColorSquareThroughIndex(initial_x, initial_y + 1, Yellow);
+			}
+			else if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] == 1 && game_matrix[last_position_y + 3][last_position_x] != 3){
+				ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
 			}
 		}
 		else {
@@ -115,7 +121,7 @@ void find_possible_moves(volatile Player *p){
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, Yellow);
 				}
 			}
@@ -126,7 +132,7 @@ void find_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, Yellow);
 					}
 				}
@@ -168,25 +174,31 @@ void reset_possible_moves(volatile Player *p){
 			ColorSquareThroughIndex(initial_x + 1, initial_y, White);
 		}
 	}
+
+
 	
 	
 	// y
 	
 	if(p->id == 1){
 		if(last_position_y == 13){
-			if(game_matrix[last_position_y - 1][last_position_x] != 3){
+			if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] != 2){
 				ColorSquareThroughIndex(initial_x, initial_y - 1, White);
+			}
+			else if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] == 2 && game_matrix[last_position_y - 3][last_position_x] != 3 ){
+				ColorSquareThroughIndex(initial_x, initial_y - 2, White);
 			}
 		}
 		// avoid overlap the opponent
 		else {
+			// TODO no reset if win
 			if(game_matrix[last_position_y + 2][last_position_x] != 2){
 				if(game_matrix[last_position_y + 1][last_position_x] != 3){
 					ColorSquareThroughIndex(initial_x, initial_y + 1, White);
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, White);
 				}
 			}
@@ -197,7 +209,7 @@ void reset_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, White);
 					}
 				}
@@ -208,8 +220,11 @@ void reset_possible_moves(volatile Player *p){
 	
 	if(p->id == 2){
 		if(last_position_y == 1){
-			if(game_matrix[last_position_y + 1][last_position_x] != 3){
+			if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] != 1){
 				ColorSquareThroughIndex(initial_x, initial_y + 1, White);
+			}
+			else if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] == 1 && game_matrix[last_position_y + 3][last_position_x] != 3){
+				ColorSquareThroughIndex(initial_x, initial_y + 2, White);
 			}
 		}
 		else {
@@ -220,7 +235,7 @@ void reset_possible_moves(volatile Player *p){
 				}
 			}
 			else {
-				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
+				if(game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
 					ColorSquareThroughIndex(initial_x, initial_y + 2, White);
 				}
 			}
@@ -231,14 +246,13 @@ void reset_possible_moves(volatile Player *p){
 					}
 				}
 				else {
-					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
+					if(game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
 						ColorSquareThroughIndex(initial_x, initial_y - 2, White);
 					}
 				}
 			}
 		}
 	}
-
 
 }
 
@@ -393,7 +407,7 @@ void move_player(Player *p, char move){
 				moveTo(converted_x, converted_y, converted_x, converted_y - 1, id);
 			}
 			else if(check_move_validity(current_x, current_y - 2, last_position_x, last_position_y) == 2 ){
-				if(game_matrix[current_y - 1][current_x] == 3 || game_matrix[current_y - 3][current_x] == 3) break;
+				if(game_matrix[current_y - 1][current_x] == 3 || game_matrix[current_y - 3][current_x] == 3 || current_y < 5) break;
 				reset_possible_moves(p);
 				p->current_position.y = current_y - 4;
 				moveTo(converted_x, converted_y, converted_x, converted_y - 2, id);
@@ -407,7 +421,7 @@ void move_player(Player *p, char move){
 				moveTo(converted_x, converted_y, converted_x, converted_y + 1, id);
 			}
 			else if(check_move_validity(current_x, current_y + 2, last_position_x, last_position_y) == 2){
-				if(game_matrix[current_y + 1][current_x] == 3 || game_matrix[current_y + 3][current_x] == 3) break;
+				if(game_matrix[current_y + 1][current_x] == 3 || game_matrix[current_y + 3][current_x] == 3 || current_y > 9) break;
 				reset_possible_moves(p);
 				p->current_position.y = current_y + 4;
 				moveTo(converted_x, converted_y, converted_x, converted_y + 2, id);
@@ -420,14 +434,6 @@ void move_player(Player *p, char move){
 				p->current_position.x = current_x - 2;
 				moveTo(converted_x, converted_y, converted_x - 1, converted_y, id);
 			}
-			/*
-			else if(check_move_validity(current_x - 2, current_y, last_position_x, last_position_y ) == 2){
-				if(game_matrix[current_y][current_x - 1] == 3) break;
-				reset_possible_moves(p);
-				p->current_position.x = current_x - 4;
-				moveTo(converted_x, converted_y, converted_x - 2, converted_y, id);
-			}
-			*/
 			break;
 		case 'r':
 			if(check_move_validity(current_x + 2, current_y, last_position_x, last_position_y ) == 1){
@@ -436,14 +442,6 @@ void move_player(Player *p, char move){
 				p->current_position.x = current_x + 2;
 				moveTo(converted_x, converted_y, converted_x + 1, converted_y, id);
 			}
-			/*
-			else if(check_move_validity(current_x + 2, current_y, last_position_x, last_position_y ) == 2){
-				if(game_matrix[current_y][current_x + 1] == 3) break;
-				reset_possible_moves(p);
-				p->current_position.x = current_x + 4;
-				moveTo(converted_x, converted_y, converted_x + 2, converted_y, id);
-			}
-			*/
 			break;
 		default:
 			break;
@@ -460,6 +458,11 @@ void confirm_move(volatile Player *p){
 	p->position.x = p->current_position.x;
 	p->position.y = p->current_position.y;
 	game_matrix[p->position.y][p->position.x] = id;
+	// check if the player wins
+	if((turn == 1 && p->position.y == 1) || (turn == 2 && p->position.y == 13)){
+		win_screen();
+		return;
+	}
 	reset_possible_moves(p);
 	switch_turn();
 
@@ -480,7 +483,7 @@ void switch_turn(void){
 }
 
 void switch_mode(void){
-	if(move_mode){
+	if(move_mode == 1){
 		if(turn == 1 && p1.available_walls == 0){
 			GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, Red);
 			GUI_Text(10, 300, (unsigned char*) "token", White, Red);
@@ -817,7 +820,7 @@ void confirm_choice(void){
 	int converted_x = convert_index_bts(w.position.x);
 	int converted_y = convert_index_bts(w.position.y);
 	
-	if(move_mode){
+	if(move_mode == 1){
 		turn == 1 ? confirm_move(&p1) : confirm_move(&p2);
 	}
 	else {
@@ -826,3 +829,23 @@ void confirm_choice(void){
 	}
 
 }
+
+// win screen
+
+void win_screen(void){
+
+	disable_timer(0);
+	move_mode = -1;
+	ColorRectangle(55,87,96,128,0x4d7f);
+	if(turn == 1){
+		GUI_Text(70, 110, (unsigned char*) "PLAYER1", White, 0x4d7f);
+		GUI_Text(135, 110, (unsigned char*) "WINS!", Black, 0x4d7f);
+	}
+	else {
+		GUI_Text(70, 110, (unsigned char*) "PLAYER2", Red, 0x4d7f);
+		GUI_Text(135, 110, (unsigned char*) "WINS!", Black, 0x4d7f);
+	}
+	GUI_Text(65, 140, (unsigned char*) "Press INT0 for", Black, 0x4d7f);
+	GUI_Text(90, 155, (unsigned char*) "rematch.", Black, 0x4d7f);
+}
+
