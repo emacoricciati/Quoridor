@@ -24,6 +24,7 @@
 #include "AsciiLib.h"
 #include "../timer/timer.h"
 #include "../game/game.h"
+#include "../game/game_assets.h"
 
 extern Player p1, p2;
 int size_square = 27;
@@ -726,12 +727,7 @@ void ColorSquareThroughIndex(int i, int j, uint16_t color){
 void moveTo(int x, int y, int new_x, int new_y, int id){
 
 	ColorSquareThroughIndex(x,y, White);
-	if(id == 1){
-		ColorSquareThroughIndex(new_x,new_y, Blue);
-	}
-	else if(id == 2){
-		ColorSquareThroughIndex(new_x,new_y, Red);
-	}
+	DrawPawn(new_x,new_y, id);
 
 }
 
@@ -754,8 +750,8 @@ void display_grid(void){
 		}
 	}
 	
-	ColorSquareThroughIndex(3,0, Red);
-	ColorSquareThroughIndex(3,6, Blue);
+	DrawPawn(3,0, 2);
+	DrawPawn(3,6, 1);
 	
 	for(i = 0; i<3; i++){
 		DrawRectangle(offset + i*66 + i*10, 240, 40, 66);
@@ -771,6 +767,27 @@ void display_grid(void){
 	GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	
 }
+
+void DrawPawn(int i, int j, int id){
+	
+	int x,y;
+	
+	if(id == 1){
+		for(x = 0; x < 26; x++){
+			for(y = 0; y < 26; y++){
+				LCD_SetPoint((i*size_square + i*margin + offset) + y + 1,(j*size_square + j*margin + offset) + x + 1,index_color_map_white_pawn[pawn[x][y]]);
+			}
+		}
+	}
+	else {
+		for(x = 0; x < 26; x++){
+			for(y = 0; y < 26; y++){
+				LCD_SetPoint((i*size_square + i*margin + offset) + y + 1,(j*size_square + j*margin + offset) + x + 1,index_color_map_red_pawn[pawn[x][y]]);
+			}
+		}
+	}
+}
+
 
 
 

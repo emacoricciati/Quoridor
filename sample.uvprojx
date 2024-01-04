@@ -548,6 +548,11 @@
               <FileType>1</FileType>
               <FilePath>.\game\game.c</FilePath>
             </File>
+            <File>
+              <FileName>game_assets.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\game\game_assets.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
