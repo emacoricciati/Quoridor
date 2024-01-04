@@ -612,7 +612,7 @@ void enable_wall_mode(void){
 
 		turn == 1 ? reset_possible_moves(&p1) : reset_possible_moves(&p2);
 		init_wall();
-		DrawWallHorizontalThroughIndex(3,3, Red);
+		DrawWallHorizontalThroughIndex(3,3, Brown2);
 }
 
 void enable_move_mode(void){
@@ -644,12 +644,12 @@ void rotate_wall(void){
 	if(w.horizontal == 1 && x != 0){
 		delete_wall(converted_x,converted_y);
 		w.horizontal = 0;
-		DrawWallVerticalThroughIndex(converted_x,converted_y,Red);
+		DrawWallVerticalThroughIndex(converted_x,converted_y,Brown2);
 	}
 	else if(w.horizontal == 0 && y != 0 ) {
 		delete_wall(converted_x,converted_y);
 		w.horizontal = 1;
-		DrawWallHorizontalThroughIndex(converted_x,converted_y,Red);
+		DrawWallHorizontalThroughIndex(converted_x,converted_y,Brown2);
 	}
 }
 
@@ -657,11 +657,11 @@ void moveWall(int x, int y, int new_x, int new_y){
 	
 	if(w.horizontal == 1){
 		delete_wall(x,y);
-		DrawWallHorizontalThroughIndex(new_x,new_y, Red);
+		DrawWallHorizontalThroughIndex(new_x,new_y, Brown2);
 	}
 	else {
 		delete_wall(x,y);
-		DrawWallVerticalThroughIndex(new_x,new_y, Red);
+		DrawWallVerticalThroughIndex(new_x,new_y, Brown2);
 	}
 
 }
@@ -767,13 +767,13 @@ void confirm_wall(void){
 		GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	}
 	if(w.horizontal == 1){
-		DrawWallHorizontalThroughIndex(converted_x,converted_y, Blue2);
+		DrawWallHorizontalThroughIndex(converted_x,converted_y, Brown);
 		for(i = w.position.x; i <= w.position.x + 4; i++){
 			game_matrix[w.position.y][i] = 3;
 		}
 	}
 	else {
-		DrawWallVerticalThroughIndex(converted_x,converted_y, Blue2);
+		DrawWallVerticalThroughIndex(converted_x,converted_y, Brown);
 		for(i = w.position.y; i <= w.position.y + 4; i++){
 			game_matrix[i][w.position.x] = 3;
 		}
@@ -791,50 +791,50 @@ void delete_wall(int x, int y){
 		DrawWallHorizontalThroughIndex(x,y,White);
 		//Check if there are other walls
 		if(game_matrix[converted_y][converted_x] == 3 && game_matrix[converted_y][converted_x + 3] == 3){
-			DrawWallHorizontalThroughIndex(x,y,Blue2);
+			DrawWallHorizontalThroughIndex(x,y,Brown);
 		}
 		else if(game_matrix[converted_y - 2][converted_x] == 3 && game_matrix[converted_y + 1][converted_x] == 3){
-			DrawWallVerticalThroughIndex(x,y - 1,Blue2);
+			DrawWallVerticalThroughIndex(x,y - 1,Brown);
 		}
 		if(game_matrix[converted_y - 2][converted_x + 2] == 3 && game_matrix[converted_y + 1][converted_x + 2] == 3){
-			DrawWallVerticalThroughIndex(x + 1,y - 1,Blue2);
+			DrawWallVerticalThroughIndex(x + 1,y - 1,Brown);
 		}
 		if(game_matrix[converted_y - 2][converted_x + 4] == 3 && game_matrix[converted_y + 1][converted_x + 4] == 3){
-			DrawWallVerticalThroughIndex(x + 2,y - 1,Blue2);
+			DrawWallVerticalThroughIndex(x + 2,y - 1,Brown);
 		}
 		if(game_matrix[converted_y][converted_x + 2] == 3 && game_matrix[converted_y][converted_x + 5] == 3){
-			DrawWallHorizontalThroughIndex(x + 1,y,Blue2);
+			DrawWallHorizontalThroughIndex(x + 1,y,Brown);
 		}
 		if(game_matrix[converted_y][converted_x + 4] == 3 && game_matrix[converted_y][converted_x + 7] == 3){
-			DrawWallHorizontalThroughIndex(x + 2,y,Blue2);
+			DrawWallHorizontalThroughIndex(x + 2,y,Brown);
 		}
 		if(game_matrix[converted_y][converted_x - 2] == 3 && game_matrix[converted_y][converted_x + 2] == 3){
-			DrawWallHorizontalThroughIndex(x - 1,y,Blue2);
+			DrawWallHorizontalThroughIndex(x - 1,y,Brown);
 		}
 		
 	}
 	else if(w.horizontal == 0){
 		DrawWallVerticalThroughIndex(x,y,White);
 		if(game_matrix[converted_y][converted_x] == 3 && game_matrix[converted_y + 3][converted_x] == 3){
-			DrawWallVerticalThroughIndex(x,y,Blue2);
+			DrawWallVerticalThroughIndex(x,y,Brown);
 		}
 		else if(game_matrix[converted_y][converted_x - 2] == 3 && game_matrix[converted_y][converted_x + 1] == 3){
-			DrawWallHorizontalThroughIndex(x - 1,y,Blue2);
+			DrawWallHorizontalThroughIndex(x - 1,y,Brown);
 		}
 		if(game_matrix[converted_y + 2][converted_x - 2] == 3 && game_matrix[converted_y + 2][converted_x + 1] == 3){
-			DrawWallHorizontalThroughIndex(x - 1,y + 1,Blue2);
+			DrawWallHorizontalThroughIndex(x - 1,y + 1,Brown);
 		}
 		if(game_matrix[converted_y + 4][converted_x - 2] == 3 && game_matrix[converted_y + 4][converted_x + 1] == 3){
-			DrawWallHorizontalThroughIndex(x - 1,y + 2,Blue2);
+			DrawWallHorizontalThroughIndex(x - 1,y + 2,Brown);
 		}
 		if(game_matrix[converted_y + 2][converted_x] == 3 && game_matrix[converted_y + 5][converted_x] == 3){
-			DrawWallVerticalThroughIndex(x,y + 1,Blue2);
+			DrawWallVerticalThroughIndex(x,y + 1,Brown);
 		}
 		if(game_matrix[converted_y + 4][converted_x] == 3 && game_matrix[converted_y + 7][converted_x] == 3){
-			DrawWallVerticalThroughIndex(x,y + 2,Blue2);
+			DrawWallVerticalThroughIndex(x,y + 2,Brown);
 		}
 		if(converted_y >= 2 && converted_y <= 12 && game_matrix[converted_y - 2][converted_x] == 3 && game_matrix[converted_y + 2][converted_x] == 3){
-			DrawWallVerticalThroughIndex(x,y - 1,Blue2);
+			DrawWallVerticalThroughIndex(x,y - 1,Brown);
 		}
 
 	}
