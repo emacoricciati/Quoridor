@@ -64,6 +64,10 @@ void TIMER0_IRQHandler (void)
 ******************************************************************************/
 void TIMER1_IRQHandler (void)
 {
+	//delete warning -> longer sentence
+	GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, White);
+	GUI_Text(10, 300, (unsigned char*) "token!", White, White);
+	disable_timer(1);
   LPC_TIM1->IR = 1;			/* clear interrupt flag */
   return;
 }

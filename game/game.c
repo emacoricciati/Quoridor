@@ -418,7 +418,6 @@ void move_player(Player *p, char move){
 	// delete warning 
 	
 	if(p1.available_walls == 0 || p2.available_walls == 0){
-		// ColorRectangle(0,284,36,240,White);
 		GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, White);
 		GUI_Text(10, 300, (unsigned char*) "token", White, White);
 	}
@@ -512,11 +511,13 @@ void switch_mode(void){
 		if(turn == 1 && p1.available_walls == 0){
 			GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, Red);
 			GUI_Text(10, 300, (unsigned char*) "token", White, Red);
+			enable_timer(1);
 			return;
 		}
 		else if(turn == 2 && p2.available_walls == 0){
 			GUI_Text(10, 285, (unsigned char*) "No walls available, move the", White, Red);
 			GUI_Text(10, 300, (unsigned char*) "token", White, Red);
+			enable_timer(1);
 			return;
 		}
 		if(turn == 1 && equal_position(p1.current_position,p1.position)){
@@ -719,12 +720,16 @@ void confirm_wall(void){
 	check_available_path(p2.position.y, p2.position.x, &found1,p2.id,marked);
 	
 	if(found1 == 0) {
+		GUI_Text(10, 285, (unsigned char*) "Do not trap players with", White, Red);
+		GUI_Text(10, 300, (unsigned char*) "walls!", White, Red);
+		enable_timer(1);
 		//delete wall
 		if(w.horizontal == 1){
 			for(i = w.position.x; i <= w.position.x + 4; i++){
 				game_matrix[w.position.y][i] = 0;
 			}
 		}
+		// TODO out of matrix -> but it was horizontal
 		else {
 			for(i = w.position.y; i <= w.position.y + 4; i++){
 				game_matrix[i][w.position.x] = 0;
@@ -741,6 +746,9 @@ void confirm_wall(void){
 	check_available_path(p1.position.y, p1.position.x, &found2,p1.id,marked);
 	
 	if(found2 == 0){
+		GUI_Text(10, 285, (unsigned char*) "Do not trap players with", White, Red);
+		GUI_Text(10, 300, (unsigned char*) "walls!", White, Red);
+		enable_timer(1);
 		//delete wall
 		if(w.horizontal == 1){
 			for(i = w.position.x; i <= w.position.x + 4; i++){
