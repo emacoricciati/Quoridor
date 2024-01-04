@@ -274,7 +274,7 @@ void reset_possible_moves(volatile Player *p){
 		}
 	}
 	else {
-		if((current_position_x == last_position_x - 2) || (current_position_x == last_position_x + 2) || (current_position_y == last_position_y - 2) || (current_position_y == last_position_y + 2)){
+		if((current_position_x == last_position_x - 2) || (current_position_x == last_position_x + 2) || (current_position_y == last_position_y - 2) || (current_position_y == last_position_y + 2) || (current_position_y == last_position_y - 4) || (current_position_y == last_position_y + 4)){
 			ColorSquareThroughIndex(initial_x,initial_y,Yellow);
 		}
 	}
