@@ -12,7 +12,7 @@ volatile Wall w;
 
 volatile int turn = 1;
 
-volatile int move_mode = 1;
+volatile int move_mode = -1;
 
 extern int timer0_count;
 
@@ -482,12 +482,12 @@ void confirm_move(volatile Player *p){
 	p->position.x = p->current_position.x;
 	p->position.y = p->current_position.y;
 	game_matrix[p->position.y][p->position.x] = id;
+	reset_possible_moves(p);
 	// check if the player wins
 	if((turn == 1 && p->position.y == 1) || (turn == 2 && p->position.y == 13)){
 		win_screen();
 		return;
 	}
-	reset_possible_moves(p);
 	switch_turn();
 
 }
