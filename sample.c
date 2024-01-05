@@ -28,6 +28,7 @@
 #include "button_EXINT/button.h"
 #include "RIT/RIT.h"
 #include "joystick/joystick.h"
+#include "game/game.h"
 
 #define SIMULATOR 1
 
@@ -46,12 +47,10 @@ int main(void)
 	joystick_init();
 	init_RIT(0x004C4B40);									/* RIT Initialization 50 msec       */
 	enable_RIT();
-	
-	GUI_Text(20, 10, (uint8_t *) "Press INT0 to start a new", Black, White);
-	GUI_Text(20, 30, (uint8_t *) "match", Black, White);
-
 	init_timer(0, 0x000F4240); 						    /* Timer0 initialization 1 s */ // TODO FAKE!!!
-	init_timer(1, 0x00E4E1C0); 						    /* Timer1 initialization 1 s */ //TIM0 * 15
+	init_timer(1, 0x00E4E1C0); 						    /* Timer1 initialization 15 s */ //TIM0 * 15
+	
+	initial_screen();
 	
 	LPC_SC->PCON |= 0x1;									/* power-down	mode										*/
 	LPC_SC->PCON &= ~(0x2);						

@@ -156,12 +156,7 @@ void RIT_IRQHandler (void)
 		if((LPC_GPIO2->FIOPIN & (1<<10)) == 0){	/* INT0 pressed */
 			switch(pressed){				
 				case 2:
-					LCD_Clear(White);
-					reset_clock();
-					init_game_matrix();
-					init_players();
-					display_grid();
-					turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
+					game_setup();
 					break;
 				default:
 					break;

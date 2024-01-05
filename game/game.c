@@ -868,17 +868,46 @@ void confirm_choice(void){
 void win_screen(void){
 
 	disable_timer(0);
+	reset_timer(0);
+	disable_timer(1);
+	reset_timer(1);
 	move_mode = -1;
-	ColorRectangle(55,87,96,128,0x4d7f);
+	ColorRectangle(55,87,96,128,0x7c37);
 	if(turn == 1){
-		GUI_Text(70, 110, (unsigned char*) "PLAYER1", White, 0x4d7f);
-		GUI_Text(135, 110, (unsigned char*) "WINS!", Black, 0x4d7f);
+		GUI_Text(70, 110, (unsigned char*) "PLAYER1", White, 0x7c37);
+		GUI_Text(135, 110, (unsigned char*) "WINS!", Black, 0x7c37);
 	}
 	else {
-		GUI_Text(70, 110, (unsigned char*) "PLAYER2", Red, 0x4d7f);
-		GUI_Text(135, 110, (unsigned char*) "WINS!", Black, 0x4d7f);
+		GUI_Text(70, 110, (unsigned char*) "PLAYER2", Red, 0x7c37);
+		GUI_Text(135, 110, (unsigned char*) "WINS!", Black, 0x7c37);
 	}
-	GUI_Text(65, 140, (unsigned char*) "Press INT0 for", Black, 0x4d7f);
-	GUI_Text(90, 155, (unsigned char*) "rematch.", Black, 0x4d7f);
+	GUI_Text(65, 140, (unsigned char*) "Press INT0 for", Black, 0x7c37);
+	GUI_Text(90, 155, (unsigned char*) "rematch.", Black, 0x7c37);
+}
+
+// initial screen
+
+void initial_screen(void){
+
+	GUI_Text(65, 100, (uint8_t *) "QUORIDOR GAME", White, Black);
+	GUI_Text(35, 130, (uint8_t *) "Press INT0 to start a", Black, White);
+	GUI_Text(90, 150, (uint8_t *) "match", Black, White);
+
+}
+
+void game_setup(void){
+
+	LCD_Clear(White);
+	// reset_clock(); TODO
+	init_game_matrix();
+	init_players();
+	init_wall();
+	enable_timer(0);
+	enable_timer(1);
+	move_mode = 1;
+	turn = 1;
+	display_grid();
+	turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
+
 }
 
