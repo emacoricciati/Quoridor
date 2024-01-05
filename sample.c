@@ -24,7 +24,7 @@
 #include "LPC17xx.h"
 #include "GLCD/GLCD.h" 
 #include "timer/timer.h"
-#include  "GLCD/HzLib.h"
+#include "GLCD/HzLib.h"
 #include "button_EXINT/button.h"
 #include "RIT/RIT.h"
 #include "joystick/joystick.h"

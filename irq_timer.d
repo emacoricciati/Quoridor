@@ -10,6 +10,4 @@
 .\irq_timer.o: C:\Users\Ema\AppData\Local\Arm\Packs\Keil\LPC1700_DFP\2.7.1\Device\Include\system_LPC17xx.h
 .\irq_timer.o: timer\timer.h
 .\irq_timer.o: timer\../GLCD/GLCD.h
-.\irq_timer.o: timer\../TouchPanel/TouchPanel.h
-.\irq_timer.o: timer\../time/time.h
 .\irq_timer.o: timer\../game/game.h

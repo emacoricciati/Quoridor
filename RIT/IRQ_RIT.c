@@ -11,7 +11,6 @@
 #include "RIT.h"
 #include "../GLCD/GLCD.h"
 #include "../timer/timer.h"
-#include "../time/time.h"
 #include "../game/game.h"
 
 extern Player p1,p2;

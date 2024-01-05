@@ -130,7 +130,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=617,310,1002,866,0)(1007=36,258,213,523,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)(350=249,501,488,745,0)(250=-1,-1,-1,-1,0)(270=37,106,229,237,0)(313=0,75,864,600,0)(291=868,573,1171,748,0)(302=871,120,1123,559,0)(110=1024,4,1360,322,0)(113=-1,-1,-1,-1,0)(320=1131,332,1362,650,0)(210=-1,-1,-1,-1,0)(330=22,102,393,719,0)(332=-1,-1,-1,-1,0)(333=116,345,704,540,0)(334=513,568,1101,763,0)(335=-1,-1,-1,-1,0)(336=-1,-1,-1,-1,0)(345=-1,-1,-1,-1,0)(346=-1,-1,-1,-1,0)(381=-1,-1,-1,-1,0)(382=-1,-1,-1,-1,0)(383=-1,-1,-1,-1,0)(384=-1,-1,-1,-1,0)(197=-1,-1,-1,-1,0)(198=-1,-1,-1,-1,0)(191=-1,-1,-1,-1,0)(192=-1,-1,-1,-1,0)(199=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(261=-1,-1,-1,-1,0)(262=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(121=201,313,727,817,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(170=670,440,923,716,0)(142=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(400=-1,-1,-1,-1,0)(370=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(280=672,193,1114,768,0)(240=747,258,1114,455,0)(1000=642,145,1445,757,0)</Name>
+          <Name>(1010=617,310,1002,866,0)(1007=36,258,213,523,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)(350=249,501,488,745,0)(250=-1,-1,-1,-1,0)(270=37,106,229,237,0)(313=0,75,864,600,0)(291=868,573,1171,748,0)(302=871,120,1123,559,0)(110=1024,4,1360,322,0)(113=-1,-1,-1,-1,0)(320=1131,332,1362,650,0)(210=-1,-1,-1,-1,0)(330=22,102,393,719,0)(332=-1,-1,-1,-1,0)(333=116,345,704,540,0)(334=513,568,1101,763,0)(335=-1,-1,-1,-1,0)(336=-1,-1,-1,-1,0)(345=-1,-1,-1,-1,0)(346=-1,-1,-1,-1,0)(381=-1,-1,-1,-1,0)(382=-1,-1,-1,-1,0)(383=-1,-1,-1,-1,0)(384=-1,-1,-1,-1,0)(197=-1,-1,-1,-1,0)(198=-1,-1,-1,-1,0)(191=-1,-1,-1,-1,0)(192=-1,-1,-1,-1,0)(199=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(261=-1,-1,-1,-1,0)(262=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(121=201,313,727,817,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(170=670,440,923,716,0)(142=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(400=-1,-1,-1,-1,0)(370=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(280=672,193,1114,768,0)(240=747,258,1114,455,0)(1000=542,212,1345,824,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -460,7 +460,7 @@
   </Group>
 
   <Group>
-    <GroupName>TP</GroupName>
+    <GroupName>button_EXINT</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -468,38 +468,6 @@
     <File>
       <GroupNumber>6</GroupNumber>
       <FileNumber>14</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\TouchPanel\TouchPanel.c</PathWithFileName>
-      <FilenameWithoutPath>TouchPanel.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>6</GroupNumber>
-      <FileNumber>15</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\TouchPanel\TouchPanel.h</PathWithFileName>
-      <FilenameWithoutPath>TouchPanel.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>button_EXINT</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>16</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -510,8 +478,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>17</FileNumber>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>15</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -522,8 +490,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>7</GroupNumber>
-      <FileNumber>18</FileNumber>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>16</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -542,8 +510,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>19</FileNumber>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>17</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -554,8 +522,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>20</FileNumber>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>18</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -566,8 +534,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>8</GroupNumber>
-      <FileNumber>21</FileNumber>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>19</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -580,46 +548,14 @@
   </Group>
 
   <Group>
-    <GroupName>time</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>22</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\time\time.c</PathWithFileName>
-      <FilenameWithoutPath>time.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>9</GroupNumber>
-      <FileNumber>23</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\time\time.h</PathWithFileName>
-      <FilenameWithoutPath>time.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
     <GroupName>game</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>24</FileNumber>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>20</FileNumber>
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -630,8 +566,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>25</FileNumber>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>21</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -650,8 +586,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>26</FileNumber>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>22</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -662,8 +598,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>27</FileNumber>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>23</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -674,8 +610,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>28</FileNumber>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>24</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

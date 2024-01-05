@@ -11,8 +11,6 @@
 #include "lpc17xx.h"
 #include "timer.h"
 #include "../GLCD/GLCD.h" 
-#include "../TouchPanel/TouchPanel.h"
-#include "../time/time.h"
 #include "../game/game.h"
 
 volatile int timer0_count = 0;
@@ -36,9 +34,6 @@ void TIMER0_IRQHandler (void)
 	if(timer0_count == 20){
 		timer0_count = 0;
 		confirm_choice();
-	}
-	else {
-		update_clock(1000);
 	}
 	sprintf(str,"%02d s", 20 - timer0_count);
 	if(timer0_count >= 15){

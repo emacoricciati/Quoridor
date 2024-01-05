@@ -10,5 +10,4 @@
 .\irq_rit.o: RIT\RIT.h
 .\irq_rit.o: RIT\../GLCD/GLCD.h
 .\irq_rit.o: RIT\../timer/timer.h
-.\irq_rit.o: RIT\../time/time.h
 .\irq_rit.o: RIT\../game/game.h

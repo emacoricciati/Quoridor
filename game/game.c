@@ -4,8 +4,8 @@
 #include "stdlib.h"
 
 volatile int game_matrix[15][15];
-int marked[7][7];
 
+int marked[7][7];
 volatile Player p1, p2;
 
 volatile Wall w;
@@ -368,6 +368,9 @@ void check_available_path(int i, int j, int* found, int id, int marked[7][7]){
 	int converted_j = convert_index_bts(j);
 	if(*found) return;
 	if(i < 1 || i > 13 || j < 1 || j > 13){
+		return;
+	}
+	if(converted_i < 0 || converted_i > 6 || converted_j < 0 || converted_j > 13){
 		return;
 	}
 	if(marked[converted_i][converted_j] == 1) return;
@@ -898,7 +901,6 @@ void initial_screen(void){
 void game_setup(void){
 
 	LCD_Clear(White);
-	// reset_clock(); TODO
 	init_game_matrix();
 	init_players();
 	init_wall();

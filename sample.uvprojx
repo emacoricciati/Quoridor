@@ -471,21 +471,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>TP</GroupName>
-          <Files>
-            <File>
-              <FileName>TouchPanel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\TouchPanel\TouchPanel.c</FilePath>
-            </File>
-            <File>
-              <FileName>TouchPanel.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\TouchPanel\TouchPanel.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>button_EXINT</GroupName>
           <Files>
             <File>
@@ -522,21 +507,6 @@
               <FileName>RIT.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\RIT\RIT.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>time</GroupName>
-          <Files>
-            <File>
-              <FileName>time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\time\time.c</FilePath>
-            </File>
-            <File>
-              <FileName>time.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\time\time.h</FilePath>
             </File>
           </Files>
         </Group>
