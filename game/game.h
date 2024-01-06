@@ -35,7 +35,7 @@ void switch_mode(void);
 void enable_move_mode(void);
 void init_wall(void);
 void move_wall(char move);
-int check_wall_validity(int new_i, int new_j, int i, int j);
+int check_wall_validity(int new_i, int new_j);
 void moveWall(int x, int y, int new_x, int new_y);
 void rotate_wall(void);
 void confirm_wall(void);

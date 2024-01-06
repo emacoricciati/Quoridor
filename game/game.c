@@ -20,6 +20,22 @@ volatile int move_mode = -1;
 
 extern int timer0_count;
 
+
+
+int convert_index_bts(int i){
+	
+	if(i%2 == 0){
+		return i/2;
+	}
+	return i - i/2 - 1;
+
+}
+
+int convert_index_stb(int i){
+	
+	return 2*i;
+}
+
 void init_game_matrix(void){
 
 	int i, j;
@@ -29,6 +45,40 @@ void init_game_matrix(void){
 			game_matrix[i][j] = 0;
 		}
 	}
+
+}
+
+void init_players(void){
+
+		// p1
+		p1.id = 1;
+		p1.available_walls = 8;
+		p1.current_position.x = 7;
+		p1.current_position.y = 13;
+		p1.position.x = 7;
+		p1.position.y = 13;
+		// p2
+		p2.id = 2;
+		p2.available_walls = 8;
+		p2.current_position.x = 7;
+		p2.current_position.y = 1;
+		p2.position.x = 7;
+		p2.position.y = 1;
+
+}
+
+void game_setup(void){
+
+	LCD_Clear(White);
+	init_game_matrix();
+	init_players();
+	init_wall();
+	enable_timer(0);
+	enable_timer(1);
+	move_mode = 1;
+	turn = 1;
+	display_grid();
+	turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
 
 }
 
@@ -70,9 +120,6 @@ void find_possible_moves(volatile Player *p){
 				ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow2);
 			}
 		}
-
-
-		
 		
 		// y
 		
@@ -196,9 +243,6 @@ void reset_possible_moves(volatile Player *p){
 				ColorSquareThroughIndex(initial_x + 1, initial_y, White);
 			}
 		}
-
-
-		
 		
 		// y
 		
@@ -213,7 +257,6 @@ void reset_possible_moves(volatile Player *p){
 			}
 			// avoid overlap the opponent
 			else {
-				// TODO no reset if win
 				if(game_matrix[last_position_y + 2][last_position_x] != 2){
 					if(game_matrix[last_position_y + 1][last_position_x] != 3){
 						ColorSquareThroughIndex(initial_x, initial_y + 1, White);
@@ -284,39 +327,6 @@ void reset_possible_moves(volatile Player *p){
 
 }
 
-void init_players(void){
-
-		// p1
-		p1.id = 1;
-		p1.available_walls = 8;
-		p1.current_position.x = 7;
-		p1.current_position.y = 13;
-		p1.position.x = 7;
-		p1.position.y = 13;
-		// p2
-		p2.id = 2;
-		p2.available_walls = 8;
-		p2.current_position.x = 7;
-		p2.current_position.y = 1;
-		p2.position.x = 7;
-		p2.position.y = 1;
-
-}
-
-int convert_index_bts(int i){
-	
-	if(i%2 == 0){
-		return i/2;
-	}
-	return i - i/2 - 1;
-
-}
-
-int convert_index_stb(int i){
-	
-	return 2*i;
-}
-
 int check_move_validity(int new_i, int new_j, int i, int j){
 
 	int converted_new_i = convert_index_bts(new_i);
@@ -361,7 +371,6 @@ int check_move_validity(int new_i, int new_j, int i, int j){
 		}
 	}
 	
-
  return 1;
 }
 
@@ -378,6 +387,7 @@ void check_available_path(int i, int j, int* found, int id, int marked[7][7]){
 	}
 	if(marked[converted_i][converted_j] == 1) return;
 	marked[converted_i][converted_j] = 1;
+	
 	// check if there is the other player
 	if(id == 1){
 		if(game_matrix[i][j] == 2){
@@ -560,9 +570,8 @@ void init_wall(void){
 	
 }
 
-int check_wall_validity(int new_i, int new_j, int i, int j){
+int check_wall_validity(int new_i, int new_j){
 	
-	// TODO remove i and j from parameters
 	// out of border
 	if(w.horizontal == 1){
 		if(new_i < 0 || new_i > 5){
@@ -595,25 +604,25 @@ void move_wall(char move){
 	
 	switch(move){
 		case 'u':
-			if(check_wall_validity(converted_x, converted_y - 1, converted_x, converted_y)){
+			if(check_wall_validity(converted_x, converted_y - 1)){
 				w.position.y = current_y - 2;
 				moveWall(converted_x, converted_y, converted_x, converted_y - 1);
 			}
 			break;
 		case 'd':
-			if(check_wall_validity(converted_x, converted_y + 1, converted_x, converted_y)){
+			if(check_wall_validity(converted_x, converted_y + 1)){
 				w.position.y = current_y + 2;
 				moveWall(converted_x, converted_y, converted_x, converted_y + 1);
 			}
 			break;
 		case 'l':
-			if(check_wall_validity(converted_x - 1, converted_y, converted_x, converted_y)){
+			if(check_wall_validity(converted_x - 1, converted_y)){
 				w.position.x = current_x - 2;
 				moveWall(converted_x, converted_y, converted_x - 1, converted_y);
 			}
 			break;
 		case 'r':
-			if(check_wall_validity(converted_x + 1, converted_y, converted_x, converted_y)){
+			if(check_wall_validity(converted_x + 1, converted_y)){
 				w.position.x = current_x + 2;
 				moveWall(converted_x, converted_y, converted_x + 1, converted_y);
 			}
@@ -634,9 +643,9 @@ void enable_move_mode(void){
 
 	int converted_x = convert_index_bts(w.position.x);
 	int converted_y = convert_index_bts(w.position.y);
-	// delete rectangle and check possible moves if it the wall is not placed
-		delete_wall(converted_x, converted_y);
-		// only if the position of the player is not changed
+	// delete wall and check possible moves if it the wall is not placed
+	delete_wall(converted_x, converted_y);
+	// only if the position of the player is not changed
 	if(turn == 1 && equal_position(p1.current_position, p1.position)){
 		find_possible_moves(&p1);
 	}
@@ -1003,18 +1012,4 @@ void initial_screen(void){
 
 }
 
-void game_setup(void){
-
-	LCD_Clear(White);
-	init_game_matrix();
-	init_players();
-	init_wall();
-	enable_timer(0);
-	enable_timer(1);
-	move_mode = 1;
-	turn = 1;
-	display_grid();
-	turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
-
-}
 

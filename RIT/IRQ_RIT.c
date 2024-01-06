@@ -38,7 +38,7 @@ void RIT_IRQHandler (void)
 	static int right = 0;
 	static int select = 0;
 	
-		// joystick up
+	// joystick up
 	
 	if((LPC_GPIO1->FIOPIN & (1<<29)) == 0){	
 		/* Joytick UP pressed */
@@ -148,7 +148,7 @@ void RIT_IRQHandler (void)
 			select=0;
 	}
 	
-		/* buttons management */
+	/* buttons management */
 	
 	// INT0
 	if(pressed>=1){ 

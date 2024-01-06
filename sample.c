@@ -47,8 +47,8 @@ int main(void)
 	joystick_init();
 	init_RIT(0x004C4B40);									/* RIT Initialization 50 msec       */
 	enable_RIT();
-	init_timer(0, 0x000F4240); 						    /* Timer0 initialization 1 s */ // TODO FAKE!!!
-	init_timer(1, 0x00E4E1C0); 						    /* Timer1 initialization 15 s */ //TIM0 * 15
+	init_timer(0, 0x000F4240); 						    /* Timer0 initialization 1 s */ //0x017D7840 -> 1s   
+	init_timer(1, 0x00E4E1C0); 						    /* Timer1 initialization 5 s */ //0x07735940 -> 15 s  
 	
 	initial_screen();
 	
