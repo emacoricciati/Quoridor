@@ -33,7 +33,7 @@ void TIMER0_IRQHandler (void)
 	timer0_count++;
 	if(timer0_count == 20){
 		timer0_count = 0;
-		confirm_choice();
+		reset_choice();
 	}
 	sprintf(str,"%02d s", 20 - timer0_count);
 	if(timer0_count >= 15){
