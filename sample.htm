@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\sample.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sample.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Jan 12 01:00:26 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Jan 12 23:45:51 2024
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -514,6 +514,7 @@ Global Symbols
 <LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wait_delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;game_setup
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initial_screen
 </UL>
 
 <P><STRONG><a name="[5a]"></a>LCD_GetPoint</STRONG> (Thumb, 994 bytes, Stack size 40 bytes, glcd.o(.text), UNUSED)
@@ -778,7 +779,7 @@ Global Symbols
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;game_setup
 </UL>
 
-<P><STRONG><a name="[71]"></a>game_setup</STRONG> (Thumb, 72 bytes, Stack size 8 bytes, game.o(.text))
+<P><STRONG><a name="[71]"></a>game_setup</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216 + Unknown Stack Size
 <LI>Call Chain = game_setup &rArr; find_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
@@ -793,7 +794,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[7c]"></a>reset_possible_moves</STRONG> (Thumb, 1276 bytes, Stack size 40 bytes, game.o(.text))
+<P><STRONG><a name="[7c]"></a>reset_possible_moves</STRONG> (Thumb, 1282 bytes, Stack size 40 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = reset_possible_moves &rArr; ColorSquareThroughIndex &rArr; ColorSquare &rArr; ColorRectangle &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;convert_index_bts
@@ -987,10 +988,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER0_IRQHandler
 </UL>
 
-<P><STRONG><a name="[4c]"></a>initial_screen</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, game.o(.text))
+<P><STRONG><a name="[4c]"></a>initial_screen</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, game.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = initial_screen &rArr; GUI_Text &rArr; PutChar &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
-<BR>[Calls]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
+<BR>[Calls]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Clear
+<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>

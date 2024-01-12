@@ -77,6 +77,7 @@ void game_setup(void){
 	enable_timer(1);
 	move_mode = 1;
 	turn = 1;
+	timer0_count = 0;
 	display_grid();
 	turn == 1 ? find_possible_moves(&p1) : find_possible_moves(&p2);
 
@@ -1007,6 +1008,7 @@ void win_screen(void){
 
 void initial_screen(void){
 
+	LCD_Clear(White);
 	GUI_Text(65, 100, (uint8_t *) "QUORIDOR GAME", White, Black);
 	GUI_Text(35, 130, (uint8_t *) "Press INT0 to start a", Black, White);
 	GUI_Text(90, 150, (uint8_t *) "match", Black, White);
