@@ -833,97 +833,96 @@ void delete_wall(int x, int y){
 	if(w.horizontal == 1){
 		DrawWallHorizontalThroughIndex(x,y,White);
 		// horizontal
-		if((x1 >= 1 && game_matrix[y1][x1-1] == 0 && game_matrix[y1][x1+1] == 3) || (x1 == 0 && game_matrix[y1][x1+1] == 3)){
+		if(game_matrix[y1][x1+1] == 3 && game_matrix[y1][x1+3] == 3){
 			DrawWallHorizontalThroughIndex(x,y,Brown);
 		}
-		if(game_matrix[y1][x1+1] == 0 && game_matrix[y1][x1+3] == 3){
+		if(x1 <= 9 && game_matrix[y1][x1+3] == 3 && game_matrix[y1][x1+5] == 3){
 			DrawWallHorizontalThroughIndex(x+1,y,Brown);
 		}
-		if((x1 >= 3 && game_matrix[y1][x1-3] == 0 && game_matrix[y1][x1-1] == 3) || (x1-2 == 0 && game_matrix[y1][x1-1] == 3)){
+		if(x1 >= 1 && game_matrix[y1][x1-1] == 3 && game_matrix[y1][x1+1] == 3){
 			DrawWallHorizontalThroughIndex(x-1,y,Brown);
 		}
-		if(x1 <= 9 && game_matrix[y1][x1+3] == 0 && game_matrix[y1][x1+5] == 3){
+		if(x1 <= 7 && game_matrix[y1][x1+5] == 3 && game_matrix[y1][x1+7] == 3){
 			DrawWallHorizontalThroughIndex(x+2,y,Brown);
 		}
-		if(x1 >= 1 && game_matrix[y1][x1+1] == 0 && game_matrix[y1][x1-1] == 3){
+		if(x1 >= 3 && game_matrix[y1][x1-3] == 3 && game_matrix[y1][x1-1] == 3){
 			DrawWallHorizontalThroughIndex(x-2,y,Brown);
 		}
 		//vertical
-		if(game_matrix[y1 - 1][x1] == 0 && game_matrix[y1+1][x1] == 3){
+		if(y1 <= 11 && game_matrix[y1 + 1][x1] == 3 && game_matrix[y1+3][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y,Brown);
 		}
-		if(game_matrix[y1-1][x1+4] == 0 && game_matrix[y1+1][x1+4] == 3){
+		if(y1 <= 11 && game_matrix[y1+1][x1+4] == 3 && game_matrix[y1+3][x1+4] == 3){
 			DrawWallVerticalThroughIndex(x+2,y,Brown);
 		}
-		if(game_matrix[y1+1][x1] == 0 && game_matrix[y1-1][x1] == 3){
+		if(y1 >= 3 && game_matrix[y1-1][x1] == 3 && game_matrix[y1-3][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y-2,Brown);
 		}
-		if(game_matrix[y1+1][x1+4] == 0 && game_matrix[y1-1][x1+4] == 3){
+		if(y1 >= 3 && game_matrix[y1-1][x1+4] == 3 && game_matrix[y1-3][x1+4] == 3){
 			DrawWallVerticalThroughIndex(x+2,y-2,Brown);
 		}
-		if((y1 >= 3 && game_matrix[y1-3][x1] == 0 && game_matrix[y1-1][x1] == 3) || (y1-2 == 0 && game_matrix[y1-1][x1] == 3)){
+		if(y1 >= 1 && game_matrix[y1-1][x1] == 3 && game_matrix[y1+1][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y-1,Brown);
 		}
-		if((y1 >= 3 && game_matrix[y1-3][x1+4] == 0 && game_matrix[y1-1][x1+4] == 3) || (y1-2 == 0 && game_matrix[y1-1][x1+4] == 3)){
+		if(y1 >= 1 && game_matrix[y1-1][x1+4] == 3 && game_matrix[y1+1][x1+4] == 3){
 			DrawWallVerticalThroughIndex(x+2,y-1,Brown);
 		}
-		if((y1 >= 3 && game_matrix[y1-3][x1+2] == 0 && game_matrix[y1-1][x1+2] == 3) || (y1-2 == 0 && game_matrix[y1-1][x1+2] == 3)){
+		if(y1 >= 1 && game_matrix[y1-1][x1+2] == 3 && game_matrix[y1+1][x1+2] == 3){
 			DrawWallVerticalThroughIndex(x+1,y-1,Brown);
 		}
-		if(game_matrix[y1+1][x1+2] == 0 && game_matrix[y1-1][x1+2] == 3){
+		if(y1 >= 3 && game_matrix[y1-1][x1+2] == 3 && game_matrix[y1-3][x1+2] == 3){
 			DrawWallVerticalThroughIndex(x+1,y-2,Brown);
 		}
-		if(game_matrix[y1-1][x1+2] == 0 && game_matrix[y1+1][x1+2] == 3){
+		if(y1 <= 11 && game_matrix[y1+1][x1+2] == 3 && game_matrix[y1+3][x1+2] == 3){
 			DrawWallVerticalThroughIndex(x+1,y,Brown);
 		}
 	}
 	else if(w.horizontal == 0){
 		DrawWallVerticalThroughIndex(x,y,White);
 		// vertical
-		if((y1 >= 1 && game_matrix[y1-1][x1] == 0 && game_matrix[y1+1][x1] == 3) || (y1 == 0 && game_matrix[y1+1][x1] == 3)){
+		if(game_matrix[y1+1][x1] == 3 && game_matrix[y1+3][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y,Brown);
 		}
-		if(game_matrix[y1+1][x1] == 0 && game_matrix[y1+3][x1] == 3){
+		if(y1 <= 9 && game_matrix[y1+3][x1] == 3 && game_matrix[y1+5][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y+1,Brown);
 		}
-		if((y1 >= 3 && game_matrix[y1-3][x1] == 0 && game_matrix[y1-1][x1] == 3) || (y1-2 == 0 && game_matrix[y1-1][x1] == 3)){
+		if(y1 >= 1 && game_matrix[y1-1][x1] == 3 && game_matrix[y1+1][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y-1,Brown);
 		}
-		if(y1 <= 9 && game_matrix[y1+3][x1] == 0 && game_matrix[y1+5][x1] == 3){
+		if(y1 <= 7 && game_matrix[y1+5][x1] == 3 && game_matrix[y1+7][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y+2,Brown);
 		}
-		if(y1 >= 1 && y1 <= 13 && game_matrix[y1+1][x1] == 0 && game_matrix[y1-1][x1] == 3){
+		if(y1 >= 3 && game_matrix[y1-3][x1] == 3 && game_matrix[y1-1][x1] == 3){
 			DrawWallVerticalThroughIndex(x,y-2,Brown);
 		}
 		//horizontal
-		if(game_matrix[y1][x1-1] == 0 && game_matrix[y1][x1+1] == 3){
+		if(x1 <= 11 && game_matrix[y1][x1+1] == 3 && game_matrix[y1][x1+3] == 3){
 			DrawWallHorizontalThroughIndex(x,y,Brown);
 		}
-		if(game_matrix[y1+4][x1-1] == 0 && game_matrix[y1+4][x1+1] == 3){
+		if(x1 <= 11 && game_matrix[y1+4][x1+1] == 3 && game_matrix[y1+4][x1+3] == 3){
 			DrawWallHorizontalThroughIndex(x,y+2,Brown);
 		}
-		if(game_matrix[y1][x1+1] == 0 && game_matrix[y1][x1-1] == 3){
+		if(x1 >= 3 && game_matrix[y1][x1-1] == 3 && game_matrix[y1][x1-3] == 3){
 			DrawWallHorizontalThroughIndex(x-2,y,Brown);
 		}
-		if(game_matrix[y1+4][x1+1] == 0 && game_matrix[y1+4][x1-1] == 3){
+		if(x1 >= 3 && game_matrix[y1+4][x1-1] == 3 && game_matrix[y1+4][x1-3] == 3){
 			DrawWallHorizontalThroughIndex(x-2,y+2,Brown);
 		}
-		if((x1 >= 3 && game_matrix[y1][x1-3] == 0 && game_matrix[y1][x1-1] == 3) || (x1-2 == 0 && game_matrix[y1][x1-1] == 3)){
+		if(x1 >= 1 && game_matrix[y1][x1-1] == 3 && game_matrix[y1][x1+1] == 3){
 			DrawWallHorizontalThroughIndex(x-1,y,Brown);
 		}
-		if((x1 >= 3 && game_matrix[y1+4][x1-3] == 0 && game_matrix[y1+4][x1-1] == 3) || (x1-2 == 0 && game_matrix[y1+4][x1-1] == 3)){
+		if(x1 >= 1 && game_matrix[y1+4][x1-1] == 3 && game_matrix[y1+4][x1+1] == 3){
 			DrawWallHorizontalThroughIndex(x-1,y+2,Brown);
 		}
-		if((x1 >= 3 && game_matrix[y1+2][x1-3] == 0 && game_matrix[y1+2][x1-1] == 3) || (x1-2 == 0 && game_matrix[y1+2][x1-1] == 3)){
+		if(x1 >= 1 && game_matrix[y1+2][x1-1] == 3 && game_matrix[y1+2][x1+1] == 3){
 			DrawWallHorizontalThroughIndex(x-1,y+1,Brown);
 		}
-		if(game_matrix[y1+2][x1+1] == 0 && game_matrix[y1+2][x1-1] == 3){
+		if(x1 >= 3 && game_matrix[y1+2][x1-1] == 3 && game_matrix[y1+2][x1-3] == 3){
 			DrawWallHorizontalThroughIndex(x-2,y+1,Brown);
 		}
-		if(game_matrix[y1+2][x1-1] == 0 && game_matrix[y1+2][x1+1] == 3){
+		if(x1 <= 11 && game_matrix[y1+2][x1+1] == 3 && game_matrix[y1+2][x1+3] == 3){
 			DrawWallHorizontalThroughIndex(x,y+1,Brown);
 		}
-
 	}
 }
 
