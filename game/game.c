@@ -130,11 +130,17 @@ void find_possible_moves(volatile Player *p){
 				}
 				// player on the left
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 2] == 2 && initial_x >= 2){
-					ColorSquareThroughIndex(initial_x - 2, initial_y, Yellow2);
+					// no wall behind the pawn
+					if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x-3] != 3){
+						ColorSquareThroughIndex(initial_x - 2, initial_y, Yellow2);
+					}
 				}
 				// player on the right
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x + 2] == 2 && initial_x <= 4){
-					ColorSquareThroughIndex(initial_x + 2, initial_y, Yellow2);
+					// no wall behind the pawn
+					if(game_matrix[last_position_y][last_position_x+3] != 3){
+						ColorSquareThroughIndex(initial_x + 2, initial_y, Yellow2);
+					}
 				}
 			}
 			else {
@@ -145,10 +151,15 @@ void find_possible_moves(volatile Player *p){
 					ColorSquareThroughIndex(initial_x + 1, initial_y, Yellow2);
 				}
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 2] == 1 && initial_x >= 2){
+					if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x-3] != 3){
+						ColorSquareThroughIndex(initial_x - 2, initial_y, Yellow2);
+					}
 					ColorSquareThroughIndex(initial_x - 2, initial_y, Yellow2);
 				}
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x + 2] == 1 && initial_x <= 4){
-					ColorSquareThroughIndex(initial_x + 2, initial_y, Yellow2);
+					if(game_matrix[last_position_y][last_position_x+3] != 3){
+						ColorSquareThroughIndex(initial_x + 2, initial_y, Yellow2);
+					}
 				}
 			}
 	}
@@ -467,6 +478,8 @@ void check_available_path(int i, int j, int* found, int id, int marked[7][7]){
 	}
 	if(game_matrix[i][j-1] != 3) 	check_available_path(i,j-2,found,id,marked);
 	if(game_matrix[i][j+1] != 3) check_available_path(i,j+2,found,id,marked);
+	if(id == 2 && game_matrix[i-1][j] != 3) check_available_path(i-2,j,found,id,marked);
+	if(id == 1 && game_matrix[i+1][j] != 3) 	check_available_path(i+2,j,found,id,marked);
 	marked[converted_i][converted_j] = 0;
 	return;
 
