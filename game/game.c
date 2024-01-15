@@ -644,20 +644,28 @@ void confirm_wall(void){
 	if(w.horizontal == 1){
 		// avoid overlap
 		if((w.position.x <= 13 && game_matrix[w.position.y][w.position.x] == 3 && game_matrix[w.position.y][w.position.x + 1] == 3) || (w.position.x <=11 && game_matrix[w.position.y][w.position.x + 3] == 3)){
+			GUI_Text(10, 285, (unsigned char*) "Invalid wall position!", White, Red);
+			enable_timer(1);
 			return;
 		}
 		// avoid cross
 		if(w.position.x <= 12 && w.position.y >= 1 && w.position.y <= 13 && game_matrix[w.position.y][w.position.x + 2] == 3 && game_matrix[w.position.y + 1][w.position.x + 2] == 3 && game_matrix[w.position.y - 1][w.position.x + 2] == 3 ){
+			GUI_Text(10, 285, (unsigned char*) "Invalid wall position!", White, Red);
+			enable_timer(1);
 			return;
 		}
 	}
 	else {
 		// avoid overlap
 		if((w.position.y <= 13 && game_matrix[w.position.y][w.position.x] == 3 && game_matrix[w.position.y + 1][w.position.x] == 3) || (w.position.y <= 11 && game_matrix[w.position.y + 3][w.position.x] == 3)){
+			GUI_Text(10, 285, (unsigned char*) "Invalid wall position!", White, Red);
+			enable_timer(1);
 			return;
 		}
 		// avoid cross
 		if(w.position.y <= 12 && w.position.x >= 1 && w.position.x <= 13 && game_matrix[w.position.y + 2][w.position.x] == 3 && game_matrix[w.position.y + 2][w.position.x + 1] == 3 && game_matrix[w.position.y + 2][w.position.x - 1] == 3 ){
+			GUI_Text(10, 285, (unsigned char*) "Invalid wall position!", White, Red);
+			enable_timer(1);
 			return;
 		}
 	}
