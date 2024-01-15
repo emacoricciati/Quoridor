@@ -606,15 +606,19 @@ void rotate_wall(void){
 	int y = w.position.y;
 	int converted_x = convert_index_bts(x);
 	int converted_y = convert_index_bts(y);
-	if(w.horizontal == 1 && x != 0){
+	if(w.horizontal == 1){
 		delete_wall(converted_x,converted_y);
 		w.horizontal = 0;
-		DrawWallVerticalThroughPosition(converted_x,converted_y,Brown2);
+		w.position.x += 2;
+		w.position.y -= 2;
+		DrawWallVerticalThroughPosition(converted_x+1,converted_y-1,Brown2);
 	}
-	else if(w.horizontal == 0 && y != 0 ) {
+	else if(w.horizontal == 0) {
 		delete_wall(converted_x,converted_y);
 		w.horizontal = 1;
-		DrawWallHorizontalThroughPosition(converted_x,converted_y,Brown2);
+		w.position.x -= 2;
+		w.position.y += 2;
+		DrawWallHorizontalThroughPosition(converted_x-1,converted_y+1,Brown2);
 	}
 }
 
