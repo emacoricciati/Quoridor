@@ -4,20 +4,16 @@
 #include "stdlib.h"
 
 volatile int game_matrix[15][15];
-
 int marked[7][7];
 
 uint32_t moves[100];
 int ind = 0;
 
 volatile Player p1, p2;
-
 volatile Wall w;
 
 volatile int turn = 1;
-
 volatile int move_mode = -1;
-
 extern int timer0_count;
 
 // utils
@@ -105,61 +101,61 @@ void color_possible_moves(volatile Player *p, uint16_t color){
 		if(last_position_x == 1 && game_matrix[last_position_y][last_position_x + 1] != 3){
 			// skip the opposing player
 			if((turn == 1 && game_matrix[last_position_y][last_position_x + 2] == 2) || (turn == 2 && game_matrix[last_position_y][last_position_x + 2] == 1)){
-				ColorSquareThroughIndex(initial_x + 2, initial_y, color);
+				ColorSquareThroughPosition(initial_x + 2, initial_y, color);
 			}
 			else {
-				ColorSquareThroughIndex(initial_x + 1, initial_y, color);
+				ColorSquareThroughPosition(initial_x + 1, initial_y, color);
 			}
 		}
 		else if(last_position_x == 13 && game_matrix[last_position_y][last_position_x - 1] != 3){
 			// skip the opposing player
 			if((turn == 1 && game_matrix[last_position_y][last_position_x - 2] == 2) || (turn == 2 && game_matrix[last_position_y][last_position_x - 2] == 1)){
-				ColorSquareThroughIndex(initial_x - 2, initial_y, color);
+				ColorSquareThroughPosition(initial_x - 2, initial_y, color);
 			}
 			else {
-				ColorSquareThroughIndex(initial_x - 1, initial_y, color);
+				ColorSquareThroughPosition(initial_x - 1, initial_y, color);
 			}
 		}
 		else {
 			if(turn == 1){
 				//no wall/player on the left
 				if((last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 2) || (last_position_x == 1 && game_matrix[last_position_y][last_position_x - 1] != 3)){
-					ColorSquareThroughIndex(initial_x - 1, initial_y, color);
+					ColorSquareThroughPosition(initial_x - 1, initial_y, color);
 				}
 				//no wall/player on the right
 				if((last_position_x <= 12 && game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 2) || (last_position_x == 13 && game_matrix[last_position_y][last_position_x + 1] != 3)){
-					ColorSquareThroughIndex(initial_x + 1, initial_y, color);
+					ColorSquareThroughPosition(initial_x + 1, initial_y, color);
 				}
 				// player on the left
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 2] == 2 && initial_x >= 2){
 					// no wall behind the pawn
 					if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x-3] != 3){
-						ColorSquareThroughIndex(initial_x - 2, initial_y, color);
+						ColorSquareThroughPosition(initial_x - 2, initial_y, color);
 					}
 				}
 				// player on the right
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x + 2] == 2 && initial_x <= 4){
 					// no wall behind the pawn
 					if(game_matrix[last_position_y][last_position_x+3] != 3){
-						ColorSquareThroughIndex(initial_x + 2, initial_y, color);
+						ColorSquareThroughPosition(initial_x + 2, initial_y, color);
 					}
 				}
 			}
 			else {
 				if((last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != 1) || (last_position_x == 1 && game_matrix[last_position_y][last_position_x - 1] != 3)){
-					ColorSquareThroughIndex(initial_x - 1, initial_y, color);
+					ColorSquareThroughPosition(initial_x - 1, initial_y, color);
 				}
 				if((last_position_x <= 12 && game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != 1) || (last_position_x == 13 && game_matrix[last_position_y][last_position_x + 1] != 3)){
-					ColorSquareThroughIndex(initial_x + 1, initial_y, color);
+					ColorSquareThroughPosition(initial_x + 1, initial_y, color);
 				}
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 2] == 1 && initial_x >= 2){
 					if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x-3] != 3){
-						ColorSquareThroughIndex(initial_x - 2, initial_y, color);
+						ColorSquareThroughPosition(initial_x - 2, initial_y, color);
 					}
 				}
 				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x + 2] == 1 && initial_x <= 4){
 					if(game_matrix[last_position_y][last_position_x+3] != 3){
-						ColorSquareThroughIndex(initial_x + 2, initial_y, color);
+						ColorSquareThroughPosition(initial_x + 2, initial_y, color);
 					}
 				}
 			}
@@ -170,33 +166,33 @@ void color_possible_moves(volatile Player *p, uint16_t color){
 		if(p->id == 1){
 			if(last_position_y == 13){
 				if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] != 2){
-					ColorSquareThroughIndex(initial_x, initial_y - 1, color);
+					ColorSquareThroughPosition(initial_x, initial_y - 1, color);
 				}
 				else if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] == 2 && game_matrix[last_position_y - 3][last_position_x] != 3 ){
-					ColorSquareThroughIndex(initial_x, initial_y - 2, color);
+					ColorSquareThroughPosition(initial_x, initial_y - 2, color);
 				}
 			}
 			// skip the opposing player
 			else {
 				if(last_position_y <= 12 && game_matrix[last_position_y + 2][last_position_x] != 2){
 					if(game_matrix[last_position_y + 1][last_position_x] != 3){
-						ColorSquareThroughIndex(initial_x, initial_y + 1, color);
+						ColorSquareThroughPosition(initial_x, initial_y + 1, color);
 					}
 				}
 				else {
 					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
-						ColorSquareThroughIndex(initial_x, initial_y + 2, color);
+						ColorSquareThroughPosition(initial_x, initial_y + 2, color);
 					}
 				}
 				if(last_position_y >= 2){
 					if(game_matrix[last_position_y - 2][last_position_x] != 2){
 						if( game_matrix[last_position_y - 1][last_position_x] != 3){
-							ColorSquareThroughIndex(initial_x, initial_y - 1, color);
+							ColorSquareThroughPosition(initial_x, initial_y - 1, color);
 						}
 					}
 					else {
 						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
-							ColorSquareThroughIndex(initial_x, initial_y - 2, color);
+							ColorSquareThroughPosition(initial_x, initial_y - 2, color);
 						}
 					}
 				}
@@ -207,32 +203,32 @@ void color_possible_moves(volatile Player *p, uint16_t color){
 		if(p->id == 2){
 			if(last_position_y == 1){
 				if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] != 1){
-					ColorSquareThroughIndex(initial_x, initial_y + 1, color);
+					ColorSquareThroughPosition(initial_x, initial_y + 1, color);
 				}
 				else if(game_matrix[last_position_y + 1][last_position_x] != 3 && game_matrix[last_position_y + 2][last_position_x] == 1 && game_matrix[last_position_y + 3][last_position_x] != 3){
-					ColorSquareThroughIndex(initial_x, initial_y + 2, color);
+					ColorSquareThroughPosition(initial_x, initial_y + 2, color);
 				}
 			}
 			else {
 				if(last_position_y <= 12 && game_matrix[last_position_y + 2][last_position_x] != 1){
 					if(game_matrix[last_position_y + 1][last_position_x] != 3){
-						ColorSquareThroughIndex(initial_x, initial_y + 1, color);
+						ColorSquareThroughPosition(initial_x, initial_y + 1, color);
 					}
 				}
 				else {
 					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3 && initial_y < 5){
-						ColorSquareThroughIndex(initial_x, initial_y + 2, color);
+						ColorSquareThroughPosition(initial_x, initial_y + 2, color);
 					}
 				}
 				if(last_position_y >= 2){
 					if(game_matrix[last_position_y - 2][last_position_x] != 1){
 						if(game_matrix[last_position_y - 1][last_position_x] != 3){
-							ColorSquareThroughIndex(initial_x, initial_y - 1, color);
+							ColorSquareThroughPosition(initial_x, initial_y - 1, color);
 						}
 					}
 					else {
 						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3 && initial_y >= 2){
-							ColorSquareThroughIndex(initial_x, initial_y - 2, color);
+							ColorSquareThroughPosition(initial_x, initial_y - 2, color);
 						}
 					}
 				}
@@ -242,7 +238,7 @@ void color_possible_moves(volatile Player *p, uint16_t color){
 	}
 	// player who has made a move (not confirmed)
 	else {
-		ColorSquareThroughIndex(initial_x,initial_y,color);
+		ColorSquareThroughPosition(initial_x,initial_y,color);
 	}
 
 
@@ -445,8 +441,8 @@ void confirm_move(volatile Player *p){
 	p->position.y = p->current_position.y;
 	game_matrix[p->position.y][p->position.x] = id;
 	
-	move = p->position.x;
-	move |= p->position.y << 8;
+	move = convert_index_bts(p->position.x);
+	move |= convert_index_bts(p->position.y) << 8;
 	if(id == 2){
 		move |= 1 << 24;
 	}
@@ -581,7 +577,7 @@ void enable_wall_mode(void){
 
 		turn == 1 ? reset_possible_moves(&p1) : reset_possible_moves(&p2);
 		init_wall();
-		DrawWallHorizontalThroughIndex(3,3,Brown2);
+		DrawWallHorizontalThroughPosition(3,3,Brown2);
 }
 
 void enable_move_mode(void){
@@ -613,12 +609,12 @@ void rotate_wall(void){
 	if(w.horizontal == 1 && x != 0){
 		delete_wall(converted_x,converted_y);
 		w.horizontal = 0;
-		DrawWallVerticalThroughIndex(converted_x,converted_y,Brown2);
+		DrawWallVerticalThroughPosition(converted_x,converted_y,Brown2);
 	}
 	else if(w.horizontal == 0 && y != 0 ) {
 		delete_wall(converted_x,converted_y);
 		w.horizontal = 1;
-		DrawWallHorizontalThroughIndex(converted_x,converted_y,Brown2);
+		DrawWallHorizontalThroughPosition(converted_x,converted_y,Brown2);
 	}
 }
 
@@ -626,11 +622,11 @@ void moveWall(int x, int y, int new_x, int new_y){
 	
 	if(w.horizontal == 1){
 		delete_wall(x,y);
-		DrawWallHorizontalThroughIndex(new_x,new_y, Brown2);
+		DrawWallHorizontalThroughPosition(new_x,new_y, Brown2);
 	}
 	else {
 		delete_wall(x,y);
-		DrawWallVerticalThroughIndex(new_x,new_y, Brown2);
+		DrawWallVerticalThroughPosition(new_x,new_y, Brown2);
 	}
 
 }
@@ -744,19 +740,19 @@ void confirm_wall(void){
 		GUI_Text(190, 260, (unsigned char*)str, Black, White);
 	}
 	if(w.horizontal == 1){
-		DrawWallHorizontalThroughIndex(converted_x,converted_y, Brown);
+		DrawWallHorizontalThroughPosition(converted_x,converted_y, Brown);
 		for(i = w.position.x; i <= w.position.x + 4; i++){
 			game_matrix[w.position.y][i] = 3;
 		}
 	}
 	else {
-		DrawWallVerticalThroughIndex(converted_x,converted_y, Brown);
+		DrawWallVerticalThroughPosition(converted_x,converted_y, Brown);
 		for(i = w.position.y; i <= w.position.y + 4; i++){
 			game_matrix[i][w.position.x] = 3;
 		}
 	}
-	move = w.position.x;
-	move |= w.position.y << 8;
+	move = convert_index_bts(w.position.x);
+	move |= convert_index_bts(w.position.y) << 8;
 	move |= w.horizontal << 16;
 	move |= 1 << 20;
 	if(turn == 2){
@@ -774,97 +770,97 @@ void delete_wall(int x, int y){
 	
 	//Check if there are other walls
 	if(w.horizontal == 1){
-		DrawWallHorizontalThroughIndex(x,y,White);
+		DrawWallHorizontalThroughPosition(x,y,White);
 		// horizontal
 		if(game_matrix[y1][x1+1] == 3 && game_matrix[y1][x1+3] == 3){
-			DrawWallHorizontalThroughIndex(x,y,Brown);
+			DrawWallHorizontalThroughPosition(x,y,Brown);
 		}
 		if(x1 <= 9 && game_matrix[y1][x1+3] == 3 && game_matrix[y1][x1+5] == 3){
-			DrawWallHorizontalThroughIndex(x+1,y,Brown);
+			DrawWallHorizontalThroughPosition(x+1,y,Brown);
 		}
 		if(x1 >= 1 && game_matrix[y1][x1-1] == 3 && game_matrix[y1][x1+1] == 3){
-			DrawWallHorizontalThroughIndex(x-1,y,Brown);
+			DrawWallHorizontalThroughPosition(x-1,y,Brown);
 		}
 		if(x1 <= 7 && game_matrix[y1][x1+5] == 3 && game_matrix[y1][x1+7] == 3){
-			DrawWallHorizontalThroughIndex(x+2,y,Brown);
+			DrawWallHorizontalThroughPosition(x+2,y,Brown);
 		}
 		if(x1 >= 3 && game_matrix[y1][x1-3] == 3 && game_matrix[y1][x1-1] == 3){
-			DrawWallHorizontalThroughIndex(x-2,y,Brown);
+			DrawWallHorizontalThroughPosition(x-2,y,Brown);
 		}
 		//vertical
 		if(y1 <= 11 && game_matrix[y1 + 1][x1] == 3 && game_matrix[y1+3][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y,Brown);
+			DrawWallVerticalThroughPosition(x,y,Brown);
 		}
 		if(y1 <= 11 && game_matrix[y1+1][x1+4] == 3 && game_matrix[y1+3][x1+4] == 3){
-			DrawWallVerticalThroughIndex(x+2,y,Brown);
+			DrawWallVerticalThroughPosition(x+2,y,Brown);
 		}
 		if(y1 >= 3 && game_matrix[y1-1][x1] == 3 && game_matrix[y1-3][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y-2,Brown);
+			DrawWallVerticalThroughPosition(x,y-2,Brown);
 		}
 		if(y1 >= 3 && game_matrix[y1-1][x1+4] == 3 && game_matrix[y1-3][x1+4] == 3){
-			DrawWallVerticalThroughIndex(x+2,y-2,Brown);
+			DrawWallVerticalThroughPosition(x+2,y-2,Brown);
 		}
 		if(y1 >= 1 && game_matrix[y1-1][x1] == 3 && game_matrix[y1+1][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y-1,Brown);
+			DrawWallVerticalThroughPosition(x,y-1,Brown);
 		}
 		if(y1 >= 1 && game_matrix[y1-1][x1+4] == 3 && game_matrix[y1+1][x1+4] == 3){
-			DrawWallVerticalThroughIndex(x+2,y-1,Brown);
+			DrawWallVerticalThroughPosition(x+2,y-1,Brown);
 		}
 		if(y1 >= 1 && game_matrix[y1-1][x1+2] == 3 && game_matrix[y1+1][x1+2] == 3){
-			DrawWallVerticalThroughIndex(x+1,y-1,Brown);
+			DrawWallVerticalThroughPosition(x+1,y-1,Brown);
 		}
 		if(y1 >= 3 && game_matrix[y1-1][x1+2] == 3 && game_matrix[y1-3][x1+2] == 3){
-			DrawWallVerticalThroughIndex(x+1,y-2,Brown);
+			DrawWallVerticalThroughPosition(x+1,y-2,Brown);
 		}
 		if(y1 <= 11 && game_matrix[y1+1][x1+2] == 3 && game_matrix[y1+3][x1+2] == 3){
-			DrawWallVerticalThroughIndex(x+1,y,Brown);
+			DrawWallVerticalThroughPosition(x+1,y,Brown);
 		}
 	}
 	else if(w.horizontal == 0){
-		DrawWallVerticalThroughIndex(x,y,White);
+		DrawWallVerticalThroughPosition(x,y,White);
 		// vertical
 		if(game_matrix[y1+1][x1] == 3 && game_matrix[y1+3][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y,Brown);
+			DrawWallVerticalThroughPosition(x,y,Brown);
 		}
 		if(y1 <= 9 && game_matrix[y1+3][x1] == 3 && game_matrix[y1+5][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y+1,Brown);
+			DrawWallVerticalThroughPosition(x,y+1,Brown);
 		}
 		if(y1 >= 1 && game_matrix[y1-1][x1] == 3 && game_matrix[y1+1][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y-1,Brown);
+			DrawWallVerticalThroughPosition(x,y-1,Brown);
 		}
 		if(y1 <= 7 && game_matrix[y1+5][x1] == 3 && game_matrix[y1+7][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y+2,Brown);
+			DrawWallVerticalThroughPosition(x,y+2,Brown);
 		}
 		if(y1 >= 3 && game_matrix[y1-3][x1] == 3 && game_matrix[y1-1][x1] == 3){
-			DrawWallVerticalThroughIndex(x,y-2,Brown);
+			DrawWallVerticalThroughPosition(x,y-2,Brown);
 		}
 		//horizontal
 		if(x1 <= 11 && game_matrix[y1][x1+1] == 3 && game_matrix[y1][x1+3] == 3){
-			DrawWallHorizontalThroughIndex(x,y,Brown);
+			DrawWallHorizontalThroughPosition(x,y,Brown);
 		}
 		if(x1 <= 11 && game_matrix[y1+4][x1+1] == 3 && game_matrix[y1+4][x1+3] == 3){
-			DrawWallHorizontalThroughIndex(x,y+2,Brown);
+			DrawWallHorizontalThroughPosition(x,y+2,Brown);
 		}
 		if(x1 >= 3 && game_matrix[y1][x1-1] == 3 && game_matrix[y1][x1-3] == 3){
-			DrawWallHorizontalThroughIndex(x-2,y,Brown);
+			DrawWallHorizontalThroughPosition(x-2,y,Brown);
 		}
 		if(x1 >= 3 && game_matrix[y1+4][x1-1] == 3 && game_matrix[y1+4][x1-3] == 3){
-			DrawWallHorizontalThroughIndex(x-2,y+2,Brown);
+			DrawWallHorizontalThroughPosition(x-2,y+2,Brown);
 		}
 		if(x1 >= 1 && game_matrix[y1][x1-1] == 3 && game_matrix[y1][x1+1] == 3){
-			DrawWallHorizontalThroughIndex(x-1,y,Brown);
+			DrawWallHorizontalThroughPosition(x-1,y,Brown);
 		}
 		if(x1 >= 1 && game_matrix[y1+4][x1-1] == 3 && game_matrix[y1+4][x1+1] == 3){
-			DrawWallHorizontalThroughIndex(x-1,y+2,Brown);
+			DrawWallHorizontalThroughPosition(x-1,y+2,Brown);
 		}
 		if(x1 >= 1 && game_matrix[y1+2][x1-1] == 3 && game_matrix[y1+2][x1+1] == 3){
-			DrawWallHorizontalThroughIndex(x-1,y+1,Brown);
+			DrawWallHorizontalThroughPosition(x-1,y+1,Brown);
 		}
 		if(x1 >= 3 && game_matrix[y1+2][x1-1] == 3 && game_matrix[y1+2][x1-3] == 3){
-			DrawWallHorizontalThroughIndex(x-2,y+1,Brown);
+			DrawWallHorizontalThroughPosition(x-2,y+1,Brown);
 		}
 		if(x1 <= 11 && game_matrix[y1+2][x1+1] == 3 && game_matrix[y1+2][x1+3] == 3){
-			DrawWallHorizontalThroughIndex(x,y+1,Brown);
+			DrawWallHorizontalThroughPosition(x,y+1,Brown);
 		}
 	}
 }
@@ -909,13 +905,13 @@ void reset_choice(void){
 		delete_wall(converted_x_wall,converted_y_wall);
 	}
 	if(turn == 1){
-		move = p1.position.x;
-		move |= p1.position.y << 8;
+		move = convert_index_bts(p1.position.x);
+		move |= convert_index_bts(p1.position.y) << 8;
 		move |= 1 << 16;
 	}
 	else {
-		move = p2.position.x;
-		move |= p2.position.y << 8;
+		move = convert_index_bts(p2.position.x);
+		move |= convert_index_bts(p2.position.y) << 8;
 		move |= 1 << 16;
 		move |= 1 << 24;
 	}
