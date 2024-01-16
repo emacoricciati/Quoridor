@@ -13,3 +13,4 @@
 .\glcd.o: GLCD\../timer/timer.h
 .\glcd.o: GLCD\../game/game.h
 .\glcd.o: GLCD\../game/game_assets.h
+.\glcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

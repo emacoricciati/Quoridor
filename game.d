@@ -11,3 +11,4 @@
 .\game.o: C:\Users\Ema\AppData\Local\Arm\Packs\Keil\LPC1700_DFP\2.7.1\Device\Include\system_LPC17xx.h
 .\game.o: game\../timer/timer.h
 .\game.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\game.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

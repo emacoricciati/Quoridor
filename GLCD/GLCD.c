@@ -25,11 +25,14 @@
 #include "../timer/timer.h"
 #include "../game/game.h"
 #include "../game/game_assets.h"
+#include <stdio.h>
 
-extern Player p1, p2;
 int size_square = 27;
 int offset = 10;
 int margin = 5;
+
+extern Player p1, p2;
+
 
 /* Private variables ---------------------------------------------------------*/
 static uint8_t LCD_Code;

@@ -1,4 +1,6 @@
 
+#define INITIAL_WALLS 8
+
 typedef struct position {
 	int x;
 	int y;

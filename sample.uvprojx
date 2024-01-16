@@ -529,11 +529,6 @@
           <GroupName>joystick</GroupName>
           <Files>
             <File>
-              <FileName>funct_joystick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\joystick\funct_joystick.c</FilePath>
-            </File>
-            <File>
               <FileName>joystick.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\joystick\joystick.h</FilePath>

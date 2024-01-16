@@ -209,9 +209,12 @@ void RIT_IRQHandler (void)
 		}
 	}
 	
+	/*
 	disable_RIT();
 	reset_RIT();
 	enable_RIT();
+	*/
+	
 	
   LPC_RIT->RICTRL |= 0x1;	/* clear interrupt flag */
 	

@@ -2,6 +2,7 @@
 #include "../GLCD/GLCD.h"
 #include "../timer/timer.h"
 #include "stdlib.h"
+#include <stdio.h>
 
 volatile int game_matrix[15][15];
 int marked[7][7];
@@ -50,14 +51,14 @@ void init_players(void){
 
 		// p1
 		p1.id = 1;
-		p1.available_walls = 8;
+		p1.available_walls = INITIAL_WALLS;
 		p1.current_position.x = 7;
 		p1.current_position.y = 13;
 		p1.position.x = 7;
 		p1.position.y = 13;
 		// p2
 		p2.id = 2;
-		p2.available_walls = 8;
+		p2.available_walls = INITIAL_WALLS;
 		p2.current_position.x = 7;
 		p2.current_position.y = 1;
 		p2.position.x = 7;

@@ -12,10 +12,9 @@
 #include "timer.h"
 #include "../GLCD/GLCD.h" 
 #include "../game/game.h"
+#include <stdio.h>
 
 volatile int timer0_count = 0;
-extern int turn;
-extern Player p1,p2;
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
 **
