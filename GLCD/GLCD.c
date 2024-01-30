@@ -31,6 +31,7 @@ int size_square = 27;
 int offset = 10;
 int margin = 5;
 
+extern Game_mode game_mode;
 extern Player p1, p2;
 
 
@@ -729,7 +730,24 @@ void ColorSquareThroughPosition(int x, int y, uint16_t color){
 
 void moveTo(int x, int y, int new_x, int new_y, int id){
 
-	ColorSquareThroughPosition(x,y, White);
+	if(game_mode.menu1 == 1 && game_mode.menu2 == 2){
+		if(id == 2){
+			ColorSquareThroughPosition(x,y, White);
+		}
+		else {
+			ColorSquareThroughPosition(x,y, Yellow2);
+		}
+	}
+	else if(game_mode.menu1 == 2 && game_mode.menu2 == 2){
+		ColorSquareThroughPosition(x,y, White);
+	}
+	else if(game_mode.menu1 == 2 && game_mode.menu2 == 1){
+		ColorSquareThroughPosition(x,y, Yellow2);
+	}
+	else if(game_mode.menu1 == 1 && game_mode.menu2 == 1){
+		ColorSquareThroughPosition(x,y, Yellow2);
+	}
+
 	DrawPawn(new_x,new_y, id);
 
 }

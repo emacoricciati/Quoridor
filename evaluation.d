@@ -1,0 +1,9 @@
+.\evaluation.o: agent\evaluation.c
+.\evaluation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\evaluation.o: agent\evaluation.h
+.\evaluation.o: agent\../game/game.h
+.\evaluation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\evaluation.o: agent\../utils/utils.h
+.\evaluation.o: agent\../utils/../agent/agent.h
+.\evaluation.o: agent\../utils/../agent/../utils/utils.h
+.\evaluation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

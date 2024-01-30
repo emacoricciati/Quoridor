@@ -541,6 +541,66 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>CAN</GroupName>
+          <Files>
+            <File>
+              <FileName>CAN.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\CAN\CAN.h</FilePath>
+            </File>
+            <File>
+              <FileName>IRQ_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\CAN\IRQ_CAN.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\CAN\lib_CAN.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>agent</GroupName>
+          <Files>
+            <File>
+              <FileName>agent.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\agent\agent.c</FilePath>
+            </File>
+            <File>
+              <FileName>agent.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\agent\agent.h</FilePath>
+            </File>
+            <File>
+              <FileName>evaluation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\agent\evaluation.c</FilePath>
+            </File>
+            <File>
+              <FileName>evaluation.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\agent\evaluation.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>utils</GroupName>
+          <Files>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\utils\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\utils\utils.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>

@@ -11,3 +11,5 @@
 .\irq_rit.o: RIT\../GLCD/GLCD.h
 .\irq_rit.o: RIT\../timer/timer.h
 .\irq_rit.o: RIT\../game/game.h
+.\irq_rit.o: RIT\../CAN/CAN.h
+.\irq_rit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
