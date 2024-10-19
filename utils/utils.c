@@ -61,12 +61,12 @@ void QUEUE_add_moves(volatile Player *p, int distance){
 
 }
 
-void bfs(Position_e e, int id) {
+void bfs(Position_e e, int id, int game_matrix[15][15]) {
 	int distance;
 	init_player_bfs(&player,e,id);
 	QUEUEinit();
 	marked[e.y][e.x] = 1;
-	get_possible_moves(&player);
+	get_possible_moves(&player,game_matrix);
 	QUEUE_add_moves(&player,1);
 
 	while (!QUEUEempty()){
@@ -75,13 +75,13 @@ void bfs(Position_e e, int id) {
 		if(marked[e.y][e.x] <= 0){
 			marked[e.y][e.x] = e.dist;
 			init_player_bfs(&player, e,id);
-			get_possible_moves(&player);
+			get_possible_moves(&player,game_matrix);
 			QUEUE_add_moves(&player,distance);
 	}
 	}
 }
 
-int distance_to_goal(volatile Player *p){
+int distance_to_goal(volatile Player *p, int game_matrix[15][15]){
 
 	int i,j,min=INFINITY;
 	int id = p->id;
@@ -95,7 +95,7 @@ int distance_to_goal(volatile Player *p){
 			marked[i][j] = -1;
 		}
 	}
-	bfs(pos,id);
+	bfs(pos,id,game_matrix);
 	if(id == 1){
 		for(i=0; i<15;i++){
 			if(marked[1][i] < min && marked[1][i] > 0){

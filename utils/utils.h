@@ -14,6 +14,6 @@ typedef struct position_e {
 int QUEUEempty(void);
 void QUEUEput(Position_e val);
 Position_e QUEUEget(void);
-int distance_to_goal(volatile Player *p);
+int distance_to_goal(volatile Player *p, int game_matrix[15][15]);
 #endif
 

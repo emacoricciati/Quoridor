@@ -3,6 +3,7 @@
 #include "stdint.h"
 
 #define INITIAL_WALLS 8
+#define DEPTH 2
 
 typedef struct position {
 	int x;
@@ -68,7 +69,7 @@ void color_mode(int choice);
 void init_game(void);
 void confirm_selection(void);
 void DrawPlayerMove (uint32_t move);
-void get_possible_moves(volatile Player *p);
+void get_possible_moves(volatile Player *p, int matrix[15][15]);
 void PlayNPCAction(void);
 void waiting_to_play(void);
 #endif // GAME_H__

@@ -4,7 +4,7 @@
 #include "../game/game.h"
 #include "../utils/utils.h"
 #define INFINITY 999999
-#define MAXMOVES 21
+#define MAXMOVES 15
 
 
 typedef int (*EvaluationFunction)(int game_matrix[15][15]);

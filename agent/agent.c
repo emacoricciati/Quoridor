@@ -9,10 +9,10 @@
 extern Player p1, p2;
 extern int minimizing, maximizing;
 extern int game_matrix[15][15];
+int old_matrix[15][15];
 
 ActionPair actionPair;
 
-size_t prunes = 0;
 
 int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 	
@@ -29,7 +29,7 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 	
 	
 		// x
-		if(last_position_x == 1 && game_matrix[last_position_y][last_position_x + 1] != 3){
+		if(last_position_x == 1 && game_matrix[last_position_y][last_position_x + 1] < 3){
 			// skip the opposing player
 			if((p->id == 1 && game_matrix[last_position_y][last_position_x + 2] == 2) || (p->id == 2 && game_matrix[last_position_y][last_position_x + 2] == 1)){
 				a.info.move.new_x = p->position.x - 4;
@@ -41,7 +41,7 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 				actions[index++] = a;
 			}
 		}
-		else if(last_position_x == 13 && game_matrix[last_position_y][last_position_x - 1] != 3){
+		else if(last_position_x == 13 && game_matrix[last_position_y][last_position_x - 1] < 3){
 			// skip the opposing player
 			if((p->id == 1 && game_matrix[last_position_y][last_position_x - 2] == 2) || (p->id == 2 && game_matrix[last_position_y][last_position_x - 2] == 1)){
 				a.info.move.new_x = p->position.x - 4;
@@ -56,47 +56,47 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 		}
 		else {
 				//no wall/player on the left
-			if((last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 1] != 3 && game_matrix[last_position_y][last_position_x - 2] != (p->id == 1 ? 2 : 1)) || (last_position_x == 1 && game_matrix[last_position_y][last_position_x - 1] != 3)){
+			if((last_position_x >= 3 && game_matrix[last_position_y][last_position_x - 1] < 3 && game_matrix[last_position_y][last_position_x - 2] != (p->id == 1 ? 2 : 1))){
 				
 				a.info.move.new_x = p->position.x - 2;
 				a.info.move.new_y = p->position.y;
 				actions[index++] = a;
 				}
 				//no wall/player on the right
-				if((last_position_x <= 12 && game_matrix[last_position_y][last_position_x + 1] != 3 && game_matrix[last_position_y][last_position_x + 2] != (p->id == 1 ? 2 : 1)) || (last_position_x == 13 && game_matrix[last_position_y][last_position_x + 1] != 3)){
+				if((last_position_x <= 11 && game_matrix[last_position_y][last_position_x + 1] < 3 && game_matrix[last_position_y][last_position_x + 2] != (p->id == 1 ? 2 : 1))){
 					a.info.move.new_x = p->position.x + 2;
 					a.info.move.new_y = p->position.y;
 					actions[index++] = a;
 				}
 				// player on the left
-				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 2] == (p->id == 1 ? 2 : 1)){
+				if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x - 2] == (p->id == 1 ? 2 : 1)){
 					// pawn at the left border
 					if(last_position_x -3 == 0){
-						if(game_matrix[last_position_y-1][last_position_x-2] != 3){
+						if(game_matrix[last_position_y-1][last_position_x-2] < 3){
 							a.info.move.new_x = p->position.x - 2;
 							a.info.move.new_y = p->position.y - 2;
 							actions[index++] = a;
 						}
-						if(game_matrix[last_position_y+1][last_position_x-2] != 3){
+						if(game_matrix[last_position_y+1][last_position_x-2] < 3){
 							a.info.move.new_x = p->position.x - 2;
 							a.info.move.new_y = p->position.y + 2;
 							actions[index++] = a;
 						}
 					}
 					// no wall behind the pawn
-					if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x-3] != 3){
+					if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x-3] < 3){
 						a.info.move.new_x = p->position.x - 4;
 						a.info.move.new_y = p->position.y;
 						actions[index++] = a;
 					}
 					// wall behind the pawn
 					else{
-						if(game_matrix[last_position_y-1][last_position_x-2] != 3){
+						if(game_matrix[last_position_y-1][last_position_x-2] < 3){
 							a.info.move.new_x = p->position.x - 2;
 							a.info.move.new_y = p->position.y-2;
 							actions[index++] = a;
 						}
-						if(game_matrix[last_position_y+1][last_position_x-2] != 3){
+						if(game_matrix[last_position_y+1][last_position_x-2] < 3){
 							a.info.move.new_x = p->position.x - 2;
 							a.info.move.new_y = p->position.y + 2;
 							actions[index++] = a;
@@ -104,34 +104,34 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 					}
 				}
 				// player on the right
-				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x + 2] == (p->id == 1 ? 2 : 1)){
+				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x + 2] == (p->id == 1 ? 2 : 1) && last_position_x <= 11){
 					// pawn at the right border
 					if(last_position_x + 3 == 14){
-						if(last_position_x <= 12 && game_matrix[last_position_y-1][last_position_x+2] != 3){
+						if(game_matrix[last_position_y-1][last_position_x+2] < 3){
 							a.info.move.new_x = p->position.x + 2;
 							a.info.move.new_y = p->position.y-2;
 							actions[index++] = a;
 						}
-						if(last_position_x <= 12 && game_matrix[last_position_y+1][last_position_x+2] != 3){
+						if(game_matrix[last_position_y+1][last_position_x+2] < 3){
 							a.info.move.new_x = p->position.x + 2;
 							a.info.move.new_y = p->position.y+2;
 							actions[index++] = a;
 						}
 					}
 					// no wall behind the pawn
-					if(game_matrix[last_position_y][last_position_x+3] != 3){
+					if(game_matrix[last_position_y][last_position_x+3] < 3){
 						a.info.move.new_x = p->position.x + 4;
 						a.info.move.new_y = p->position.y;
 						actions[index++] = a;
 					}
 					// wall behind the pawn
 					else{
-						if(last_position_x <= 12 && game_matrix[last_position_y-1][last_position_x+2] != 3){
+						if(game_matrix[last_position_y-1][last_position_x+2] < 3){
 							a.info.move.new_x = p->position.x + 2;
 							a.info.move.new_y = p->position.y-2;
 							actions[index++] = a;
 						}
-						if(last_position_x <= 12 && game_matrix[last_position_y+1][last_position_x+2] != 3){
+						if(game_matrix[last_position_y+1][last_position_x+2] < 3){
 							a.info.move.new_x = p->position.x + 2;
 							a.info.move.new_y = p->position.y+2;
 							actions[index++] = a;
@@ -143,12 +143,12 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 		// y
 		
 			if(last_position_y == 13){
-				if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] != (p->id == 1 ? 2 : 1)){
+				if(game_matrix[last_position_y - 1][last_position_x] < 3 && game_matrix[last_position_y - 2][last_position_x] != (p->id == 1 ? 2 : 1)){
 					a.info.move.new_x = p->position.x;
 					a.info.move.new_y = p->position.y-2;
 					actions[index++] = a;
 				}
-				else if(game_matrix[last_position_y - 1][last_position_x] != 3 && game_matrix[last_position_y - 2][last_position_x] == (p->id == 1 ? 2 : 1) && game_matrix[last_position_y - 3][last_position_x] != 3 ){
+				else if(game_matrix[last_position_y - 1][last_position_x] < 3 && game_matrix[last_position_y - 2][last_position_x] == (p->id == 1 ? 2 : 1) && game_matrix[last_position_y - 3][last_position_x] < 3 ){
 					a.info.move.new_x = p->position.x;
 					a.info.move.new_y = p->position.y-4;
 					actions[index++] = a;
@@ -157,7 +157,7 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 			// skip the opposing player
 			else {
 				if(last_position_y <= 12 && game_matrix[last_position_y + 2][last_position_x] != (p->id == 1 ? 2 : 1)){
-					if(game_matrix[last_position_y + 1][last_position_x] != 3){
+					if(game_matrix[last_position_y + 1][last_position_x] < 3){
 						a.info.move.new_x = p->position.x;
 						a.info.move.new_y = p->position.y+2;
 						actions[index++] = a;
@@ -165,32 +165,32 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 				}
 				else {
 					// pawn below
-					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] != 3 && game_matrix[last_position_y + 1][last_position_x] != 3){
+					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] < 3 && game_matrix[last_position_y + 1][last_position_x] < 3){
 						a.info.move.new_x = p->position.x;
 						a.info.move.new_y = p->position.y+4;
 						actions[index++] = a;
 					}
 					// pawn at the bottom border
 					if(last_position_y + 3 == 14){
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x-1] != 3){
+						if(last_position_y <= 12 && game_matrix[last_position_y+1][last_position_x-1] < 3){
 							a.info.move.new_x = p->position.x - 2;
 							a.info.move.new_y = p->position.y + 2;
 							actions[index++] = a;
 						}
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x+1] != 3){
+						if(last_position_y <= 12 && game_matrix[last_position_y+1][last_position_x+1] < 3){
 							a.info.move.new_x = p->position.x + 2;
 							a.info.move.new_y = p->position.y+2;
 							actions[index++] = a;
 						}
 					}
 					// wall behind the player
-					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] == 3){
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x-1] != 3){
+					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] >= 3){
+						if(last_position_y <= 12 && game_matrix[last_position_y+1][last_position_x-1] < 3){
 							a.info.move.new_x = p->position.x - 2;
 							a.info.move.new_y = p->position.y + 2;
 							actions[index++] = a;
 						}
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x+1] != 3){
+						if(last_position_y <= 12 && game_matrix[last_position_y+1][last_position_x+1] < 3){
 							a.info.move.new_x = p->position.x + 2;
 							a.info.move.new_y = p->position.y+2;
 							actions[index++] = a;
@@ -199,7 +199,7 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 				}
 				if(last_position_y >= 2){
 					if(game_matrix[last_position_y - 2][last_position_x] != (p->id == 1 ? 2 : 1)){
-						if( game_matrix[last_position_y - 1][last_position_x] != 3){
+						if( game_matrix[last_position_y - 1][last_position_x] < 3){
 							a.info.move.new_x = p->position.x;
 							a.info.move.new_y = p->position.y-2;
 							actions[index++] = a;
@@ -207,32 +207,32 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 					}
 					else {
 						// pawn above
-						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] != 3 && game_matrix[last_position_y - 1][last_position_x] != 3){
+						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] < 3 && game_matrix[last_position_y - 1][last_position_x] < 3){
 							a.info.move.new_x = p->position.x;
 							a.info.move.new_y = p->position.y-4;
 							actions[index++] = a;
 						}
 						// pawn at the left border
 						if(last_position_y -3 == 0){
-							if(game_matrix[last_position_y-2][last_position_x-1] != 3){
+							if(game_matrix[last_position_y-1][last_position_x-1] < 3){
 								a.info.move.new_x = p->position.x - 2;
 								a.info.move.new_y = p->position.y-2;
 								actions[index++] = a;
 							}
-							if(game_matrix[last_position_y-2][last_position_x+1] != 3){
+							if(game_matrix[last_position_y-1][last_position_x+1] < 3){
 								a.info.move.new_x = p->position.x + 2;
 								a.info.move.new_y = p->position.y-2;
 								actions[index++] = a;
 							}
 						}
 						// wall behind the player
-						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] == 3){
-							if(game_matrix[last_position_y-2][last_position_x-1] != 3){
+						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] >= 3){
+							if(game_matrix[last_position_y-1][last_position_x-1] < 3){
 								a.info.move.new_x = p->position.x - 2;
 								a.info.move.new_y = p->position.y-2;
 								actions[index++] = a;
 							}
-							if(game_matrix[last_position_y-2][last_position_x+1] != 3){
+							if(game_matrix[last_position_y-1][last_position_x+1] < 3){
 								a.info.move.new_x = p->position.x + 2;
 								a.info.move.new_y = p->position.y-2;
 								actions[index++] = a;
@@ -249,31 +249,28 @@ int get_legal_moves(volatile Player *p, Action actions[MAXMOVES]){
 
 int check_wall_position(volatile Wall *w){
 
-	//int marked[7][7];
 	int converted_x = convert_index_bts(w->position.x);
 	int converted_y = convert_index_bts(w->position.y);
-	//int i,j; 
-	//int found1 = 0, found2 = 0;
 	
 	// if position of the wall is valid
 	
 	if(w->horizontal == 1){
 		// avoid overlap
-		if((w->position.x <= 13 && (game_matrix[w->position.y][w->position.x] == 3 || game_matrix[w->position.y][w->position.x] == 4) && (game_matrix[w->position.y][w->position.x + 1] == 3 || game_matrix[w->position.y][w->position.x + 1] == 4)) || (w->position.x <=11 && (game_matrix[w->position.y][w->position.x + 3] == 3 || game_matrix[w->position.y][w->position.x + 3] == 4))){
+		if((w->position.x <= 13 && game_matrix[w->position.y][w->position.x] >= 3 && game_matrix[w->position.y][w->position.x + 1] >= 3) || (w->position.x <=11 && game_matrix[w->position.y][w->position.x + 3] >= 3)){
 			return 0;
 		}
 		// avoid cross
-		if(w->position.x <= 12 && w->position.y >= 1 && w->position.y <= 13 && (game_matrix[w->position.y][w->position.x + 2] == 3 || game_matrix[w->position.y][w->position.x + 2] == 4) && (game_matrix[w->position.y + 1][w->position.x + 2] == 3 || game_matrix[w->position.y + 1][w->position.x + 2] == 4) && (game_matrix[w->position.y - 1][w->position.x + 2] == 3 || game_matrix[w->position.y - 1][w->position.x + 2] == 4) ){
+		if(w->position.x <= 12 && w->position.y >= 1 && w->position.y <= 13 && game_matrix[w->position.y][w->position.x + 2] >= 3 && game_matrix[w->position.y + 1][w->position.x + 2] >= 3 && game_matrix[w->position.y - 1][w->position.x + 2] >= 3 ){
 			return 0;
 		}
 	}
 	else {
 		// avoid overlap
-		if((w->position.y <= 13 && (game_matrix[w->position.y][w->position.x] == 3 || game_matrix[w->position.y][w->position.x] == 4) && (game_matrix[w->position.y + 1][w->position.x] == 3 || game_matrix[w->position.y + 1][w->position.x] == 4)) || (w->position.y <= 11 && (game_matrix[w->position.y + 3][w->position.x] == 3 || game_matrix[w->position.y + 3][w->position.x] == 4))){
+		if((w->position.y <= 13 && game_matrix[w->position.y][w->position.x] >= 3 && game_matrix[w->position.y + 1][w->position.x] >= 3) || (w->position.y <= 11 && game_matrix[w->position.y + 3][w->position.x] >= 3)){
 			return 0;
 		}
 		// avoid cross
-		if(w->position.y <= 12 && w->position.x >= 1 && w->position.x <= 13 && game_matrix[w->position.y + 2][w->position.x] == 3 && game_matrix[w->position.y + 2][w->position.x + 1] == 3 && game_matrix[w->position.y + 2][w->position.x - 1] == 3 ){
+		if(w->position.y <= 12 && w->position.x >= 1 && w->position.x <= 13 && game_matrix[w->position.y + 2][w->position.x] >= 3 && game_matrix[w->position.y + 2][w->position.x + 1] >= 3 && game_matrix[w->position.y + 2][w->position.x - 1] >= 3 ){
 			return 0;
 		}
 	}
@@ -366,11 +363,15 @@ int get_legal_actions(volatile Player *p, Action actions[MAXMOVES]){
 
 int play_action(Action a){
 	
-	int i,result1,result2;
+	int i,result1,result2,result3,result4,temp[15][15],j;
 	int id = a.agent;
 	int n_walls = (id == 1) ? p1.available_walls : p2.available_walls;
+	Wall w;
 
 	if(a.action == MOVE){
+		if(a.info.move.new_x < 1 || a.info.move.new_x > 13 || a.info.move.new_y < 1 || a.info.move.new_y > 13){
+			return 0;
+		}
 		if(id == 1){
 			game_matrix[p1.position.y][p1.position.x] = 0;
 			p1.position.x = a.info.move.new_x;
@@ -386,21 +387,43 @@ int play_action(Action a){
 		}	
 	}
 	else {
+		w.horizontal = a.info.wall.horizontal;
+		w.position.x = a.info.wall.x;
+		w.position.y = a.info.wall.y;
 		// place wall
-		if(n_walls>0){
+		if(n_walls>0 && check_wall_position(&w)){
+			for(i=0;i<15;i++){
+				for(j=0;j<15;j++){
+					temp[i][j] = old_matrix[i][j];
+				}
+			}
 			if(a.info.wall.horizontal == 1){
 				for(i = a.info.wall.x; i <= a.info.wall.x + 4; i++){
 					game_matrix[a.info.wall.y][i] += 3;
+					temp[a.info.wall.y][i] += 3;
 				}
 			}
 			else {
 				for(i = a.info.wall.y; i <= a.info.wall.y + 4; i++){
 					game_matrix[i][a.info.wall.x] += 3;
+					temp[i][a.info.wall.x] += 3;
 				}
 			}
-			result1 = distance_to_goal(&p1);
-			result2 = distance_to_goal(&p2);
-			if(result1 == INFINITY || result2 == INFINITY){
+			result1 = distance_to_goal(&p1,temp);
+			result2 = distance_to_goal(&p2,temp);
+			result3 = distance_to_goal(&p1,game_matrix);
+			result4 = distance_to_goal(&p2,game_matrix);
+			if(result1 == INFINITY || result2 == INFINITY || result3 == INFINITY || result4 == INFINITY){
+				if(a.info.wall.horizontal == 1){
+					for(i = a.info.wall.x; i <= a.info.wall.x + 4; i++){
+						game_matrix[a.info.wall.y][i] -= 3;
+					}
+				}
+				else {
+					for(i = a.info.wall.y; i <= a.info.wall.y + 4; i++){
+						game_matrix[i][a.info.wall.x] -= 3;
+					}
+				}
 				return 0;
 			}
 			id == 1 ? p1.available_walls-- : p2.available_walls--;
@@ -418,7 +441,6 @@ void undo_action(Action a){
 
 	int i;
 	int id = a.agent;
-	int n_walls = (id == 1) ? p1.available_walls : p2.available_walls;
 	
 	if(a.action == MOVE){
 		if(id == 1){
@@ -437,20 +459,18 @@ void undo_action(Action a){
 	}
 	else {
 		// delete wall
-		if(n_walls>0){
-			if(a.info.wall.horizontal == 1){
-				for(i = a.info.wall.x; i <= a.info.wall.x + 4; i++){
-					game_matrix[a.info.wall.y][i] -= 3;
-				}
+		if(a.info.wall.horizontal == 1){
+			for(i = a.info.wall.x; i <= a.info.wall.x + 4; i++){
+				game_matrix[a.info.wall.y][i] -= 3;
 			}
-			else {
-				for(i = a.info.wall.y; i <= a.info.wall.y + 4; i++){
-					game_matrix[i][a.info.wall.x] -= 3;
+		}
+		else {
+			for(i = a.info.wall.y; i <= a.info.wall.y + 4; i++){
+				game_matrix[i][a.info.wall.x] -= 3;
 
-				}
 			}
-			id == 1 ? p1.available_walls++ : p2.available_walls++;
-	}
+		}
+		id == 1 ? p1.available_walls++ : p2.available_walls++;
 	}
 
 }
@@ -462,14 +482,17 @@ int is_terminal_state(void){
 
 ActionPair perform_action(int depth){
 
+	ActionPair value;
 	int i,j;
-	ActionPair value = alpha_beta(game_matrix,depth,1,-INFINITY,INFINITY,evaluate);
-	// restore matrix
-	for(i=0; i<15;i++){
-		for(j=0; j<15;j++){
-			if(game_matrix[i][j] > 3){
-				game_matrix[i][j] = 3;
-			}
+	for(i=0;i<15;i++){
+		for(j=0;j<15;j++){
+			old_matrix[i][j] = game_matrix[i][j];
+		}
+	}
+	value = alpha_beta(game_matrix,depth,1,-INFINITY,INFINITY,evaluate);
+	for(i=0;i<15;i++){
+		for(j=0;j<15;j++){
+			game_matrix[i][j] = old_matrix[i][j];
 		}
 	}
 	return value;
@@ -485,7 +508,7 @@ ActionPair alpha_beta(int game_matrix[15][15], uint32_t depth, uint8_t agent, in
 	
 		 // Reached depth limit
     if (depth == 0 || is_terminal_state()){
-				result.evaluation = eval((game_matrix) + depth);
+				result.evaluation = eval(game_matrix)+depth;
         return result;
 		}
 		
@@ -526,35 +549,32 @@ ActionPair alpha_beta(int game_matrix[15][15], uint32_t depth, uint8_t agent, in
 		pair.evaluation = agent ? (- INFINITY - 1) : (INFINITY + 1);
     
     for ( i = 0; i < MAXMOVES; i++){
+			
         if ((agent == 1 && pair.evaluation >= beta) || (agent == 0 && pair.evaluation <= alpha)){
-           prunes++;
            break;
         }
 
 				action = actions[i];
+				if(action.agent == -1)break;
 				
 				if(play_action(action)){
-				
 
-        to_return = alpha_beta(game_matrix, depth - 1, next_agent, alpha, beta, eval);
-
-				undo_action(action);
-				
-				to_return.action = action;
-				
-        if (agent == 1 && pair.evaluation < to_return.evaluation){
-					pair = to_return;
-					if(alpha < pair.evaluation){
-						alpha = pair.evaluation;
+					to_return = alpha_beta(game_matrix, depth - 1, next_agent, alpha, beta, eval);
+					undo_action(action);
+					to_return.action = action;
+					if (agent == 1 && pair.evaluation < to_return.evaluation){
+						pair = to_return;
+						if(alpha < pair.evaluation){
+							alpha = pair.evaluation;
+						}
 					}
-        }
-        else if (agent == 0 && pair.evaluation > to_return.evaluation){
-					pair = to_return;
-					if(beta > pair.evaluation){
-						beta = pair.evaluation;
+					else if (agent == 0 && pair.evaluation > to_return.evaluation){
+						pair = to_return;
+						if(beta > pair.evaluation){
+							beta = pair.evaluation;
+						}
+						
 					}
-					
-        }
 			}	
     }
 

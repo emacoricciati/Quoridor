@@ -5,7 +5,6 @@
 
 extern Player p1,p2;
 extern int maximizing, minimizing;
-extern int difficoult;
 
 int evaluate(int game_matrix[15][15])
 {
@@ -17,26 +16,14 @@ int evaluate(int game_matrix[15][15])
     // The better the state for the maximizing player the larger the evaluation
     // Evaluation must be in [-INFINITY, INFINITY]
 
-    if (p1.position.y == 0)
+    if (p1.position.y == 1)
         return (maximizing == 1) ? INFINITY : -INFINITY;
     else if (p2.position.y == 13)
         return (maximizing == 1) ? -INFINITY : INFINITY;
 
-		if(!difficoult) {
-			if(maximizing == 1){
-				distance_p1 = 9;
-				distance_p2 = 10;
-			}
-			else {
-				distance_p1 = 10;
-				distance_p2 = 9;
-			}
-		}
-		distance_p1 = distance_to_goal(&p1);
-		distance_p2 = distance_to_goal(&p2);
-		if(distance_p1 >= 10 || distance_p2 >= 10){
-			difficoult = 0;
-		}
+		distance_p1 = distance_to_goal(&p1,game_matrix);
+		distance_p2 = distance_to_goal(&p2,game_matrix);
+		
     if (maximizing == 1) // w
     {
         // Take into account enemy distance to goal

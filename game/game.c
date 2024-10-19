@@ -18,7 +18,6 @@ volatile Wall w;
 
 volatile int turn = 1;
 volatile int move_mode = -1;
-volatile int difficoult;
 
 volatile Game_mode game_mode;
 extern int timer0_count;
@@ -88,7 +87,6 @@ void init_game(void){
 	move_mode = -1;
 	game_started = 1;
 	current_player_id = -1;
-	difficoult = 1;
 	game_mode.menu1 = 0;
 	game_mode.menu2 = 0;
 
@@ -224,18 +222,18 @@ void game_setup(void){
 	// single board
 	if((game_mode.menu1 == 1 && game_mode.menu2 == 1) || (game_mode.menu1 == 1 && game_mode.menu2 == 2) ){
 		if(turn == 1){
-			get_possible_moves(&p1);
+			get_possible_moves(&p1,(int (*)[15])game_matrix);
 			find_possible_moves(&p1);
 		}
 		else {
-			get_possible_moves(&p2);
+			get_possible_moves(&p2,(int (*)[15])game_matrix);
 			find_possible_moves(&p2);
 		}
 	}
 	// two boards
 	else if(game_mode.menu1 == 2 && game_mode.menu2 == 1){
 		if(current_player_id == turn){
-			get_possible_moves(&p1);
+			get_possible_moves(&p1,(int (*)[15])game_matrix);
 			find_possible_moves(&p1);
 		}
 	}
@@ -325,7 +323,7 @@ void color_moves(volatile Player *p, uint16_t color){
 
 
 }
-void get_possible_moves(volatile Player *p){
+void get_possible_moves(volatile Player *p, int matrix[15][15]){
 	
 	int last_position_x = p->position.x;
 	int last_position_y = p->position.y;
@@ -333,18 +331,18 @@ void get_possible_moves(volatile Player *p){
 	int index=0;
 	
 		// x
-		if(last_position_x == 1 && game_matrix[last_position_y][last_position_x + 1] < 3){
+		if(last_position_x == 1 && matrix[last_position_y][last_position_x + 1] < 3){
 			// skip the opposing player
-			if((p->id == 1 && game_matrix[last_position_y][last_position_x + 2] == 2) || (p->id == 2 && game_matrix[last_position_y][last_position_x + 2] == 1)){
+			if((p->id == 1 && matrix[last_position_y][last_position_x + 2] == 2) || (p->id == 2 && matrix[last_position_y][last_position_x + 2] == 1)){
 				strcpy((char *)p->possible_moves[index++],"rr");
 			}
 			else {
 				strcpy((char *)p->possible_moves[index++],"r");
 			}
 		}
-		else if(last_position_x == 13 && game_matrix[last_position_y][last_position_x - 1] < 3){
+		else if(last_position_x == 13 && matrix[last_position_y][last_position_x - 1] < 3){
 			// skip the opposing player
-			if((p->id == 1 && game_matrix[last_position_y][last_position_x - 2] == 2) || (p->id == 2 && game_matrix[last_position_y][last_position_x - 2] == 1)){
+			if((p->id == 1 && matrix[last_position_y][last_position_x - 2] == 2) || (p->id == 2 && matrix[last_position_y][last_position_x - 2] == 1)){
 				strcpy((char *)p->possible_moves[index++],"ll");
 			}
 			else {
@@ -353,59 +351,59 @@ void get_possible_moves(volatile Player *p){
 		}
 		else {
 				//no wall/player on the left
-			if((last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 1] < 3 && game_matrix[last_position_y][last_position_x - 2] != (p->id == 1 ? 2 : 1)) || (last_position_x == 1 && game_matrix[last_position_y][last_position_x - 1] < 3)){
+			if((last_position_x >= 3 && matrix[last_position_y][last_position_x - 1] < 3 && matrix[last_position_y][last_position_x - 2] != (p->id == 1 ? 2 : 1))){
 					strcpy((char *)p->possible_moves[index++],"l");
 				}
 				//no wall/player on the right
-				if((last_position_x <= 12 && game_matrix[last_position_y][last_position_x + 1] < 3 && game_matrix[last_position_y][last_position_x + 2] != (p->id == 1 ? 2 : 1)) || (last_position_x == 13 && game_matrix[last_position_y][last_position_x + 1] < 3)){
+				if((last_position_x <= 11 && matrix[last_position_y][last_position_x + 1] < 3 && matrix[last_position_y][last_position_x + 2] != (p->id == 1 ? 2 : 1))){
 					strcpy((char *)p->possible_moves[index++],"r");
 				}
 				// player on the left
-				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x - 2] == (p->id == 1 ? 2 : 1)){
+				if(last_position_x >= 3 && matrix[last_position_y][last_position_x - 2] == (p->id == 1 ? 2 : 1) && matrix[last_position_y][last_position_x-1]<3){
 					// pawn at the left border
 					if(last_position_x -3 == 0){
-						if(game_matrix[last_position_y-1][last_position_x-2] < 3){
+						if(matrix[last_position_y-1][last_position_x-2] < 3){
 							strcpy((char *)p->possible_moves[index++],"ul");
 						}
-						if(game_matrix[last_position_y+1][last_position_x-2] < 3){
+						if(matrix[last_position_y+1][last_position_x-2] < 3 ){
 							strcpy((char *)p->possible_moves[index++],"dl");
 						}
 					}
 					// no wall behind the pawn
-					if(last_position_x >= 3 && game_matrix[last_position_y][last_position_x-3] < 3){
+					if(last_position_x >= 3 && matrix[last_position_y][last_position_x-3] < 3){
 						strcpy((char *)p->possible_moves[index++],"ll");
 					}
 					// wall behind the pawn
 					else{
-						if(game_matrix[last_position_y-1][last_position_x-2] < 3){
+						if(matrix[last_position_y-1][last_position_x-2] < 3){
 							strcpy((char *)p->possible_moves[index++],"ul");
 						}
-						if(game_matrix[last_position_y+1][last_position_x-2] < 3){
+						if(matrix[last_position_y+1][last_position_x-2] < 3){
 							strcpy((char *)p->possible_moves[index++],"dl");
 						}
 					}
 				}
 				// player on the right
-				if(last_position_x >= 2 && game_matrix[last_position_y][last_position_x + 2] == (p->id == 1 ? 2 : 1)){
+				if(last_position_x >= 2 && matrix[last_position_y][last_position_x + 2] == (p->id == 1 ? 2 : 1) && last_position_x <= 11){
 					// pawn at the right border
 					if(last_position_x + 3 == 14){
-						if(last_position_x <= 12 && game_matrix[last_position_y-1][last_position_x+2] < 3){
+						if(matrix[last_position_y-1][last_position_x+2] < 3){
 							strcpy((char *)p->possible_moves[index++],"ur");
 						}
-						if(last_position_x <= 12 && game_matrix[last_position_y+1][last_position_x+2] < 3){
+						if(matrix[last_position_y+1][last_position_x+2] < 3){
 							strcpy((char *)p->possible_moves[index++],"dr");
 						}
 					}
 					// no wall behind the pawn
-					if(game_matrix[last_position_y][last_position_x+3] < 3){
+					if(matrix[last_position_y][last_position_x+3] < 3){
 						strcpy((char *)p->possible_moves[index++],"rr");
 					}
 					// wall behind the pawn
 					else{
-						if(last_position_x <= 12 && game_matrix[last_position_y-1][last_position_x+2] < 3){
+						if(matrix[last_position_y-1][last_position_x+2] < 3){
 							strcpy((char *)p->possible_moves[index++],"ur");
 						}
-						if(last_position_x <= 12 && game_matrix[last_position_y+1][last_position_x+2] < 3){
+						if(matrix[last_position_y+1][last_position_x+2] < 3){
 							strcpy((char *)p->possible_moves[index++],"dr");
 						}
 					}
@@ -415,70 +413,70 @@ void get_possible_moves(volatile Player *p){
 		// y
 		
 			if(last_position_y == 13){
-				if(game_matrix[last_position_y - 1][last_position_x] < 3 && game_matrix[last_position_y - 2][last_position_x] != (p->id == 1 ? 2 : 1)){
+				if(matrix[last_position_y - 1][last_position_x] < 3 && matrix[last_position_y - 2][last_position_x] != (p->id == 1 ? 2 : 1)){
 					strcpy((char *)p->possible_moves[index++],"u");
 				}
-				else if(game_matrix[last_position_y - 1][last_position_x] < 3 && game_matrix[last_position_y - 2][last_position_x] == (p->id == 1 ? 2 : 1) && game_matrix[last_position_y - 3][last_position_x] < 3 ){
+				else if(matrix[last_position_y - 1][last_position_x] < 3 && matrix[last_position_y - 2][last_position_x] == (p->id == 1 ? 2 : 1) && matrix[last_position_y - 3][last_position_x] < 3 ){
 					strcpy((char *)p->possible_moves[index++],"uu");
 				}
 			}
 			// skip the opposing player
 			else {
-				if(last_position_y <= 12 && game_matrix[last_position_y + 2][last_position_x] != (p->id == 1 ? 2 : 1)){
-					if(game_matrix[last_position_y + 1][last_position_x] < 3){
+				if(last_position_y <= 12 && matrix[last_position_y + 2][last_position_x] != (p->id == 1 ? 2 : 1) && matrix[last_position_y+1][last_position_x] < 3){
+					if(matrix[last_position_y + 1][last_position_x] < 3){
 						strcpy((char *)p->possible_moves[index++],"d");
 					}
 				}
 				else {
 					// pawn below
-					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] < 3 && game_matrix[last_position_y + 1][last_position_x] < 3){
+					if(last_position_y <= 11 && matrix[last_position_y + 3][last_position_x] < 3 && matrix[last_position_y + 1][last_position_x] < 3){
 						strcpy((char *)p->possible_moves[index++],"dd");
 					}
 					// pawn at the bottom border
 					if(last_position_y + 3 == 14){
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x-1] < 3){
+						if(last_position_y <= 12 && matrix[last_position_y+1][last_position_x-1] < 3){
 							strcpy((char *)p->possible_moves[index++],"dl");
 						}
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x+1] < 3){
+						if(last_position_y <= 12 && matrix[last_position_y+1][last_position_x+1] < 3){
 							strcpy((char *)p->possible_moves[index++],"dr");
 						}
 					}
 					// wall behind the player
-					if(last_position_y <= 11 && game_matrix[last_position_y + 3][last_position_x] >= 3){
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x-1] < 3){
+					if(last_position_y <= 11 && matrix[last_position_y + 3][last_position_x] >= 3){
+						if(last_position_y <= 12 && matrix[last_position_y+1][last_position_x-1] < 3 && matrix[last_position_y + 1][last_position_x]<3){
 							strcpy((char *)p->possible_moves[index++],"dl");
 						}
-						if(last_position_y <= 12 && game_matrix[last_position_y+2][last_position_x+1]< 3){
+						if(last_position_y <= 12 && matrix[last_position_y+1][last_position_x+1]< 3 && matrix[last_position_y + 1][last_position_x]<3){
 							strcpy((char *)p->possible_moves[index++],"dr");
 						}
 					}
 				}
 				if(last_position_y >= 2){
-					if(game_matrix[last_position_y - 2][last_position_x] != (p->id == 1 ? 2 : 1)){
-						if( game_matrix[last_position_y - 1][last_position_x] < 3){
+					if(matrix[last_position_y - 2][last_position_x] != (p->id == 1 ? 2 : 1)){
+						if( matrix[last_position_y - 1][last_position_x] < 3){
 							strcpy((char *)p->possible_moves[index++],"u");
 						}
 					}
 					else {
 						// pawn above
-						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] < 3 && game_matrix[last_position_y - 1][last_position_x] < 3){
+						if(last_position_y >= 3 && matrix[last_position_y - 3][last_position_x] < 3 && matrix[last_position_y - 1][last_position_x] < 3){
 							strcpy((char *)p->possible_moves[index++],"uu");
 						}
 						// pawn at the left border
 						if(last_position_y -3 == 0){
-							if(game_matrix[last_position_y-2][last_position_x-1] < 3){
+							if(matrix[last_position_y-1][last_position_x-1] < 3){
 								strcpy((char *)p->possible_moves[index++],"ul");
 							}
-							if(game_matrix[last_position_y-2][last_position_x+1] < 3){
+							if(matrix[last_position_y-1][last_position_x+1] < 3){
 								strcpy((char *)p->possible_moves[index++],"ur");
 							}
 						}
 						// wall behind the player
-						if(last_position_y >= 3 && game_matrix[last_position_y - 3][last_position_x] >= 3){
-							if(game_matrix[last_position_y-2][last_position_x-1] < 3){
+						if(last_position_y >= 3 && matrix[last_position_y - 3][last_position_x] >= 3){
+							if(matrix[last_position_y-1][last_position_x-1] < 3){
 								strcpy((char *)p->possible_moves[index++],"ul");
 							}
-							if(game_matrix[last_position_y-2][last_position_x+1] < 3){
+							if(matrix[last_position_y-1][last_position_x+1] < 3){
 								strcpy((char *)p->possible_moves[index++],"ur");
 							}
 						}
@@ -851,7 +849,7 @@ void move_player(Player *p, char move){
 				moveTo(converted_x, converted_y, converted_x - 1, converted_y, id);
 			}
 			else if(check_move_validity(current_x - 2, current_y, last_position_x, last_position_y ) == 2){
-				if(game_matrix[current_y][current_x-1] >= 3 || game_matrix[current_y][current_x - 3] >= 3 || current_y < 5) break;
+				if(game_matrix[current_y][current_x-1] >= 3 || game_matrix[current_y][current_x - 3] >= 3 || current_x < 5) break;
 				p->current_position.x = current_x - 4;
 				moveTo(converted_x, converted_y, converted_x - 2, converted_y, id);
 			}
@@ -933,18 +931,18 @@ void switch_turn(void){
 				return;
 			}
 			turn = 1;
-			get_possible_moves(&p1);
+			get_possible_moves(&p1,(int (*)[15])game_matrix);
 			find_possible_moves(&p1);
 		}
 		// human single board
 		else if(game_mode.menu1 == 1 && game_mode.menu2 == 1){
-			get_possible_moves(&p2);
+			get_possible_moves(&p2,(int (*)[15])game_matrix);
 			find_possible_moves(&p2);
 		}
 		// human two boards
 		else if(game_mode.menu1 == 2 && game_mode.menu2 == 1){
 			if(current_player_id == turn){
-				get_possible_moves(&p2);
+				get_possible_moves(&p2,(int (*)[15])game_matrix);
 				find_possible_moves(&p2);
 			}
 		}
@@ -953,13 +951,13 @@ void switch_turn(void){
 		turn = 1;
 		// human single board
 		if(game_mode.menu1 == 1 && game_mode.menu2 == 1){
-			get_possible_moves(&p1);
+			get_possible_moves(&p1,(int (*)[15])game_matrix);
 			find_possible_moves(&p1);
 		}
 		// human two boards
 		else if(game_mode.menu1 == 2 && game_mode.menu2 == 1){
 			if(current_player_id == turn){
-				get_possible_moves(&p1);
+				get_possible_moves(&p1,(int (*)[15])game_matrix);
 				find_possible_moves(&p1);
 			}
 		}
@@ -1181,9 +1179,8 @@ void confirm_wall(void){
 		}
 	}
 	// check
-	//check_available_path(p2.position.y, p2.position.x, &found1,p2.id,marked);
-	d1 = distance_to_goal(&p1);
-	d2 = distance_to_goal(&p2);
+	d1 = distance_to_goal(&p1,(int (*)[15])game_matrix);
+	d2 = distance_to_goal(&p2,(int (*)[15])game_matrix);
 	if(d1 == INFINITY) {
 		GUI_Text(10, 285, (unsigned char*) "Do not trap players with", White, Red);
 		GUI_Text(10, 300, (unsigned char*) "walls!", White, Red);
@@ -1194,7 +1191,6 @@ void confirm_wall(void){
 				game_matrix[w.position.y][i] = 0;
 			}
 		}
-		// TODO out of matrix -> but it was horizontal
 		else {
 			for(i = w.position.y; i <= w.position.y + 4; i++){
 				game_matrix[i][w.position.x] = 0;
@@ -1202,8 +1198,6 @@ void confirm_wall(void){
 		}
 		return;
 	};
-	
-	//check_available_path(p1.position.y, p1.position.x, &found2,p1.id,marked);
 	
 	if(d2 == INFINITY){
 		GUI_Text(10, 285, (unsigned char*) "Do not trap players with", White, Red);
@@ -1563,7 +1557,7 @@ void PlayNPCAction(){
 	int new_x,new_y, old_x, old_y;
 	int id;
 	char str[5];
-	value = perform_action(2);
+	value = perform_action(DEPTH);
 	play_action(value.action);
 	id = value.action.agent;
 	if(value.action.action == MOVE){
