@@ -62,6 +62,7 @@
 *.sfd
 *.sfr
 *.jpg
+!/images/*.jpg
 *.txt
 *.bak
 
