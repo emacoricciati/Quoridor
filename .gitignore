@@ -61,6 +61,9 @@
 *.sct
 *.sfd
 *.sfr
+*.jpg
+*.txt
+*.bak
 
 # Miscellaneous
 *.tra
